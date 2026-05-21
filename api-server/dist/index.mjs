@@ -18,6 +18,9 @@ var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require
   if (typeof require !== "undefined") return require.apply(this, arguments);
   throw Error('Dynamic require of "' + x + '" is not supported');
 });
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
 var __commonJS = (cb, mod) => function __require2() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
@@ -16689,7 +16692,7 @@ var require_shams = __commonJS({
         return true;
       }
       var obj = {};
-      var sym = Symbol("test");
+      var sym = /* @__PURE__ */ Symbol("test");
       var symObj = Object(sym);
       if (typeof sym === "string") {
         return false;
@@ -16748,7 +16751,7 @@ var require_has_symbols = __commonJS({
       if (typeof origSymbol("foo") !== "symbol") {
         return false;
       }
-      if (typeof Symbol("bar") !== "symbol") {
+      if (typeof /* @__PURE__ */ Symbol("bar") !== "symbol") {
         return false;
       }
       return hasSymbolSham();
@@ -17005,7 +17008,7 @@ var require_get_intrinsic = __commonJS({
     var throwTypeError = function() {
       throw new $TypeError();
     };
-    var ThrowTypeError = $gOPD ? function() {
+    var ThrowTypeError = $gOPD ? (function() {
       try {
         arguments.callee;
         return throwTypeError;
@@ -17016,7 +17019,7 @@ var require_get_intrinsic = __commonJS({
           return throwTypeError;
         }
       }
-    }() : throwTypeError;
+    })() : throwTypeError;
     var hasSymbols = require_has_symbols()();
     var getProto = require_get_proto();
     var $ObjectGPO = require_Object_getPrototypeOf();
@@ -17543,13 +17546,13 @@ var require_utils2 = __commonJS({
     var setMaxIndex = function setMaxIndex2(obj, maxIndex) {
       overflowChannel.set(obj, maxIndex);
     };
-    var hexTable = function() {
+    var hexTable = (function() {
       var array = [];
       for (var i = 0; i < 256; ++i) {
         array[array.length] = "%" + ((i < 16 ? "0" : "") + i.toString(16)).toUpperCase();
       }
       return array;
-    }();
+    })();
     var compactQueue = function compactQueue2(queue) {
       while (queue.length > 1) {
         var item = queue.pop();
@@ -17840,7 +17843,7 @@ var require_stringify = __commonJS({
       return typeof v === "string" || typeof v === "number" || typeof v === "boolean" || typeof v === "symbol" || typeof v === "bigint";
     };
     var sentinel = {};
-    var stringify = function stringify2(object, prefix, generateArrayPrefix, commaRoundTrip, allowEmptyArrays, strictNullHandling, skipNulls, encodeDotInKeys, encoder, filter, sort, allowDots, serializeDate, format, formatter, encodeValuesOnly, charset, sideChannel) {
+    var stringify2 = function stringify3(object, prefix, generateArrayPrefix, commaRoundTrip, allowEmptyArrays, strictNullHandling, skipNulls, encodeDotInKeys, encoder, filter, sort, allowDots, serializeDate, format, formatter, encodeValuesOnly, charset, sideChannel) {
       var obj = object;
       var tmpSc = sideChannel;
       var step = 0;
@@ -17918,7 +17921,7 @@ var require_stringify = __commonJS({
         sideChannel.set(object, step);
         var valueSideChannel = getSideChannel();
         valueSideChannel.set(sentinel, sideChannel);
-        pushToArray(values, stringify2(
+        pushToArray(values, stringify3(
           value,
           keyPrefix,
           generateArrayPrefix,
@@ -18038,7 +18041,7 @@ var require_stringify = __commonJS({
         if (options.skipNulls && value === null) {
           continue;
         }
-        pushToArray(keys, stringify(
+        pushToArray(keys, stringify2(
           value,
           key,
           generateArrayPrefix,
@@ -18395,13 +18398,13 @@ var require_parse = __commonJS({
 var require_lib2 = __commonJS({
   "node_modules/qs/lib/index.js"(exports, module) {
     "use strict";
-    var stringify = require_stringify();
+    var stringify2 = require_stringify();
     var parse = require_parse();
     var formats = require_formats();
     module.exports = {
       formats,
       parse,
-      stringify
+      stringify: stringify2
     };
   }
 });
@@ -18413,7 +18416,7 @@ var require_urlencoded = __commonJS({
     var createError = require_http_errors();
     var debug = require_src()("body-parser:urlencoded");
     var read = require_read();
-    var qs = require_lib2();
+    var qs2 = require_lib2();
     var { normalizeOptions } = require_utils();
     module.exports = urlencoded;
     function urlencoded(options) {
@@ -18460,7 +18463,7 @@ var require_urlencoded = __commonJS({
         var arrayLimit = extended ? Math.max(100, paramCount) : paramCount;
         debug("parse " + (extended ? "extended " : "") + "urlencoding");
         try {
-          return qs.parse(body, {
+          return qs2.parse(body, {
             allowPrototypes: true,
             arrayLimit,
             depth,
@@ -18920,14 +18923,14 @@ var require_etag = __commonJS({
   "node_modules/etag/index.js"(exports, module) {
     "use strict";
     module.exports = etag;
-    var crypto2 = __require("crypto");
+    var crypto4 = __require("crypto");
     var Stats = __require("fs").Stats;
     var toString = Object.prototype.toString;
     function entitytag(entity) {
       if (entity.length === 0) {
         return '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"';
       }
-      var hash = crypto2.createHash("sha1").update(entity, "utf8").digest("base64").substring(0, 27);
+      var hash = crypto4.createHash("sha1").update(entity, "utf8").digest("base64").substring(0, 27);
       var len = typeof entity === "string" ? Buffer.byteLength(entity, "utf8") : entity.length;
       return '"' + len.toString(16) + "-" + hash + '"';
     }
@@ -19056,7 +19059,7 @@ var require_ipaddr = __commonJS({
         }
         return defaultName;
       };
-      ipaddr.IPv4 = function() {
+      ipaddr.IPv4 = (function() {
         function IPv4(octets) {
           var k, len, octet;
           if (octets.length !== 4) {
@@ -19141,7 +19144,7 @@ var require_ipaddr = __commonJS({
           return 32 - cidr2;
         };
         return IPv4;
-      }();
+      })();
       ipv4Part = "(0?\\d+|0x[a-f0-9]+)";
       ipv4Regexes = {
         fourOctet: new RegExp("^" + ipv4Part + "\\." + ipv4Part + "\\." + ipv4Part + "\\." + ipv4Part + "$", "i"),
@@ -19157,7 +19160,7 @@ var require_ipaddr = __commonJS({
           }
         };
         if (match = string.match(ipv4Regexes.fourOctet)) {
-          return function() {
+          return (function() {
             var k, len, ref, results;
             ref = match.slice(1, 6);
             results = [];
@@ -19166,25 +19169,25 @@ var require_ipaddr = __commonJS({
               results.push(parseIntAuto(part));
             }
             return results;
-          }();
+          })();
         } else if (match = string.match(ipv4Regexes.longValue)) {
           value = parseIntAuto(match[1]);
           if (value > 4294967295 || value < 0) {
             throw new Error("ipaddr: address outside defined range");
           }
-          return function() {
+          return (function() {
             var k, results;
             results = [];
             for (shift = k = 0; k <= 24; shift = k += 8) {
               results.push(value >> shift & 255);
             }
             return results;
-          }().reverse();
+          })().reverse();
         } else {
           return null;
         }
       };
-      ipaddr.IPv6 = function() {
+      ipaddr.IPv6 = (function() {
         function IPv6(parts, zoneId) {
           var i, k, l, len, part, ref;
           if (parts.length === 16) {
@@ -19244,7 +19247,7 @@ var require_ipaddr = __commonJS({
         };
         IPv6.prototype.toNormalizedString = function() {
           var addr, part, suffix;
-          addr = function() {
+          addr = (function() {
             var k, len, ref, results;
             ref = this.parts;
             results = [];
@@ -19253,7 +19256,7 @@ var require_ipaddr = __commonJS({
               results.push(part.toString(16));
             }
             return results;
-          }.call(this).join(":");
+          }).call(this).join(":");
           suffix = "";
           if (this.zoneId) {
             suffix = "%" + this.zoneId;
@@ -19262,7 +19265,7 @@ var require_ipaddr = __commonJS({
         };
         IPv6.prototype.toFixedLengthString = function() {
           var addr, part, suffix;
-          addr = function() {
+          addr = (function() {
             var k, len, ref, results;
             ref = this.parts;
             results = [];
@@ -19271,7 +19274,7 @@ var require_ipaddr = __commonJS({
               results.push(part.toString(16).padStart(4, "0"));
             }
             return results;
-          }.call(this).join(":");
+          }).call(this).join(":");
           suffix = "";
           if (this.zoneId) {
             suffix = "%" + this.zoneId;
@@ -19356,7 +19359,7 @@ var require_ipaddr = __commonJS({
           return 128 - cidr2;
         };
         return IPv6;
-      }();
+      })();
       ipv6Part = "(?:[0-9a-f]+::?)+";
       zoneIndex = "%[0-9a-z]{1,}";
       ipv6Regexes = {
@@ -19400,7 +19403,7 @@ var require_ipaddr = __commonJS({
         if (string[string.length - 1] === ":") {
           string = string.slice(0, -1);
         }
-        parts = function() {
+        parts = (function() {
           var k, len, ref, results;
           ref = string.split(":");
           results = [];
@@ -19409,7 +19412,7 @@ var require_ipaddr = __commonJS({
             results.push(parseInt(part, 16));
           }
           return results;
-        }();
+        })();
         return {
           parts,
           zoneId
@@ -19794,7 +19797,7 @@ var require_utils3 = __commonJS({
     var etag = require_etag();
     var mime = require_mime_types();
     var proxyaddr = require_proxy_addr();
-    var qs = require_lib2();
+    var qs2 = require_lib2();
     var querystring = __require("node:querystring");
     var { Buffer: Buffer2 } = __require("node:buffer");
     exports.methods = METHODS.map((method) => method.toLowerCase());
@@ -19905,7 +19908,7 @@ var require_utils3 = __commonJS({
       };
     }
     function parseExtendedQueryString(str) {
-      return qs.parse(str, {
+      return qs2.parse(str, {
         allowPrototypes: true
       });
     }
@@ -20007,7 +20010,7 @@ var require_dist2 = __commonJS({
     exports.compile = compile;
     exports.match = match;
     exports.pathToRegexp = pathToRegexp;
-    exports.stringify = stringify;
+    exports.stringify = stringify2;
     var DEFAULT_DELIMITER = "/";
     var NOOP_VALUE = (value) => value;
     var ID_START = /^[$_\p{ID_Start}]$/u;
@@ -20352,7 +20355,7 @@ var require_dist2 = __commonJS({
       }
       return value;
     }
-    function stringify(data) {
+    function stringify2(data) {
       return stringifyTokens(data.tokens, 0);
     }
     function stringifyName(name, next) {
@@ -21041,7 +21044,7 @@ var require_application = __commonJS({
     var finalhandler = require_finalhandler();
     var debug = require_src()("express:application");
     var View2 = require_view();
-    var http = __require("node:http");
+    var http2 = __require("node:http");
     var methods = require_utils3().methods;
     var compileETag = require_utils3().compileETag;
     var compileQueryParser = require_utils3().compileQueryParser;
@@ -21274,7 +21277,7 @@ var require_application = __commonJS({
       tryRender(view, renderOptions, done);
     };
     app2.listen = function listen() {
-      var server = http.createServer(this);
+      var server = http2.createServer(this);
       var args = slice.call(arguments);
       if (typeof args[args.length - 1] === "function") {
         var done = args[args.length - 1] = once(args[args.length - 1]);
@@ -22049,12 +22052,12 @@ var require_request = __commonJS({
     var accepts = require_accepts();
     var isIP = __require("node:net").isIP;
     var typeis = require_type_is();
-    var http = __require("node:http");
+    var http2 = __require("node:http");
     var fresh = require_fresh();
     var parseRange = require_range_parser();
     var parse = require_parseurl();
     var proxyaddr = require_proxy_addr();
-    var req = Object.create(http.IncomingMessage.prototype);
+    var req = Object.create(http2.IncomingMessage.prototype);
     module.exports = req;
     req.get = req.header = function header(name) {
       if (!name) {
@@ -22402,17 +22405,17 @@ var require_content_disposition = __commonJS({
 // node_modules/express/node_modules/cookie-signature/index.js
 var require_cookie_signature = __commonJS({
   "node_modules/express/node_modules/cookie-signature/index.js"(exports) {
-    var crypto2 = __require("crypto");
+    var crypto4 = __require("crypto");
     exports.sign = function(val, secret) {
       if ("string" != typeof val) throw new TypeError("Cookie value must be provided as a string.");
       if (null == secret) throw new TypeError("Secret key must be provided.");
-      return val + "." + crypto2.createHmac("sha256", secret).update(val).digest("base64").replace(/\=+$/, "");
+      return val + "." + crypto4.createHmac("sha256", secret).update(val).digest("base64").replace(/\=+$/, "");
     };
     exports.unsign = function(input, secret) {
       if ("string" != typeof input) throw new TypeError("Signed cookie string must be provided.");
       if (null == secret) throw new TypeError("Secret key must be provided.");
       var tentativeValue = input.slice(0, input.lastIndexOf(".")), expectedInput = exports.sign(tentativeValue, secret), expectedBuffer = Buffer.from(expectedInput), inputBuffer = Buffer.from(input);
-      return expectedBuffer.length === inputBuffer.length && crypto2.timingSafeEqual(expectedBuffer, inputBuffer) ? tentativeValue : false;
+      return expectedBuffer.length === inputBuffer.length && crypto4.timingSafeEqual(expectedBuffer, inputBuffer) ? tentativeValue : false;
     };
   }
 });
@@ -23148,7 +23151,7 @@ var require_response = __commonJS({
     var deprecate = require_depd()("express");
     var encodeUrl = require_encodeurl();
     var escapeHtml = require_escape_html();
-    var http = __require("node:http");
+    var http2 = __require("node:http");
     var onFinished = require_on_finished();
     var mime = require_mime_types();
     var path = __require("node:path");
@@ -23164,7 +23167,7 @@ var require_response = __commonJS({
     var resolve = path.resolve;
     var vary = require_vary();
     var { Buffer: Buffer2 } = __require("node:buffer");
-    var res = Object.create(http.ServerResponse.prototype);
+    var res = Object.create(http2.ServerResponse.prototype);
     module.exports = res;
     res.status = function status(code) {
       if (!Number.isInteger(code)) {
@@ -23268,7 +23271,7 @@ var require_response = __commonJS({
       var escape2 = app2.get("json escape");
       var replacer = app2.get("json replacer");
       var spaces = app2.get("json spaces");
-      var body = stringify(obj, replacer, spaces, escape2);
+      var body = stringify2(obj, replacer, spaces, escape2);
       if (!this.get("Content-Type")) {
         this.set("Content-Type", "application/json");
       }
@@ -23279,7 +23282,7 @@ var require_response = __commonJS({
       var escape2 = app2.get("json escape");
       var replacer = app2.get("json replacer");
       var spaces = app2.get("json spaces");
-      var body = stringify(obj, replacer, spaces, escape2);
+      var body = stringify2(obj, replacer, spaces, escape2);
       var callback = this.req.query[app2.get("jsonp callback name")];
       if (!this.get("Content-Type")) {
         this.set("X-Content-Type-Options", "nosniff");
@@ -23587,7 +23590,7 @@ var require_response = __commonJS({
       }
       file.pipe(res2);
     }
-    function stringify(value, replacer, spaces, escape2) {
+    function stringify2(value, replacer, spaces, escape2) {
       var json2 = replacer || spaces ? JSON.stringify(value, replacer, spaces) : JSON.stringify(value);
       if (escape2 && typeof json2 === "string") {
         json2 = json2.replace(/[<>&]/g, function(c) {
@@ -23718,7 +23721,7 @@ var require_express = __commonJS({
   "node_modules/express/lib/express.js"(exports, module) {
     "use strict";
     var bodyParser = require_body_parser();
-    var EventEmitter = __require("node:events").EventEmitter;
+    var EventEmitter2 = __require("node:events").EventEmitter;
     var mixin = require_merge_descriptors();
     var proto = require_application();
     var Router4 = require_router();
@@ -23729,7 +23732,7 @@ var require_express = __commonJS({
       var app2 = function(req2, res2, next) {
         app2.handle(req2, res2, next);
       };
-      mixin(app2, EventEmitter.prototype, false);
+      mixin(app2, EventEmitter2.prototype, false);
       mixin(app2, proto, false);
       app2.request = Object.create(req, {
         app: { configurable: true, enumerable: true, writable: true, value: app2 }
@@ -23822,8 +23825,8 @@ var require_err_helpers = __commonJS({
 var require_err_proto = __commonJS({
   "node_modules/pino-std-serializers/lib/err-proto.js"(exports, module) {
     "use strict";
-    var seen = Symbol("circular-ref-tag");
-    var rawSymbol = Symbol("pino-raw-err-ref");
+    var seen = /* @__PURE__ */ Symbol("circular-ref-tag");
+    var rawSymbol = /* @__PURE__ */ Symbol("pino-raw-err-ref");
     var pinoErrProto = Object.create({}, {
       type: {
         enumerable: true,
@@ -23960,7 +23963,7 @@ var require_req = __commonJS({
       mapHttpRequest,
       reqSerializer
     };
-    var rawSymbol = Symbol("pino-raw-req-ref");
+    var rawSymbol = /* @__PURE__ */ Symbol("pino-raw-req-ref");
     var pinoReqProto = Object.create({}, {
       id: {
         enumerable: true,
@@ -24055,7 +24058,7 @@ var require_res = __commonJS({
       mapHttpResponse,
       resSerializer
     };
-    var rawSymbol = Symbol("pino-raw-res-ref");
+    var rawSymbol = /* @__PURE__ */ Symbol("pino-raw-res-ref");
     var pinoResProto = Object.create({}, {
       statusCode: {
         enumerable: true,
@@ -24297,7 +24300,7 @@ var require_redact = __commonJS({
       }
       return true;
     }
-    var PATH_NOT_FOUND = Symbol("PATH_NOT_FOUND");
+    var PATH_NOT_FOUND = /* @__PURE__ */ Symbol("PATH_NOT_FOUND");
     function getValueIfExists(obj, parts) {
       let current = obj;
       for (const part of parts) {
@@ -24598,37 +24601,37 @@ var require_redact = __commonJS({
 var require_symbols = __commonJS({
   "node_modules/pino/lib/symbols.js"(exports, module) {
     "use strict";
-    var setLevelSym = Symbol("pino.setLevel");
-    var getLevelSym = Symbol("pino.getLevel");
-    var levelValSym = Symbol("pino.levelVal");
-    var levelCompSym = Symbol("pino.levelComp");
-    var useLevelLabelsSym = Symbol("pino.useLevelLabels");
-    var useOnlyCustomLevelsSym = Symbol("pino.useOnlyCustomLevels");
-    var mixinSym = Symbol("pino.mixin");
-    var lsCacheSym = Symbol("pino.lsCache");
-    var chindingsSym = Symbol("pino.chindings");
-    var asJsonSym = Symbol("pino.asJson");
-    var writeSym = Symbol("pino.write");
-    var redactFmtSym = Symbol("pino.redactFmt");
-    var timeSym = Symbol("pino.time");
-    var timeSliceIndexSym = Symbol("pino.timeSliceIndex");
-    var streamSym = Symbol("pino.stream");
-    var stringifySym = Symbol("pino.stringify");
-    var stringifySafeSym = Symbol("pino.stringifySafe");
-    var stringifiersSym = Symbol("pino.stringifiers");
-    var endSym = Symbol("pino.end");
-    var formatOptsSym = Symbol("pino.formatOpts");
-    var messageKeySym = Symbol("pino.messageKey");
-    var errorKeySym = Symbol("pino.errorKey");
-    var nestedKeySym = Symbol("pino.nestedKey");
-    var nestedKeyStrSym = Symbol("pino.nestedKeyStr");
-    var mixinMergeStrategySym = Symbol("pino.mixinMergeStrategy");
-    var msgPrefixSym = Symbol("pino.msgPrefix");
-    var wildcardFirstSym = Symbol("pino.wildcardFirst");
-    var serializersSym = Symbol.for("pino.serializers");
-    var formattersSym = Symbol.for("pino.formatters");
-    var hooksSym = Symbol.for("pino.hooks");
-    var needsMetadataGsym = Symbol.for("pino.metadata");
+    var setLevelSym = /* @__PURE__ */ Symbol("pino.setLevel");
+    var getLevelSym = /* @__PURE__ */ Symbol("pino.getLevel");
+    var levelValSym = /* @__PURE__ */ Symbol("pino.levelVal");
+    var levelCompSym = /* @__PURE__ */ Symbol("pino.levelComp");
+    var useLevelLabelsSym = /* @__PURE__ */ Symbol("pino.useLevelLabels");
+    var useOnlyCustomLevelsSym = /* @__PURE__ */ Symbol("pino.useOnlyCustomLevels");
+    var mixinSym = /* @__PURE__ */ Symbol("pino.mixin");
+    var lsCacheSym = /* @__PURE__ */ Symbol("pino.lsCache");
+    var chindingsSym = /* @__PURE__ */ Symbol("pino.chindings");
+    var asJsonSym = /* @__PURE__ */ Symbol("pino.asJson");
+    var writeSym = /* @__PURE__ */ Symbol("pino.write");
+    var redactFmtSym = /* @__PURE__ */ Symbol("pino.redactFmt");
+    var timeSym = /* @__PURE__ */ Symbol("pino.time");
+    var timeSliceIndexSym = /* @__PURE__ */ Symbol("pino.timeSliceIndex");
+    var streamSym = /* @__PURE__ */ Symbol("pino.stream");
+    var stringifySym = /* @__PURE__ */ Symbol("pino.stringify");
+    var stringifySafeSym = /* @__PURE__ */ Symbol("pino.stringifySafe");
+    var stringifiersSym = /* @__PURE__ */ Symbol("pino.stringifiers");
+    var endSym = /* @__PURE__ */ Symbol("pino.end");
+    var formatOptsSym = /* @__PURE__ */ Symbol("pino.formatOpts");
+    var messageKeySym = /* @__PURE__ */ Symbol("pino.messageKey");
+    var errorKeySym = /* @__PURE__ */ Symbol("pino.errorKey");
+    var nestedKeySym = /* @__PURE__ */ Symbol("pino.nestedKey");
+    var nestedKeyStrSym = /* @__PURE__ */ Symbol("pino.nestedKeyStr");
+    var mixinMergeStrategySym = /* @__PURE__ */ Symbol("pino.mixinMergeStrategy");
+    var msgPrefixSym = /* @__PURE__ */ Symbol("pino.msgPrefix");
+    var wildcardFirstSym = /* @__PURE__ */ Symbol("pino.wildcardFirst");
+    var serializersSym = /* @__PURE__ */ Symbol.for("pino.serializers");
+    var formattersSym = /* @__PURE__ */ Symbol.for("pino.formatters");
+    var hooksSym = /* @__PURE__ */ Symbol.for("pino.hooks");
+    var needsMetadataGsym = /* @__PURE__ */ Symbol.for("pino.metadata");
     module.exports = {
       setLevelSym,
       getLevelSym,
@@ -24937,7 +24940,7 @@ var require_sonic_boom = __commonJS({
   "node_modules/sonic-boom/index.js"(exports, module) {
     "use strict";
     var fs = __require("fs");
-    var EventEmitter = __require("events");
+    var EventEmitter2 = __require("events");
     var inherits = __require("util").inherits;
     var path = __require("path");
     var sleep = require_atomic_sleep();
@@ -25174,7 +25177,7 @@ var require_sonic_boom = __commonJS({
       sonic._asyncDrainScheduled = false;
       sonic.emit("drain");
     }
-    inherits(SonicBoom, EventEmitter);
+    inherits(SonicBoom, EventEmitter2);
     function mergeBuf(bufs, len) {
       if (bufs.length === 0) {
         return kEmptyBuffer;
@@ -25752,7 +25755,7 @@ var require_thread_stream = __commonJS({
   "node_modules/thread-stream/index.js"(exports, module) {
     "use strict";
     var { version: version2 } = require_package();
-    var { EventEmitter } = __require("events");
+    var { EventEmitter: EventEmitter2 } = __require("events");
     var { Worker } = __require("worker_threads");
     var { join } = __require("path");
     var { pathToFileURL } = __require("url");
@@ -25763,7 +25766,7 @@ var require_thread_stream = __commonJS({
     } = require_indexes();
     var buffer = __require("buffer");
     var assert = __require("assert");
-    var kImpl = Symbol("kImpl");
+    var kImpl = /* @__PURE__ */ Symbol("kImpl");
     var MAX_STRING = buffer.constants.MAX_STRING_LENGTH;
     var FakeWeakRef = class {
       constructor(value) {
@@ -25908,7 +25911,7 @@ var require_thread_stream = __commonJS({
       stream.worker.off("exit", onWorkerExit);
       destroy(stream, code !== 0 ? new Error("the worker thread exited") : null);
     }
-    var ThreadStream = class extends EventEmitter {
+    var ThreadStream = class extends EventEmitter2 {
       constructor(opts = {}) {
         super();
         if (opts.bufferSize < 4) {
@@ -26410,7 +26413,7 @@ var require_tools = __commonJS({
       return asJsonChan.traceSync(_asJson, store, this, obj, msg, num, time2);
     }
     function _asJson(obj, msg, num, time2) {
-      const stringify2 = this[stringifySym];
+      const stringify3 = this[stringifySym];
       const stringifySafe = this[stringifySafeSym];
       const stringifiers = this[stringifiersSym];
       const end = this[endSym];
@@ -26452,7 +26455,7 @@ var require_tools = __commonJS({
               value = (stringifier || asString)(value);
               break;
             default:
-              value = (stringifier || stringify2)(value, stringifySafe);
+              value = (stringifier || stringify3)(value, stringifySafe);
           }
           if (value === void 0) continue;
           const strKey = asString(key);
@@ -26480,7 +26483,7 @@ var require_tools = __commonJS({
             msgStr = ',"' + messageKey + '":' + value;
             break;
           default:
-            value = (stringifier || stringify2)(value, stringifySafe);
+            value = (stringifier || stringify3)(value, stringifySafe);
             msgStr = ',"' + messageKey + '":' + value;
         }
       }
@@ -26493,7 +26496,7 @@ var require_tools = __commonJS({
     function asChindings(instance, bindings) {
       let value;
       let data = instance[chindingsSym];
-      const stringify2 = instance[stringifySym];
+      const stringify3 = instance[stringifySym];
       const stringifySafe = instance[stringifySafeSym];
       const stringifiers = instance[stringifiersSym];
       const wildcardStringifier = stringifiers[wildcardFirstSym];
@@ -26505,7 +26508,7 @@ var require_tools = __commonJS({
         const valid = (key.length < 5 || key !== "level" && key !== "serializers" && key !== "formatters" && key !== "customLevels") && bindings.hasOwnProperty(key) && value !== void 0;
         if (valid === true) {
           value = serializers[key] ? serializers[key](value) : value;
-          value = (stringifiers[key] || wildcardStringifier || stringify2)(value, stringifySafe);
+          value = (stringifiers[key] || wildcardStringifier || stringify3)(value, stringifySafe);
           if (value === void 0) continue;
           data += ',"' + key + '":' + value;
         }
@@ -26595,13 +26598,13 @@ var require_tools = __commonJS({
         return { opts, stream };
       };
     }
-    function stringify(obj, stringifySafeFn) {
+    function stringify2(obj, stringifySafeFn) {
       try {
         return JSON.stringify(obj);
       } catch (_) {
         try {
-          const stringify2 = stringifySafeFn || this[stringifySafeSym];
-          return stringify2(obj);
+          const stringify3 = stringifySafeFn || this[stringifySafeSym];
+          return stringify3(obj);
         } catch (_2) {
           return '"[unable to serialize, circular reference is too complex to analyze]"';
         }
@@ -26631,7 +26634,7 @@ var require_tools = __commonJS({
       asJson,
       genLog,
       createArgsNormalizer,
-      stringify,
+      stringify: stringify2,
       buildFormatters,
       normalizeDestFileDescriptor
     };
@@ -26865,7 +26868,7 @@ var require_meta = __commonJS({
 var require_proto = __commonJS({
   "node_modules/pino/lib/proto.js"(exports, module) {
     "use strict";
-    var { EventEmitter } = __require("node:events");
+    var { EventEmitter: EventEmitter2 } = __require("node:events");
     var {
       lsCacheSym,
       levelValSym,
@@ -26906,7 +26909,7 @@ var require_proto = __commonJS({
       asChindings,
       asJson,
       buildFormatters,
-      stringify,
+      stringify: stringify2,
       noop
     } = require_tools();
     var {
@@ -26947,7 +26950,7 @@ var require_proto = __commonJS({
       [getLevelSym]: getLevel,
       [setLevelSym]: setLevel
     };
-    Object.setPrototypeOf(prototype, EventEmitter.prototype);
+    Object.setPrototypeOf(prototype, EventEmitter2.prototype);
     module.exports = function() {
       return Object.create(prototype);
     };
@@ -27014,9 +27017,9 @@ var require_proto = __commonJS({
       }
       if (typeof options.redact === "object" && options.redact !== null || Array.isArray(options.redact)) {
         instance.redact = options.redact;
-        const stringifiers = redaction(instance.redact, stringify);
+        const stringifiers = redaction(instance.redact, stringify2);
         const formatOpts = { stringify: stringifiers[redactFmtSym] };
-        instance[stringifySym] = stringify;
+        instance[stringifySym] = stringify2;
         instance[stringifiersSym] = stringifiers;
         instance[formatOptsSym] = formatOpts;
       }
@@ -27097,13 +27100,13 @@ var require_safe_stable_stringify = __commonJS({
   "node_modules/safe-stable-stringify/index.js"(exports, module) {
     "use strict";
     var { hasOwnProperty } = Object.prototype;
-    var stringify = configure();
-    stringify.configure = configure;
-    stringify.stringify = stringify;
-    stringify.default = stringify;
-    exports.stringify = stringify;
+    var stringify2 = configure();
+    stringify2.configure = configure;
+    stringify2.stringify = stringify2;
+    stringify2.default = stringify2;
+    exports.stringify = stringify2;
     exports.configure = configure;
-    module.exports = stringify;
+    module.exports = stringify2;
     var strEscapeSequencesRegExp = /[\u0000-\u001f\u0022\u005c\ud800-\udfff]/;
     function strEscape(str) {
       if (str.length < 5e3 && !strEscapeSequencesRegExp.test(str)) {
@@ -27661,7 +27664,7 @@ ${originalIndentation}`;
             return fail ? fail(value) : void 0;
         }
       }
-      function stringify2(value, replacer, space) {
+      function stringify3(value, replacer, space) {
         if (arguments.length > 1) {
           let spacer = "";
           if (typeof space === "number") {
@@ -27683,7 +27686,7 @@ ${originalIndentation}`;
         }
         return stringifySimple("", value, []);
       }
-      return stringify2;
+      return stringify3;
     }
   }
 });
@@ -27692,7 +27695,7 @@ ${originalIndentation}`;
 var require_multistream = __commonJS({
   "node_modules/pino/lib/multistream.js"(exports, module) {
     "use strict";
-    var metadata = Symbol.for("pino.metadata");
+    var metadata = /* @__PURE__ */ Symbol.for("pino.metadata");
     var { DEFAULT_LEVELS } = require_constants();
     var DEFAULT_INFO_LEVEL = DEFAULT_LEVELS.info;
     function multistream(streamsArray, opts) {
@@ -27862,7 +27865,7 @@ var require_pino = __commonJS({
     function pinoBundlerAbsolutePath(p) {
       try {
         const path = __require("path");
-        const outputDir = "/home/runner/workspace/api-server/dist";
+        const outputDir = "C:\\Users\\Memo\\Downloads\\ohanna-landing-page\\api-server\\dist";
         return path.resolve(outputDir, p.replace(/^\.\//, ""));
       } catch (e) {
         const f = new Function("p", "return new URL(p, import.meta.url).pathname");
@@ -27885,7 +27888,7 @@ var require_pino = __commonJS({
       asChindings,
       buildSafeSonicBoom,
       buildFormatters,
-      stringify,
+      stringify: stringify2,
       normalizeDestFileDescriptor,
       noop
     } = require_tools();
@@ -27989,7 +27992,7 @@ var require_pino = __commonJS({
         formatters.bindings,
         formatters.log
       );
-      const stringifyFn = stringify.bind({
+      const stringifyFn = stringify2.bind({
         [stringifySafeSym]: stringifySafe
       });
       const stringifiers = redact ? redaction(redact, stringifyFn) : {};
@@ -27999,7 +28002,7 @@ var require_pino = __commonJS({
         [chindingsSym]: "",
         [serializersSym]: serializers2,
         [stringifiersSym]: stringifiers,
-        [stringifySym]: stringify,
+        [stringifySym]: stringify2,
         [stringifySafeSym]: stringifySafe,
         [formattersSym]: allFormatters
       });
@@ -28030,7 +28033,7 @@ var require_pino = __commonJS({
         [streamSym]: stream,
         [timeSym]: time3,
         [timeSliceIndexSym]: timeSliceIndex,
-        [stringifySym]: stringify,
+        [stringifySym]: stringify2,
         [stringifySafeSym]: stringifySafe,
         [stringifiersSym]: stringifiers,
         [endSym]: end,
@@ -28107,8 +28110,8 @@ var require_logger = __commonJS({
     var { pino: pino2, symbols: { stringifySym, chindingsSym } } = require_pino();
     var serializers = require_pino_std_serializers();
     var getCallerFile = require_get_caller_file();
-    var startTime = Symbol("startTime");
-    var reqObject = Symbol("reqObject");
+    var startTime = /* @__PURE__ */ Symbol("startTime");
+    var reqObject = /* @__PURE__ */ Symbol("reqObject");
     function pinoLogger(opts, stream) {
       if (opts && opts._writableState) {
         stream = opts;
@@ -29917,7 +29920,7 @@ var require_cert_signatures = __commonJS({
 var require_sasl = __commonJS({
   "node_modules/pg/lib/crypto/sasl.js"(exports, module) {
     "use strict";
-    var crypto2 = require_utils5();
+    var crypto4 = require_utils5();
     var { signatureAlgorithmHashFromCertificate } = require_cert_signatures();
     function saslprep(password) {
       const nonAsciiSpace = /[\u00A0\u1680\u2000-\u200B\u202F\u205F\u3000]/g;
@@ -29935,7 +29938,7 @@ var require_sasl = __commonJS({
       if (mechanism === "SCRAM-SHA-256-PLUS" && typeof stream.getPeerCertificate !== "function") {
         throw new Error("SASL: Mechanism SCRAM-SHA-256-PLUS requires a certificate");
       }
-      const clientNonce = crypto2.randomBytes(18).toString("base64");
+      const clientNonce = crypto4.randomBytes(18).toString("base64");
       const gs2Header = mechanism === "SCRAM-SHA-256-PLUS" ? "p=tls-server-end-point" : stream ? "y" : "n";
       return {
         mechanism,
@@ -29977,20 +29980,20 @@ var require_sasl = __commonJS({
         const peerCert = stream.getPeerCertificate().raw;
         let hashName = signatureAlgorithmHashFromCertificate(peerCert);
         if (hashName === "MD5" || hashName === "SHA-1") hashName = "SHA-256";
-        const certHash = await crypto2.hashByName(hashName, peerCert);
+        const certHash = await crypto4.hashByName(hashName, peerCert);
         const bindingData = Buffer.concat([Buffer.from("p=tls-server-end-point,,"), Buffer.from(certHash)]);
         channelBinding = bindingData.toString("base64");
       }
       const clientFinalMessageWithoutProof = "c=" + channelBinding + ",r=" + sv.nonce;
       const authMessage = clientFirstMessageBare + "," + serverFirstMessage + "," + clientFinalMessageWithoutProof;
       const saltBytes = Buffer.from(sv.salt, "base64");
-      const saltedPassword = await crypto2.deriveKey(saslprep(password), saltBytes, sv.iteration);
-      const clientKey = await crypto2.hmacSha256(saltedPassword, "Client Key");
-      const storedKey = await crypto2.sha256(clientKey);
-      const clientSignature = await crypto2.hmacSha256(storedKey, authMessage);
+      const saltedPassword = await crypto4.deriveKey(saslprep(password), saltBytes, sv.iteration);
+      const clientKey = await crypto4.hmacSha256(saltedPassword, "Client Key");
+      const storedKey = await crypto4.sha256(clientKey);
+      const clientSignature = await crypto4.hmacSha256(storedKey, authMessage);
       const clientProof = xorBuffers(Buffer.from(clientKey), Buffer.from(clientSignature)).toString("base64");
-      const serverKey = await crypto2.hmacSha256(saltedPassword, "Server Key");
-      const serverSignatureBytes = await crypto2.hmacSha256(serverKey, authMessage);
+      const serverKey = await crypto4.hmacSha256(saltedPassword, "Server Key");
+      const serverSignatureBytes = await crypto4.hmacSha256(serverKey, authMessage);
       session.message = "SASLResponse";
       session.serverSignature = Buffer.from(serverSignatureBytes).toString("base64");
       session.response = clientFinalMessageWithoutProof + ",p=" + clientProof;
@@ -30554,10 +30557,10 @@ var require_result = __commonJS({
 var require_query = __commonJS({
   "node_modules/pg/lib/query.js"(exports, module) {
     "use strict";
-    var { EventEmitter } = __require("events");
+    var { EventEmitter: EventEmitter2 } = __require("events");
     var Result2 = require_result();
     var utils = require_utils4();
-    var Query2 = class extends EventEmitter {
+    var Query2 = class extends EventEmitter2 {
       constructor(config, values, callback) {
         super();
         config = utils.normalizeQueryConfig(config, values, callback);
@@ -31679,13 +31682,13 @@ var require_stream = __commonJS({
 var require_connection = __commonJS({
   "node_modules/pg/lib/connection.js"(exports, module) {
     "use strict";
-    var EventEmitter = __require("events").EventEmitter;
+    var EventEmitter2 = __require("events").EventEmitter;
     var { parse, serialize } = require_dist3();
     var { getStream, getSecureStream } = require_stream();
     var flushBuffer = serialize.flush();
     var syncBuffer = serialize.sync();
     var endBuffer = serialize.end();
-    var Connection2 = class extends EventEmitter {
+    var Connection2 = class extends EventEmitter2 {
       constructor(config) {
         super();
         config = config || {};
@@ -31864,8 +31867,8 @@ var require_split2 = __commonJS({
     "use strict";
     var { Transform } = __require("stream");
     var { StringDecoder } = __require("string_decoder");
-    var kLast = Symbol("last");
-    var kDecoder = Symbol("decoder");
+    var kLast = /* @__PURE__ */ Symbol("last");
+    var kDecoder = /* @__PURE__ */ Symbol("decoder");
     function transform(chunk, enc, cb) {
       let list;
       if (this.overflow) {
@@ -32154,7 +32157,7 @@ var require_lib4 = __commonJS({
 // node_modules/pg/lib/client.js
 var require_client = __commonJS({
   "node_modules/pg/lib/client.js"(exports, module) {
-    var EventEmitter = __require("events").EventEmitter;
+    var EventEmitter2 = __require("events").EventEmitter;
     var utils = require_utils4();
     var nodeUtils = __require("util");
     var sasl = require_sasl();
@@ -32163,7 +32166,7 @@ var require_client = __commonJS({
     var Query2 = require_query();
     var defaults2 = require_defaults();
     var Connection2 = require_connection();
-    var crypto2 = require_utils5();
+    var crypto4 = require_utils5();
     var activeQueryDeprecationNotice = nodeUtils.deprecate(
       () => {
       },
@@ -32199,7 +32202,7 @@ var require_client = __commonJS({
       }
       return defaultValue;
     }
-    var Client2 = class extends EventEmitter {
+    var Client2 = class extends EventEmitter2 {
       constructor(config) {
         super();
         this.connectionParameters = new ConnectionParameters(config);
@@ -32410,7 +32413,7 @@ var require_client = __commonJS({
       _handleAuthMD5Password(msg) {
         this._getPassword(async () => {
           try {
-            const hashedPassword = await crypto2.postgresMd5PasswordHash(this.user, this.password, msg.salt);
+            const hashedPassword = await crypto4.postgresMd5PasswordHash(this.user, this.password, msg.salt);
             this.connection.password(hashedPassword);
           } catch (e) {
             this.emit("error", e);
@@ -32793,7 +32796,7 @@ var require_client = __commonJS({
 var require_pg_pool = __commonJS({
   "node_modules/pg-pool/index.js"(exports, module) {
     "use strict";
-    var EventEmitter = __require("events").EventEmitter;
+    var EventEmitter2 = __require("events").EventEmitter;
     var NOOP = function() {
     };
     var removeWhere = (list, predicate) => {
@@ -32844,7 +32847,7 @@ var require_pg_pool = __commonJS({
         pool2.emit("error", err, client);
       };
     }
-    var Pool4 = class extends EventEmitter {
+    var Pool4 = class extends EventEmitter2 {
       constructor(options, Client2) {
         super();
         this.options = Object.assign({}, options);
@@ -33219,11 +33222,11 @@ var require_pg_pool = __commonJS({
 var require_query2 = __commonJS({
   "node_modules/pg/lib/native/query.js"(exports, module) {
     "use strict";
-    var EventEmitter = __require("events").EventEmitter;
+    var EventEmitter2 = __require("events").EventEmitter;
     var util2 = __require("util");
     var utils = require_utils4();
     var NativeQuery = module.exports = function(config, values, callback) {
-      EventEmitter.call(this);
+      EventEmitter2.call(this);
       config = utils.normalizeQueryConfig(config, values, callback);
       this.text = config.text;
       this.values = config.values;
@@ -33240,7 +33243,7 @@ var require_query2 = __commonJS({
         }.bind(this)
       );
     };
-    util2.inherits(NativeQuery, EventEmitter);
+    util2.inherits(NativeQuery, EventEmitter2);
     var errorFieldMap = {
       sqlState: "code",
       statementPosition: "position",
@@ -33367,7 +33370,7 @@ var require_client2 = __commonJS({
       throw e;
     }
     var TypeOverrides2 = require_type_overrides();
-    var EventEmitter = __require("events").EventEmitter;
+    var EventEmitter2 = __require("events").EventEmitter;
     var util2 = __require("util");
     var ConnectionParameters = require_connection_parameters();
     var NativeQuery = require_query2();
@@ -33377,7 +33380,7 @@ var require_client2 = __commonJS({
       "Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead."
     );
     var Client2 = module.exports = function(config) {
-      EventEmitter.call(this);
+      EventEmitter2.call(this);
       config = config || {};
       this._Promise = config.Promise || global.Promise;
       this._types = new TypeOverrides2(config.types);
@@ -33404,7 +33407,7 @@ var require_client2 = __commonJS({
       this.namedQueries = {};
     };
     Client2.Query = NativeQuery;
-    util2.inherits(Client2, EventEmitter);
+    util2.inherits(Client2, EventEmitter2);
     Client2.prototype._errorAllQueries = function(err) {
       const enqueueError = (query) => {
         process.nextTick(() => {
@@ -33686,6 +33689,5455 @@ var require_lib5 = __commonJS({
         return native;
       }
     });
+  }
+});
+
+// node_modules/stripe/esm/crypto/CryptoProvider.js
+var CryptoProvider, CryptoProviderOnlySupportsAsyncError;
+var init_CryptoProvider = __esm({
+  "node_modules/stripe/esm/crypto/CryptoProvider.js"() {
+    CryptoProvider = class {
+      /**
+       * Computes a SHA-256 HMAC given a secret and a payload (encoded in UTF-8).
+       * The output HMAC should be encoded in hexadecimal.
+       *
+       * Sample values for implementations:
+       * - computeHMACSignature('', 'test_secret') => 'f7f9bd47fb987337b5796fdc1fdb9ba221d0d5396814bfcaf9521f43fd8927fd'
+       * - computeHMACSignature('\ud83d\ude00', 'test_secret') => '837da296d05c4fe31f61d5d7ead035099d9585a5bcde87de952012a78f0b0c43
+       */
+      computeHMACSignature(payload, secret) {
+        throw new Error("computeHMACSignature not implemented.");
+      }
+      /**
+       * Asynchronous version of `computeHMACSignature`. Some implementations may
+       * only allow support async signature computation.
+       *
+       * Computes a SHA-256 HMAC given a secret and a payload (encoded in UTF-8).
+       * The output HMAC should be encoded in hexadecimal.
+       *
+       * Sample values for implementations:
+       * - computeHMACSignature('', 'test_secret') => 'f7f9bd47fb987337b5796fdc1fdb9ba221d0d5396814bfcaf9521f43fd8927fd'
+       * - computeHMACSignature('\ud83d\ude00', 'test_secret') => '837da296d05c4fe31f61d5d7ead035099d9585a5bcde87de952012a78f0b0c43
+       */
+      computeHMACSignatureAsync(payload, secret) {
+        throw new Error("computeHMACSignatureAsync not implemented.");
+      }
+    };
+    CryptoProviderOnlySupportsAsyncError = class extends Error {
+    };
+  }
+});
+
+// node_modules/stripe/esm/crypto/NodeCryptoProvider.js
+import * as crypto2 from "crypto";
+var NodeCryptoProvider;
+var init_NodeCryptoProvider = __esm({
+  "node_modules/stripe/esm/crypto/NodeCryptoProvider.js"() {
+    init_CryptoProvider();
+    NodeCryptoProvider = class extends CryptoProvider {
+      /** @override */
+      computeHMACSignature(payload, secret) {
+        return crypto2.createHmac("sha256", secret).update(payload, "utf8").digest("hex");
+      }
+      /** @override */
+      async computeHMACSignatureAsync(payload, secret) {
+        const signature = await this.computeHMACSignature(payload, secret);
+        return signature;
+      }
+    };
+  }
+});
+
+// node_modules/stripe/esm/net/HttpClient.js
+var HttpClient, HttpClientResponse;
+var init_HttpClient = __esm({
+  "node_modules/stripe/esm/net/HttpClient.js"() {
+    HttpClient = class _HttpClient {
+      /** The client name used for diagnostics. */
+      getClientName() {
+        throw new Error("getClientName not implemented.");
+      }
+      makeRequest(host, port2, path, method, headers, requestData, protocol, timeout) {
+        throw new Error("makeRequest not implemented.");
+      }
+      /** Helper to make a consistent timeout error across implementations. */
+      static makeTimeoutError() {
+        const timeoutErr = new TypeError(_HttpClient.TIMEOUT_ERROR_CODE);
+        timeoutErr.code = _HttpClient.TIMEOUT_ERROR_CODE;
+        return timeoutErr;
+      }
+    };
+    HttpClient.CONNECTION_CLOSED_ERROR_CODES = ["ECONNRESET", "EPIPE"];
+    HttpClient.TIMEOUT_ERROR_CODE = "ETIMEDOUT";
+    HttpClientResponse = class {
+      constructor(statusCode, headers) {
+        this._statusCode = statusCode;
+        this._headers = headers;
+      }
+      getStatusCode() {
+        return this._statusCode;
+      }
+      getHeaders() {
+        return this._headers;
+      }
+      getRawResponse() {
+        throw new Error("getRawResponse not implemented.");
+      }
+      toStream(streamCompleteCallback) {
+        throw new Error("toStream not implemented.");
+      }
+      toJSON() {
+        throw new Error("toJSON not implemented.");
+      }
+    };
+  }
+});
+
+// node_modules/stripe/esm/net/NodeHttpClient.js
+import * as http_ from "http";
+import * as https_ from "https";
+var http, https, defaultHttpAgent, defaultHttpsAgent, NodeHttpClient, NodeHttpClientResponse;
+var init_NodeHttpClient = __esm({
+  "node_modules/stripe/esm/net/NodeHttpClient.js"() {
+    init_HttpClient();
+    http = http_.default || http_;
+    https = https_.default || https_;
+    defaultHttpAgent = new http.Agent({ keepAlive: true });
+    defaultHttpsAgent = new https.Agent({ keepAlive: true });
+    NodeHttpClient = class extends HttpClient {
+      constructor(agent) {
+        super();
+        this._agent = agent;
+      }
+      /** @override. */
+      getClientName() {
+        return "node";
+      }
+      makeRequest(host, port2, path, method, headers, requestData, protocol, timeout) {
+        const isInsecureConnection = protocol === "http";
+        let agent = this._agent;
+        if (!agent) {
+          agent = isInsecureConnection ? defaultHttpAgent : defaultHttpsAgent;
+        }
+        const requestPromise = new Promise((resolve, reject) => {
+          const req = (isInsecureConnection ? http : https).request({
+            host,
+            port: port2,
+            path,
+            method,
+            agent,
+            headers,
+            ciphers: "DEFAULT:!aNULL:!eNULL:!LOW:!EXPORT:!SSLv2:!MD5"
+          });
+          req.setTimeout(timeout, () => {
+            req.destroy(HttpClient.makeTimeoutError());
+          });
+          req.on("response", (res) => {
+            resolve(new NodeHttpClientResponse(res));
+          });
+          req.on("error", (error) => {
+            reject(error);
+          });
+          req.once("socket", (socket) => {
+            if (socket.connecting) {
+              socket.once(isInsecureConnection ? "connect" : "secureConnect", () => {
+                req.write(requestData);
+                req.end();
+              });
+            } else {
+              req.write(requestData);
+              req.end();
+            }
+          });
+        });
+        return requestPromise;
+      }
+    };
+    NodeHttpClientResponse = class extends HttpClientResponse {
+      constructor(res) {
+        super(res.statusCode, res.headers || {});
+        this._res = res;
+      }
+      getRawResponse() {
+        return this._res;
+      }
+      toStream(streamCompleteCallback) {
+        this._res.once("end", () => streamCompleteCallback());
+        return this._res;
+      }
+      toJSON() {
+        return new Promise((resolve, reject) => {
+          let response = "";
+          this._res.setEncoding("utf8");
+          this._res.on("data", (chunk) => {
+            response += chunk;
+          });
+          this._res.once("end", () => {
+            try {
+              resolve(JSON.parse(response));
+            } catch (e) {
+              reject(e);
+            }
+          });
+        });
+      }
+    };
+  }
+});
+
+// node_modules/stripe/esm/net/FetchHttpClient.js
+var FetchHttpClient, FetchHttpClientResponse;
+var init_FetchHttpClient = __esm({
+  "node_modules/stripe/esm/net/FetchHttpClient.js"() {
+    init_HttpClient();
+    FetchHttpClient = class _FetchHttpClient extends HttpClient {
+      constructor(fetchFn) {
+        super();
+        if (!fetchFn) {
+          if (!globalThis.fetch) {
+            throw new Error("fetch() function not provided and is not defined in the global scope. You must provide a fetch implementation.");
+          }
+          fetchFn = globalThis.fetch;
+        }
+        if (globalThis.AbortController) {
+          this._fetchFn = _FetchHttpClient.makeFetchWithAbortTimeout(fetchFn);
+        } else {
+          this._fetchFn = _FetchHttpClient.makeFetchWithRaceTimeout(fetchFn);
+        }
+      }
+      static makeFetchWithRaceTimeout(fetchFn) {
+        return (url, init, timeout) => {
+          let pendingTimeoutId;
+          const timeoutPromise = new Promise((_, reject) => {
+            pendingTimeoutId = setTimeout(() => {
+              pendingTimeoutId = null;
+              reject(HttpClient.makeTimeoutError());
+            }, timeout);
+          });
+          const fetchPromise = fetchFn(url, init);
+          return Promise.race([fetchPromise, timeoutPromise]).finally(() => {
+            if (pendingTimeoutId) {
+              clearTimeout(pendingTimeoutId);
+            }
+          });
+        };
+      }
+      static makeFetchWithAbortTimeout(fetchFn) {
+        return async (url, init, timeout) => {
+          const abort = new AbortController();
+          let timeoutId = setTimeout(() => {
+            timeoutId = null;
+            abort.abort(HttpClient.makeTimeoutError());
+          }, timeout);
+          try {
+            return await fetchFn(url, Object.assign(Object.assign({}, init), { signal: abort.signal }));
+          } catch (err) {
+            if (err.name === "AbortError") {
+              throw HttpClient.makeTimeoutError();
+            } else {
+              throw err;
+            }
+          } finally {
+            if (timeoutId) {
+              clearTimeout(timeoutId);
+            }
+          }
+        };
+      }
+      /** @override. */
+      getClientName() {
+        return "fetch";
+      }
+      async makeRequest(host, port2, path, method, headers, requestData, protocol, timeout) {
+        const isInsecureConnection = protocol === "http";
+        const url = new URL(path, `${isInsecureConnection ? "http" : "https"}://${host}`);
+        url.port = port2;
+        const methodHasPayload = method == "POST" || method == "PUT" || method == "PATCH";
+        const body = requestData || (methodHasPayload ? "" : void 0);
+        const res = await this._fetchFn(url.toString(), {
+          method,
+          // @ts-ignore
+          headers,
+          // @ts-ignore
+          body
+        }, timeout);
+        return new FetchHttpClientResponse(res);
+      }
+    };
+    FetchHttpClientResponse = class _FetchHttpClientResponse extends HttpClientResponse {
+      constructor(res) {
+        super(res.status, _FetchHttpClientResponse._transformHeadersToObject(res.headers));
+        this._res = res;
+      }
+      getRawResponse() {
+        return this._res;
+      }
+      toStream(streamCompleteCallback) {
+        streamCompleteCallback();
+        return this._res.body;
+      }
+      toJSON() {
+        return this._res.json();
+      }
+      static _transformHeadersToObject(headers) {
+        const headersObj = {};
+        for (const entry of headers) {
+          if (!Array.isArray(entry) || entry.length != 2) {
+            throw new Error("Response objects produced by the fetch function given to FetchHttpClient do not have an iterable headers map. Response#headers should be an iterable object.");
+          }
+          headersObj[entry[0]] = entry[1];
+        }
+        return headersObj;
+      }
+    };
+  }
+});
+
+// node_modules/stripe/esm/crypto/SubtleCryptoProvider.js
+var SubtleCryptoProvider, byteHexMapping;
+var init_SubtleCryptoProvider = __esm({
+  "node_modules/stripe/esm/crypto/SubtleCryptoProvider.js"() {
+    init_CryptoProvider();
+    SubtleCryptoProvider = class extends CryptoProvider {
+      constructor(subtleCrypto) {
+        super();
+        this.subtleCrypto = subtleCrypto || crypto.subtle;
+      }
+      /** @override */
+      computeHMACSignature(payload, secret) {
+        throw new CryptoProviderOnlySupportsAsyncError("SubtleCryptoProvider cannot be used in a synchronous context.");
+      }
+      /** @override */
+      async computeHMACSignatureAsync(payload, secret) {
+        const encoder = new TextEncoder();
+        const key = await this.subtleCrypto.importKey("raw", encoder.encode(secret), {
+          name: "HMAC",
+          hash: { name: "SHA-256" }
+        }, false, ["sign"]);
+        const signatureBuffer = await this.subtleCrypto.sign("hmac", key, encoder.encode(payload));
+        const signatureBytes = new Uint8Array(signatureBuffer);
+        const signatureHexCodes = new Array(signatureBytes.length);
+        for (let i = 0; i < signatureBytes.length; i++) {
+          signatureHexCodes[i] = byteHexMapping[signatureBytes[i]];
+        }
+        return signatureHexCodes.join("");
+      }
+    };
+    byteHexMapping = new Array(256);
+    for (let i = 0; i < byteHexMapping.length; i++) {
+      byteHexMapping[i] = i.toString(16).padStart(2, "0");
+    }
+  }
+});
+
+// node_modules/stripe/esm/platform/PlatformFunctions.js
+var PlatformFunctions;
+var init_PlatformFunctions = __esm({
+  "node_modules/stripe/esm/platform/PlatformFunctions.js"() {
+    init_FetchHttpClient();
+    init_SubtleCryptoProvider();
+    PlatformFunctions = class {
+      constructor() {
+        this._fetchFn = null;
+        this._agent = null;
+      }
+      /**
+       * Gets uname with Node's built-in `exec` function, if available.
+       */
+      getUname() {
+        throw new Error("getUname not implemented.");
+      }
+      /**
+       * Generates a v4 UUID. See https://stackoverflow.com/a/2117523
+       */
+      uuid4() {
+        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+          const r = Math.random() * 16 | 0;
+          const v = c === "x" ? r : r & 3 | 8;
+          return v.toString(16);
+        });
+      }
+      /**
+       * Compares strings in constant time.
+       */
+      secureCompare(a, b) {
+        if (a.length !== b.length) {
+          return false;
+        }
+        const len = a.length;
+        let result = 0;
+        for (let i = 0; i < len; ++i) {
+          result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+        }
+        return result === 0;
+      }
+      /**
+       * Creates an event emitter.
+       */
+      createEmitter() {
+        throw new Error("createEmitter not implemented.");
+      }
+      /**
+       * Checks if the request data is a stream. If so, read the entire stream
+       * to a buffer and return the buffer.
+       */
+      tryBufferData(data) {
+        throw new Error("tryBufferData not implemented.");
+      }
+      /**
+       * Creates an HTTP client which uses the Node `http` and `https` packages
+       * to issue requests.
+       */
+      createNodeHttpClient(agent) {
+        throw new Error("createNodeHttpClient not implemented.");
+      }
+      /**
+       * Creates an HTTP client for issuing Stripe API requests which uses the Web
+       * Fetch API.
+       *
+       * A fetch function can optionally be passed in as a parameter. If none is
+       * passed, will default to the default `fetch` function in the global scope.
+       */
+      createFetchHttpClient(fetchFn) {
+        return new FetchHttpClient(fetchFn);
+      }
+      /**
+       * Creates an HTTP client using runtime-specific APIs.
+       */
+      createDefaultHttpClient() {
+        throw new Error("createDefaultHttpClient not implemented.");
+      }
+      /**
+       * Creates a CryptoProvider which uses the Node `crypto` package for its computations.
+       */
+      createNodeCryptoProvider() {
+        throw new Error("createNodeCryptoProvider not implemented.");
+      }
+      /**
+       * Creates a CryptoProvider which uses the SubtleCrypto interface of the Web Crypto API.
+       */
+      createSubtleCryptoProvider(subtleCrypto) {
+        return new SubtleCryptoProvider(subtleCrypto);
+      }
+      createDefaultCryptoProvider() {
+        throw new Error("createDefaultCryptoProvider not implemented.");
+      }
+    };
+  }
+});
+
+// node_modules/stripe/esm/Error.js
+var Error_exports = {};
+__export(Error_exports, {
+  StripeAPIError: () => StripeAPIError,
+  StripeAuthenticationError: () => StripeAuthenticationError,
+  StripeCardError: () => StripeCardError,
+  StripeConnectionError: () => StripeConnectionError,
+  StripeError: () => StripeError,
+  StripeIdempotencyError: () => StripeIdempotencyError,
+  StripeInvalidGrantError: () => StripeInvalidGrantError,
+  StripeInvalidRequestError: () => StripeInvalidRequestError,
+  StripePermissionError: () => StripePermissionError,
+  StripeRateLimitError: () => StripeRateLimitError,
+  StripeSignatureVerificationError: () => StripeSignatureVerificationError,
+  StripeUnknownError: () => StripeUnknownError,
+  generate: () => generate
+});
+var generate, StripeError, StripeCardError, StripeInvalidRequestError, StripeAPIError, StripeAuthenticationError, StripePermissionError, StripeRateLimitError, StripeConnectionError, StripeSignatureVerificationError, StripeIdempotencyError, StripeInvalidGrantError, StripeUnknownError;
+var init_Error = __esm({
+  "node_modules/stripe/esm/Error.js"() {
+    generate = (rawStripeError) => {
+      switch (rawStripeError.type) {
+        case "card_error":
+          return new StripeCardError(rawStripeError);
+        case "invalid_request_error":
+          return new StripeInvalidRequestError(rawStripeError);
+        case "api_error":
+          return new StripeAPIError(rawStripeError);
+        case "authentication_error":
+          return new StripeAuthenticationError(rawStripeError);
+        case "rate_limit_error":
+          return new StripeRateLimitError(rawStripeError);
+        case "idempotency_error":
+          return new StripeIdempotencyError(rawStripeError);
+        case "invalid_grant":
+          return new StripeInvalidGrantError(rawStripeError);
+        default:
+          return new StripeUnknownError(rawStripeError);
+      }
+    };
+    StripeError = class extends Error {
+      constructor(raw = {}, type = null) {
+        super(raw.message);
+        this.type = type || this.constructor.name;
+        this.raw = raw;
+        this.rawType = raw.type;
+        this.code = raw.code;
+        this.doc_url = raw.doc_url;
+        this.param = raw.param;
+        this.detail = raw.detail;
+        this.headers = raw.headers;
+        this.requestId = raw.requestId;
+        this.statusCode = raw.statusCode;
+        this.message = raw.message;
+        this.charge = raw.charge;
+        this.decline_code = raw.decline_code;
+        this.payment_intent = raw.payment_intent;
+        this.payment_method = raw.payment_method;
+        this.payment_method_type = raw.payment_method_type;
+        this.setup_intent = raw.setup_intent;
+        this.source = raw.source;
+      }
+    };
+    StripeError.generate = generate;
+    StripeCardError = class extends StripeError {
+      constructor(raw = {}) {
+        super(raw, "StripeCardError");
+      }
+    };
+    StripeInvalidRequestError = class extends StripeError {
+      constructor(raw = {}) {
+        super(raw, "StripeInvalidRequestError");
+      }
+    };
+    StripeAPIError = class extends StripeError {
+      constructor(raw = {}) {
+        super(raw, "StripeAPIError");
+      }
+    };
+    StripeAuthenticationError = class extends StripeError {
+      constructor(raw = {}) {
+        super(raw, "StripeAuthenticationError");
+      }
+    };
+    StripePermissionError = class extends StripeError {
+      constructor(raw = {}) {
+        super(raw, "StripePermissionError");
+      }
+    };
+    StripeRateLimitError = class extends StripeError {
+      constructor(raw = {}) {
+        super(raw, "StripeRateLimitError");
+      }
+    };
+    StripeConnectionError = class extends StripeError {
+      constructor(raw = {}) {
+        super(raw, "StripeConnectionError");
+      }
+    };
+    StripeSignatureVerificationError = class extends StripeError {
+      constructor(header, payload, raw = {}) {
+        super(raw, "StripeSignatureVerificationError");
+        this.header = header;
+        this.payload = payload;
+      }
+    };
+    StripeIdempotencyError = class extends StripeError {
+      constructor(raw = {}) {
+        super(raw, "StripeIdempotencyError");
+      }
+    };
+    StripeInvalidGrantError = class extends StripeError {
+      constructor(raw = {}) {
+        super(raw, "StripeInvalidGrantError");
+      }
+    };
+    StripeUnknownError = class extends StripeError {
+      constructor(raw = {}) {
+        super(raw, "StripeUnknownError");
+      }
+    };
+  }
+});
+
+// node_modules/stripe/esm/utils.js
+function isOptionsHash(o) {
+  return o && typeof o === "object" && OPTIONS_KEYS.some((prop) => Object.prototype.hasOwnProperty.call(o, prop));
+}
+function stringifyRequestData(data) {
+  return qs.stringify(data, {
+    serializeDate: (d) => Math.floor(d.getTime() / 1e3).toString()
+  }).replace(/%5B/g, "[").replace(/%5D/g, "]");
+}
+function extractUrlParams(path) {
+  const params = path.match(/\{\w+\}/g);
+  if (!params) {
+    return [];
+  }
+  return params.map((param) => param.replace(/[{}]/g, ""));
+}
+function getDataFromArgs(args) {
+  if (!Array.isArray(args) || !args[0] || typeof args[0] !== "object") {
+    return {};
+  }
+  if (!isOptionsHash(args[0])) {
+    return args.shift();
+  }
+  const argKeys = Object.keys(args[0]);
+  const optionKeysInArgs = argKeys.filter((key) => OPTIONS_KEYS.includes(key));
+  if (optionKeysInArgs.length > 0 && optionKeysInArgs.length !== argKeys.length) {
+    emitWarning(`Options found in arguments (${optionKeysInArgs.join(", ")}). Did you mean to pass an options object? See https://github.com/stripe/stripe-node/wiki/Passing-Options.`);
+  }
+  return {};
+}
+function getOptionsFromArgs(args) {
+  const opts = {
+    auth: null,
+    host: null,
+    headers: {},
+    settings: {}
+  };
+  if (args.length > 0) {
+    const arg = args[args.length - 1];
+    if (typeof arg === "string") {
+      opts.auth = args.pop();
+    } else if (isOptionsHash(arg)) {
+      const params = Object.assign({}, args.pop());
+      const extraKeys = Object.keys(params).filter((key) => !OPTIONS_KEYS.includes(key));
+      if (extraKeys.length) {
+        emitWarning(`Invalid options found (${extraKeys.join(", ")}); ignoring.`);
+      }
+      if (params.apiKey) {
+        opts.auth = params.apiKey;
+      }
+      if (params.idempotencyKey) {
+        opts.headers["Idempotency-Key"] = params.idempotencyKey;
+      }
+      if (params.stripeAccount) {
+        opts.headers["Stripe-Account"] = params.stripeAccount;
+      }
+      if (params.apiVersion) {
+        opts.headers["Stripe-Version"] = params.apiVersion;
+      }
+      if (Number.isInteger(params.maxNetworkRetries)) {
+        opts.settings.maxNetworkRetries = params.maxNetworkRetries;
+      }
+      if (Number.isInteger(params.timeout)) {
+        opts.settings.timeout = params.timeout;
+      }
+      if (params.host) {
+        opts.host = params.host;
+      }
+    }
+  }
+  return opts;
+}
+function protoExtend(sub) {
+  const Super = this;
+  const Constructor = Object.prototype.hasOwnProperty.call(sub, "constructor") ? sub.constructor : function(...args) {
+    Super.apply(this, args);
+  };
+  Object.assign(Constructor, Super);
+  Constructor.prototype = Object.create(Super.prototype);
+  Object.assign(Constructor.prototype, sub);
+  return Constructor;
+}
+function removeNullish(obj) {
+  if (typeof obj !== "object") {
+    throw new Error("Argument must be an object");
+  }
+  return Object.keys(obj).reduce((result, key) => {
+    if (obj[key] != null) {
+      result[key] = obj[key];
+    }
+    return result;
+  }, {});
+}
+function normalizeHeaders(obj) {
+  if (!(obj && typeof obj === "object")) {
+    return obj;
+  }
+  return Object.keys(obj).reduce((result, header) => {
+    result[normalizeHeader(header)] = obj[header];
+    return result;
+  }, {});
+}
+function normalizeHeader(header) {
+  return header.split("-").map((text2) => text2.charAt(0).toUpperCase() + text2.substr(1).toLowerCase()).join("-");
+}
+function callbackifyPromiseWithTimeout(promise, callback) {
+  if (callback) {
+    return promise.then((res) => {
+      setTimeout(() => {
+        callback(null, res);
+      }, 0);
+    }, (err) => {
+      setTimeout(() => {
+        callback(err, null);
+      }, 0);
+    });
+  }
+  return promise;
+}
+function pascalToCamelCase(name) {
+  if (name === "OAuth") {
+    return "oauth";
+  } else {
+    return name[0].toLowerCase() + name.substring(1);
+  }
+}
+function emitWarning(warning) {
+  if (typeof process.emitWarning !== "function") {
+    return console.warn(`Stripe: ${warning}`);
+  }
+  return process.emitWarning(warning, "Stripe");
+}
+function isObject(obj) {
+  const type = typeof obj;
+  return (type === "function" || type === "object") && !!obj;
+}
+function flattenAndStringify(data) {
+  const result = {};
+  const step = (obj, prevKey) => {
+    Object.keys(obj).forEach((key) => {
+      const value = obj[key];
+      const newKey = prevKey ? `${prevKey}[${key}]` : key;
+      if (isObject(value)) {
+        if (!(value instanceof Uint8Array) && !Object.prototype.hasOwnProperty.call(value, "data")) {
+          return step(value, newKey);
+        } else {
+          result[newKey] = value;
+        }
+      } else {
+        result[newKey] = String(value);
+      }
+    });
+  };
+  step(data, null);
+  return result;
+}
+function validateInteger(name, n, defaultVal) {
+  if (!Number.isInteger(n)) {
+    if (defaultVal !== void 0) {
+      return defaultVal;
+    } else {
+      throw new Error(`${name} must be an integer`);
+    }
+  }
+  return n;
+}
+function determineProcessUserAgentProperties() {
+  return typeof process === "undefined" ? {} : {
+    lang_version: process.version,
+    platform: process.platform
+  };
+}
+function concat(arrays) {
+  const totalLength = arrays.reduce((len, array) => len + array.length, 0);
+  const merged = new Uint8Array(totalLength);
+  let offset = 0;
+  arrays.forEach((array) => {
+    merged.set(array, offset);
+    offset += array.length;
+  });
+  return merged;
+}
+var qs, OPTIONS_KEYS, makeURLInterpolator;
+var init_utils = __esm({
+  "node_modules/stripe/esm/utils.js"() {
+    qs = __toESM(require_lib2(), 1);
+    OPTIONS_KEYS = [
+      "apiKey",
+      "idempotencyKey",
+      "stripeAccount",
+      "apiVersion",
+      "maxNetworkRetries",
+      "timeout",
+      "host"
+    ];
+    makeURLInterpolator = /* @__PURE__ */ (() => {
+      const rc = {
+        "\n": "\\n",
+        '"': '\\"',
+        "\u2028": "\\u2028",
+        "\u2029": "\\u2029"
+      };
+      return (str) => {
+        const cleanString = str.replace(/["\n\r\u2028\u2029]/g, ($0) => rc[$0]);
+        return (outputs) => {
+          return cleanString.replace(/\{([\s\S]+?)\}/g, ($0, $1) => (
+            // @ts-ignore
+            encodeURIComponent(outputs[$1] || "")
+          ));
+        };
+      };
+    })();
+  }
+});
+
+// node_modules/stripe/esm/platform/NodePlatformFunctions.js
+import * as crypto3 from "crypto";
+import { EventEmitter } from "events";
+import { exec } from "child_process";
+var StreamProcessingError, NodePlatformFunctions;
+var init_NodePlatformFunctions = __esm({
+  "node_modules/stripe/esm/platform/NodePlatformFunctions.js"() {
+    init_NodeCryptoProvider();
+    init_NodeHttpClient();
+    init_PlatformFunctions();
+    init_Error();
+    init_utils();
+    StreamProcessingError = class extends StripeError {
+    };
+    NodePlatformFunctions = class extends PlatformFunctions {
+      constructor() {
+        super();
+        this._exec = exec;
+        this._UNAME_CACHE = null;
+      }
+      /** @override */
+      uuid4() {
+        if (crypto3.randomUUID) {
+          return crypto3.randomUUID();
+        }
+        return super.uuid4();
+      }
+      /**
+       * @override
+       * Node's built in `exec` function sometimes throws outright,
+       * and sometimes has a callback with an error,
+       * depending on the type of error.
+       *
+       * This unifies that interface by resolving with a null uname
+       * if an error is encountered.
+       */
+      getUname() {
+        if (!this._UNAME_CACHE) {
+          this._UNAME_CACHE = new Promise((resolve, reject) => {
+            try {
+              this._exec("uname -a", (err, uname) => {
+                if (err) {
+                  return resolve(null);
+                }
+                resolve(uname);
+              });
+            } catch (e) {
+              resolve(null);
+            }
+          });
+        }
+        return this._UNAME_CACHE;
+      }
+      /**
+       * @override
+       * Secure compare, from https://github.com/freewil/scmp
+       */
+      secureCompare(a, b) {
+        if (!a || !b) {
+          throw new Error("secureCompare must receive two arguments");
+        }
+        if (a.length !== b.length) {
+          return false;
+        }
+        if (crypto3.timingSafeEqual) {
+          const textEncoder = new TextEncoder();
+          const aEncoded = textEncoder.encode(a);
+          const bEncoded = textEncoder.encode(b);
+          return crypto3.timingSafeEqual(aEncoded, bEncoded);
+        }
+        return super.secureCompare(a, b);
+      }
+      createEmitter() {
+        return new EventEmitter();
+      }
+      /** @override */
+      tryBufferData(data) {
+        if (!(data.file.data instanceof EventEmitter)) {
+          return Promise.resolve(data);
+        }
+        const bufferArray = [];
+        return new Promise((resolve, reject) => {
+          data.file.data.on("data", (line2) => {
+            bufferArray.push(line2);
+          }).once("end", () => {
+            const bufferData = Object.assign({}, data);
+            bufferData.file.data = concat(bufferArray);
+            resolve(bufferData);
+          }).on("error", (err) => {
+            reject(new StreamProcessingError({
+              message: "An error occurred while attempting to process the file for upload.",
+              detail: err
+            }));
+          });
+        });
+      }
+      /** @override */
+      createNodeHttpClient(agent) {
+        return new NodeHttpClient(agent);
+      }
+      /** @override */
+      createDefaultHttpClient() {
+        return new NodeHttpClient();
+      }
+      /** @override */
+      createNodeCryptoProvider() {
+        return new NodeCryptoProvider();
+      }
+      /** @override */
+      createDefaultCryptoProvider() {
+        return this.createNodeCryptoProvider();
+      }
+    };
+  }
+});
+
+// node_modules/stripe/esm/apiVersion.js
+var ApiVersion;
+var init_apiVersion = __esm({
+  "node_modules/stripe/esm/apiVersion.js"() {
+    ApiVersion = "2023-10-16";
+  }
+});
+
+// node_modules/stripe/esm/ResourceNamespace.js
+function ResourceNamespace(stripe, resources) {
+  for (const name in resources) {
+    const camelCaseName = name[0].toLowerCase() + name.substring(1);
+    const resource = new resources[name](stripe);
+    this[camelCaseName] = resource;
+  }
+}
+function resourceNamespace(namespace, resources) {
+  return function(stripe) {
+    return new ResourceNamespace(stripe, resources);
+  };
+}
+var init_ResourceNamespace = __esm({
+  "node_modules/stripe/esm/ResourceNamespace.js"() {
+  }
+});
+
+// node_modules/stripe/esm/autoPagination.js
+function getAsyncIteratorSymbol() {
+  if (typeof Symbol !== "undefined" && Symbol.asyncIterator) {
+    return Symbol.asyncIterator;
+  }
+  return "@@asyncIterator";
+}
+function getDoneCallback(args) {
+  if (args.length < 2) {
+    return null;
+  }
+  const onDone = args[1];
+  if (typeof onDone !== "function") {
+    throw Error(`The second argument to autoPagingEach, if present, must be a callback function; received ${typeof onDone}`);
+  }
+  return onDone;
+}
+function getItemCallback(args) {
+  if (args.length === 0) {
+    return void 0;
+  }
+  const onItem = args[0];
+  if (typeof onItem !== "function") {
+    throw Error(`The first argument to autoPagingEach, if present, must be a callback function; received ${typeof onItem}`);
+  }
+  if (onItem.length === 2) {
+    return onItem;
+  }
+  if (onItem.length > 2) {
+    throw Error(`The \`onItem\` callback function passed to autoPagingEach must accept at most two arguments; got ${onItem}`);
+  }
+  return function _onItem(item, next) {
+    const shouldContinue = onItem(item);
+    next(shouldContinue);
+  };
+}
+function getLastId(listResult, reverseIteration) {
+  const lastIdx = reverseIteration ? 0 : listResult.data.length - 1;
+  const lastItem = listResult.data[lastIdx];
+  const lastId = lastItem && lastItem.id;
+  if (!lastId) {
+    throw Error("Unexpected: No `id` found on the last item while auto-paging a list.");
+  }
+  return lastId;
+}
+function makeAutoPagingEach(asyncIteratorNext) {
+  return function autoPagingEach() {
+    const args = [].slice.call(arguments);
+    const onItem = getItemCallback(args);
+    const onDone = getDoneCallback(args);
+    if (args.length > 2) {
+      throw Error(`autoPagingEach takes up to two arguments; received ${args}`);
+    }
+    const autoPagePromise = wrapAsyncIteratorWithCallback(
+      asyncIteratorNext,
+      // @ts-ignore we might need a null check
+      onItem
+    );
+    return callbackifyPromiseWithTimeout(autoPagePromise, onDone);
+  };
+}
+function makeAutoPagingToArray(autoPagingEach) {
+  return function autoPagingToArray(opts, onDone) {
+    const limit = opts && opts.limit;
+    if (!limit) {
+      throw Error("You must pass a `limit` option to autoPagingToArray, e.g., `autoPagingToArray({limit: 1000});`.");
+    }
+    if (limit > 1e4) {
+      throw Error("You cannot specify a limit of more than 10,000 items to fetch in `autoPagingToArray`; use `autoPagingEach` to iterate through longer lists.");
+    }
+    const promise = new Promise((resolve, reject) => {
+      const items = [];
+      autoPagingEach((item) => {
+        items.push(item);
+        if (items.length >= limit) {
+          return false;
+        }
+      }).then(() => {
+        resolve(items);
+      }).catch(reject);
+    });
+    return callbackifyPromiseWithTimeout(promise, onDone);
+  };
+}
+function wrapAsyncIteratorWithCallback(asyncIteratorNext, onItem) {
+  return new Promise((resolve, reject) => {
+    function handleIteration(iterResult) {
+      if (iterResult.done) {
+        resolve();
+        return;
+      }
+      const item = iterResult.value;
+      return new Promise((next) => {
+        onItem(item, next);
+      }).then((shouldContinue) => {
+        if (shouldContinue === false) {
+          return handleIteration({ done: true, value: void 0 });
+        } else {
+          return asyncIteratorNext().then(handleIteration);
+        }
+      });
+    }
+    asyncIteratorNext().then(handleIteration).catch(reject);
+  });
+}
+function isReverseIteration(requestArgs) {
+  const args = [].slice.call(requestArgs);
+  const dataFromArgs = getDataFromArgs(args);
+  return !!dataFromArgs.ending_before;
+}
+var StripeIterator, ListIterator, SearchIterator, makeAutoPaginationMethods, makeAutoPaginationMethodsFromIterator;
+var init_autoPagination = __esm({
+  "node_modules/stripe/esm/autoPagination.js"() {
+    init_utils();
+    StripeIterator = class {
+      constructor(firstPagePromise, requestArgs, spec, stripeResource) {
+        this.index = 0;
+        this.pagePromise = firstPagePromise;
+        this.promiseCache = { currentPromise: null };
+        this.requestArgs = requestArgs;
+        this.spec = spec;
+        this.stripeResource = stripeResource;
+      }
+      async iterate(pageResult) {
+        if (!(pageResult && pageResult.data && typeof pageResult.data.length === "number")) {
+          throw Error("Unexpected: Stripe API response does not have a well-formed `data` array.");
+        }
+        const reverseIteration = isReverseIteration(this.requestArgs);
+        if (this.index < pageResult.data.length) {
+          const idx = reverseIteration ? pageResult.data.length - 1 - this.index : this.index;
+          const value = pageResult.data[idx];
+          this.index += 1;
+          return { value, done: false };
+        } else if (pageResult.has_more) {
+          this.index = 0;
+          this.pagePromise = this.getNextPage(pageResult);
+          const nextPageResult = await this.pagePromise;
+          return this.iterate(nextPageResult);
+        }
+        return { done: true, value: void 0 };
+      }
+      /** @abstract */
+      getNextPage(_pageResult) {
+        throw new Error("Unimplemented");
+      }
+      async _next() {
+        return this.iterate(await this.pagePromise);
+      }
+      next() {
+        if (this.promiseCache.currentPromise) {
+          return this.promiseCache.currentPromise;
+        }
+        const nextPromise = (async () => {
+          const ret = await this._next();
+          this.promiseCache.currentPromise = null;
+          return ret;
+        })();
+        this.promiseCache.currentPromise = nextPromise;
+        return nextPromise;
+      }
+    };
+    ListIterator = class extends StripeIterator {
+      getNextPage(pageResult) {
+        const reverseIteration = isReverseIteration(this.requestArgs);
+        const lastId = getLastId(pageResult, reverseIteration);
+        return this.stripeResource._makeRequest(this.requestArgs, this.spec, {
+          [reverseIteration ? "ending_before" : "starting_after"]: lastId
+        });
+      }
+    };
+    SearchIterator = class extends StripeIterator {
+      getNextPage(pageResult) {
+        if (!pageResult.next_page) {
+          throw Error("Unexpected: Stripe API response does not have a well-formed `next_page` field, but `has_more` was true.");
+        }
+        return this.stripeResource._makeRequest(this.requestArgs, this.spec, {
+          page: pageResult.next_page
+        });
+      }
+    };
+    makeAutoPaginationMethods = (stripeResource, requestArgs, spec, firstPagePromise) => {
+      if (spec.methodType === "search") {
+        return makeAutoPaginationMethodsFromIterator(new SearchIterator(firstPagePromise, requestArgs, spec, stripeResource));
+      }
+      if (spec.methodType === "list") {
+        return makeAutoPaginationMethodsFromIterator(new ListIterator(firstPagePromise, requestArgs, spec, stripeResource));
+      }
+      return null;
+    };
+    makeAutoPaginationMethodsFromIterator = (iterator) => {
+      const autoPagingEach = makeAutoPagingEach((...args) => iterator.next(...args));
+      const autoPagingToArray = makeAutoPagingToArray(autoPagingEach);
+      const autoPaginationMethods = {
+        autoPagingEach,
+        autoPagingToArray,
+        // Async iterator functions:
+        next: () => iterator.next(),
+        return: () => {
+          return {};
+        },
+        [getAsyncIteratorSymbol()]: () => {
+          return autoPaginationMethods;
+        }
+      };
+      return autoPaginationMethods;
+    };
+  }
+});
+
+// node_modules/stripe/esm/StripeMethod.js
+function stripeMethod(spec) {
+  if (spec.path !== void 0 && spec.fullPath !== void 0) {
+    throw new Error(`Method spec specified both a 'path' (${spec.path}) and a 'fullPath' (${spec.fullPath}).`);
+  }
+  return function(...args) {
+    const callback = typeof args[args.length - 1] == "function" && args.pop();
+    spec.urlParams = extractUrlParams(spec.fullPath || this.createResourcePathWithSymbols(spec.path || ""));
+    const requestPromise = callbackifyPromiseWithTimeout(this._makeRequest(args, spec, {}), callback);
+    Object.assign(requestPromise, makeAutoPaginationMethods(this, args, spec, requestPromise));
+    return requestPromise;
+  };
+}
+var init_StripeMethod = __esm({
+  "node_modules/stripe/esm/StripeMethod.js"() {
+    init_utils();
+    init_autoPagination();
+  }
+});
+
+// node_modules/stripe/esm/StripeResource.js
+function StripeResource(stripe, deprecatedUrlData) {
+  this._stripe = stripe;
+  if (deprecatedUrlData) {
+    throw new Error("Support for curried url params was dropped in stripe-node v7.0.0. Instead, pass two ids.");
+  }
+  this.basePath = makeURLInterpolator(
+    // @ts-ignore changing type of basePath
+    this.basePath || stripe.getApiField("basePath")
+  );
+  this.resourcePath = this.path;
+  this.path = makeURLInterpolator(this.path);
+  this.initialize(...arguments);
+}
+var init_StripeResource = __esm({
+  "node_modules/stripe/esm/StripeResource.js"() {
+    init_utils();
+    init_StripeMethod();
+    StripeResource.extend = protoExtend;
+    StripeResource.method = stripeMethod;
+    StripeResource.MAX_BUFFERED_REQUEST_METRICS = 100;
+    StripeResource.prototype = {
+      _stripe: null,
+      // @ts-ignore the type of path changes in ctor
+      path: "",
+      resourcePath: "",
+      // Methods that don't use the API's default '/v1' path can override it with this setting.
+      basePath: null,
+      initialize() {
+      },
+      // Function to override the default data processor. This allows full control
+      // over how a StripeResource's request data will get converted into an HTTP
+      // body. This is useful for non-standard HTTP requests. The function should
+      // take method name, data, and headers as arguments.
+      requestDataProcessor: null,
+      // Function to add a validation checks before sending the request, errors should
+      // be thrown, and they will be passed to the callback/promise.
+      validateRequest: null,
+      createFullPath(commandPath, urlData) {
+        const urlParts = [this.basePath(urlData), this.path(urlData)];
+        if (typeof commandPath === "function") {
+          const computedCommandPath = commandPath(urlData);
+          if (computedCommandPath) {
+            urlParts.push(computedCommandPath);
+          }
+        } else {
+          urlParts.push(commandPath);
+        }
+        return this._joinUrlParts(urlParts);
+      },
+      // Creates a relative resource path with symbols left in (unlike
+      // createFullPath which takes some data to replace them with). For example it
+      // might produce: /invoices/{id}
+      createResourcePathWithSymbols(pathWithSymbols) {
+        if (pathWithSymbols) {
+          return `/${this._joinUrlParts([this.resourcePath, pathWithSymbols])}`;
+        } else {
+          return `/${this.resourcePath}`;
+        }
+      },
+      _joinUrlParts(parts) {
+        return parts.join("/").replace(/\/{2,}/g, "/");
+      },
+      _getRequestOpts(requestArgs, spec, overrideData) {
+        const requestMethod = (spec.method || "GET").toUpperCase();
+        const usage = spec.usage || [];
+        const urlParams = spec.urlParams || [];
+        const encode = spec.encode || ((data2) => data2);
+        const isUsingFullPath = !!spec.fullPath;
+        const commandPath = makeURLInterpolator(isUsingFullPath ? spec.fullPath : spec.path || "");
+        const path = isUsingFullPath ? spec.fullPath : this.createResourcePathWithSymbols(spec.path);
+        const args = [].slice.call(requestArgs);
+        const urlData = urlParams.reduce((urlData2, param) => {
+          const arg = args.shift();
+          if (typeof arg !== "string") {
+            throw new Error(`Stripe: Argument "${param}" must be a string, but got: ${arg} (on API request to \`${requestMethod} ${path}\`)`);
+          }
+          urlData2[param] = arg;
+          return urlData2;
+        }, {});
+        const dataFromArgs = getDataFromArgs(args);
+        const data = encode(Object.assign({}, dataFromArgs, overrideData));
+        const options = getOptionsFromArgs(args);
+        const host = options.host || spec.host;
+        const streaming = !!spec.streaming;
+        if (args.filter((x) => x != null).length) {
+          throw new Error(`Stripe: Unknown arguments (${args}). Did you mean to pass an options object? See https://github.com/stripe/stripe-node/wiki/Passing-Options. (on API request to ${requestMethod} \`${path}\`)`);
+        }
+        const requestPath = isUsingFullPath ? commandPath(urlData) : this.createFullPath(commandPath, urlData);
+        const headers = Object.assign(options.headers, spec.headers);
+        if (spec.validator) {
+          spec.validator(data, { headers });
+        }
+        const dataInQuery = spec.method === "GET" || spec.method === "DELETE";
+        const bodyData = dataInQuery ? {} : data;
+        const queryData = dataInQuery ? data : {};
+        return {
+          requestMethod,
+          requestPath,
+          bodyData,
+          queryData,
+          auth: options.auth,
+          headers,
+          host: host !== null && host !== void 0 ? host : null,
+          streaming,
+          settings: options.settings,
+          usage
+        };
+      },
+      _makeRequest(requestArgs, spec, overrideData) {
+        return new Promise((resolve, reject) => {
+          var _a;
+          let opts;
+          try {
+            opts = this._getRequestOpts(requestArgs, spec, overrideData);
+          } catch (err) {
+            reject(err);
+            return;
+          }
+          function requestCallback(err, response) {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(spec.transformResponseData ? spec.transformResponseData(response) : response);
+            }
+          }
+          const emptyQuery = Object.keys(opts.queryData).length === 0;
+          const path = [
+            opts.requestPath,
+            emptyQuery ? "" : "?",
+            stringifyRequestData(opts.queryData)
+          ].join("");
+          const { headers, settings } = opts;
+          this._stripe._requestSender._request(opts.requestMethod, opts.host, path, opts.bodyData, opts.auth, { headers, settings, streaming: opts.streaming }, opts.usage, requestCallback, (_a = this.requestDataProcessor) === null || _a === void 0 ? void 0 : _a.bind(this));
+        });
+      }
+    };
+  }
+});
+
+// node_modules/stripe/esm/resources/FinancialConnections/Accounts.js
+var stripeMethod2, Accounts;
+var init_Accounts = __esm({
+  "node_modules/stripe/esm/resources/FinancialConnections/Accounts.js"() {
+    init_StripeResource();
+    stripeMethod2 = StripeResource.method;
+    Accounts = StripeResource.extend({
+      retrieve: stripeMethod2({
+        method: "GET",
+        fullPath: "/v1/financial_connections/accounts/{account}"
+      }),
+      list: stripeMethod2({
+        method: "GET",
+        fullPath: "/v1/financial_connections/accounts",
+        methodType: "list"
+      }),
+      disconnect: stripeMethod2({
+        method: "POST",
+        fullPath: "/v1/financial_connections/accounts/{account}/disconnect"
+      }),
+      listOwners: stripeMethod2({
+        method: "GET",
+        fullPath: "/v1/financial_connections/accounts/{account}/owners",
+        methodType: "list"
+      }),
+      refresh: stripeMethod2({
+        method: "POST",
+        fullPath: "/v1/financial_connections/accounts/{account}/refresh"
+      }),
+      subscribe: stripeMethod2({
+        method: "POST",
+        fullPath: "/v1/financial_connections/accounts/{account}/subscribe"
+      }),
+      unsubscribe: stripeMethod2({
+        method: "POST",
+        fullPath: "/v1/financial_connections/accounts/{account}/unsubscribe"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Entitlements/ActiveEntitlements.js
+var stripeMethod3, ActiveEntitlements;
+var init_ActiveEntitlements = __esm({
+  "node_modules/stripe/esm/resources/Entitlements/ActiveEntitlements.js"() {
+    init_StripeResource();
+    stripeMethod3 = StripeResource.method;
+    ActiveEntitlements = StripeResource.extend({
+      retrieve: stripeMethod3({
+        method: "GET",
+        fullPath: "/v1/entitlements/active_entitlements/{id}"
+      }),
+      list: stripeMethod3({
+        method: "GET",
+        fullPath: "/v1/entitlements/active_entitlements",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TestHelpers/Issuing/Authorizations.js
+var stripeMethod4, Authorizations;
+var init_Authorizations = __esm({
+  "node_modules/stripe/esm/resources/TestHelpers/Issuing/Authorizations.js"() {
+    init_StripeResource();
+    stripeMethod4 = StripeResource.method;
+    Authorizations = StripeResource.extend({
+      create: stripeMethod4({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/authorizations"
+      }),
+      capture: stripeMethod4({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/authorizations/{authorization}/capture"
+      }),
+      expire: stripeMethod4({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/authorizations/{authorization}/expire"
+      }),
+      increment: stripeMethod4({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/authorizations/{authorization}/increment"
+      }),
+      reverse: stripeMethod4({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/authorizations/{authorization}/reverse"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Issuing/Authorizations.js
+var stripeMethod5, Authorizations2;
+var init_Authorizations2 = __esm({
+  "node_modules/stripe/esm/resources/Issuing/Authorizations.js"() {
+    init_StripeResource();
+    stripeMethod5 = StripeResource.method;
+    Authorizations2 = StripeResource.extend({
+      retrieve: stripeMethod5({
+        method: "GET",
+        fullPath: "/v1/issuing/authorizations/{authorization}"
+      }),
+      update: stripeMethod5({
+        method: "POST",
+        fullPath: "/v1/issuing/authorizations/{authorization}"
+      }),
+      list: stripeMethod5({
+        method: "GET",
+        fullPath: "/v1/issuing/authorizations",
+        methodType: "list"
+      }),
+      approve: stripeMethod5({
+        method: "POST",
+        fullPath: "/v1/issuing/authorizations/{authorization}/approve"
+      }),
+      decline: stripeMethod5({
+        method: "POST",
+        fullPath: "/v1/issuing/authorizations/{authorization}/decline"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Tax/Calculations.js
+var stripeMethod6, Calculations;
+var init_Calculations = __esm({
+  "node_modules/stripe/esm/resources/Tax/Calculations.js"() {
+    init_StripeResource();
+    stripeMethod6 = StripeResource.method;
+    Calculations = StripeResource.extend({
+      create: stripeMethod6({ method: "POST", fullPath: "/v1/tax/calculations" }),
+      listLineItems: stripeMethod6({
+        method: "GET",
+        fullPath: "/v1/tax/calculations/{calculation}/line_items",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Issuing/Cardholders.js
+var stripeMethod7, Cardholders;
+var init_Cardholders = __esm({
+  "node_modules/stripe/esm/resources/Issuing/Cardholders.js"() {
+    init_StripeResource();
+    stripeMethod7 = StripeResource.method;
+    Cardholders = StripeResource.extend({
+      create: stripeMethod7({ method: "POST", fullPath: "/v1/issuing/cardholders" }),
+      retrieve: stripeMethod7({
+        method: "GET",
+        fullPath: "/v1/issuing/cardholders/{cardholder}"
+      }),
+      update: stripeMethod7({
+        method: "POST",
+        fullPath: "/v1/issuing/cardholders/{cardholder}"
+      }),
+      list: stripeMethod7({
+        method: "GET",
+        fullPath: "/v1/issuing/cardholders",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TestHelpers/Issuing/Cards.js
+var stripeMethod8, Cards;
+var init_Cards = __esm({
+  "node_modules/stripe/esm/resources/TestHelpers/Issuing/Cards.js"() {
+    init_StripeResource();
+    stripeMethod8 = StripeResource.method;
+    Cards = StripeResource.extend({
+      deliverCard: stripeMethod8({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/cards/{card}/shipping/deliver"
+      }),
+      failCard: stripeMethod8({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/cards/{card}/shipping/fail"
+      }),
+      returnCard: stripeMethod8({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/cards/{card}/shipping/return"
+      }),
+      shipCard: stripeMethod8({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/cards/{card}/shipping/ship"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Issuing/Cards.js
+var stripeMethod9, Cards2;
+var init_Cards2 = __esm({
+  "node_modules/stripe/esm/resources/Issuing/Cards.js"() {
+    init_StripeResource();
+    stripeMethod9 = StripeResource.method;
+    Cards2 = StripeResource.extend({
+      create: stripeMethod9({ method: "POST", fullPath: "/v1/issuing/cards" }),
+      retrieve: stripeMethod9({ method: "GET", fullPath: "/v1/issuing/cards/{card}" }),
+      update: stripeMethod9({ method: "POST", fullPath: "/v1/issuing/cards/{card}" }),
+      list: stripeMethod9({
+        method: "GET",
+        fullPath: "/v1/issuing/cards",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/BillingPortal/Configurations.js
+var stripeMethod10, Configurations;
+var init_Configurations = __esm({
+  "node_modules/stripe/esm/resources/BillingPortal/Configurations.js"() {
+    init_StripeResource();
+    stripeMethod10 = StripeResource.method;
+    Configurations = StripeResource.extend({
+      create: stripeMethod10({
+        method: "POST",
+        fullPath: "/v1/billing_portal/configurations"
+      }),
+      retrieve: stripeMethod10({
+        method: "GET",
+        fullPath: "/v1/billing_portal/configurations/{configuration}"
+      }),
+      update: stripeMethod10({
+        method: "POST",
+        fullPath: "/v1/billing_portal/configurations/{configuration}"
+      }),
+      list: stripeMethod10({
+        method: "GET",
+        fullPath: "/v1/billing_portal/configurations",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Terminal/Configurations.js
+var stripeMethod11, Configurations2;
+var init_Configurations2 = __esm({
+  "node_modules/stripe/esm/resources/Terminal/Configurations.js"() {
+    init_StripeResource();
+    stripeMethod11 = StripeResource.method;
+    Configurations2 = StripeResource.extend({
+      create: stripeMethod11({
+        method: "POST",
+        fullPath: "/v1/terminal/configurations"
+      }),
+      retrieve: stripeMethod11({
+        method: "GET",
+        fullPath: "/v1/terminal/configurations/{configuration}"
+      }),
+      update: stripeMethod11({
+        method: "POST",
+        fullPath: "/v1/terminal/configurations/{configuration}"
+      }),
+      list: stripeMethod11({
+        method: "GET",
+        fullPath: "/v1/terminal/configurations",
+        methodType: "list"
+      }),
+      del: stripeMethod11({
+        method: "DELETE",
+        fullPath: "/v1/terminal/configurations/{configuration}"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TestHelpers/ConfirmationTokens.js
+var stripeMethod12, ConfirmationTokens;
+var init_ConfirmationTokens = __esm({
+  "node_modules/stripe/esm/resources/TestHelpers/ConfirmationTokens.js"() {
+    init_StripeResource();
+    stripeMethod12 = StripeResource.method;
+    ConfirmationTokens = StripeResource.extend({
+      create: stripeMethod12({
+        method: "POST",
+        fullPath: "/v1/test_helpers/confirmation_tokens"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Terminal/ConnectionTokens.js
+var stripeMethod13, ConnectionTokens;
+var init_ConnectionTokens = __esm({
+  "node_modules/stripe/esm/resources/Terminal/ConnectionTokens.js"() {
+    init_StripeResource();
+    stripeMethod13 = StripeResource.method;
+    ConnectionTokens = StripeResource.extend({
+      create: stripeMethod13({
+        method: "POST",
+        fullPath: "/v1/terminal/connection_tokens"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Treasury/CreditReversals.js
+var stripeMethod14, CreditReversals;
+var init_CreditReversals = __esm({
+  "node_modules/stripe/esm/resources/Treasury/CreditReversals.js"() {
+    init_StripeResource();
+    stripeMethod14 = StripeResource.method;
+    CreditReversals = StripeResource.extend({
+      create: stripeMethod14({
+        method: "POST",
+        fullPath: "/v1/treasury/credit_reversals"
+      }),
+      retrieve: stripeMethod14({
+        method: "GET",
+        fullPath: "/v1/treasury/credit_reversals/{credit_reversal}"
+      }),
+      list: stripeMethod14({
+        method: "GET",
+        fullPath: "/v1/treasury/credit_reversals",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TestHelpers/Customers.js
+var stripeMethod15, Customers;
+var init_Customers = __esm({
+  "node_modules/stripe/esm/resources/TestHelpers/Customers.js"() {
+    init_StripeResource();
+    stripeMethod15 = StripeResource.method;
+    Customers = StripeResource.extend({
+      fundCashBalance: stripeMethod15({
+        method: "POST",
+        fullPath: "/v1/test_helpers/customers/{customer}/fund_cash_balance"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Treasury/DebitReversals.js
+var stripeMethod16, DebitReversals;
+var init_DebitReversals = __esm({
+  "node_modules/stripe/esm/resources/Treasury/DebitReversals.js"() {
+    init_StripeResource();
+    stripeMethod16 = StripeResource.method;
+    DebitReversals = StripeResource.extend({
+      create: stripeMethod16({
+        method: "POST",
+        fullPath: "/v1/treasury/debit_reversals"
+      }),
+      retrieve: stripeMethod16({
+        method: "GET",
+        fullPath: "/v1/treasury/debit_reversals/{debit_reversal}"
+      }),
+      list: stripeMethod16({
+        method: "GET",
+        fullPath: "/v1/treasury/debit_reversals",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Issuing/Disputes.js
+var stripeMethod17, Disputes;
+var init_Disputes = __esm({
+  "node_modules/stripe/esm/resources/Issuing/Disputes.js"() {
+    init_StripeResource();
+    stripeMethod17 = StripeResource.method;
+    Disputes = StripeResource.extend({
+      create: stripeMethod17({ method: "POST", fullPath: "/v1/issuing/disputes" }),
+      retrieve: stripeMethod17({
+        method: "GET",
+        fullPath: "/v1/issuing/disputes/{dispute}"
+      }),
+      update: stripeMethod17({
+        method: "POST",
+        fullPath: "/v1/issuing/disputes/{dispute}"
+      }),
+      list: stripeMethod17({
+        method: "GET",
+        fullPath: "/v1/issuing/disputes",
+        methodType: "list"
+      }),
+      submit: stripeMethod17({
+        method: "POST",
+        fullPath: "/v1/issuing/disputes/{dispute}/submit"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Radar/EarlyFraudWarnings.js
+var stripeMethod18, EarlyFraudWarnings;
+var init_EarlyFraudWarnings = __esm({
+  "node_modules/stripe/esm/resources/Radar/EarlyFraudWarnings.js"() {
+    init_StripeResource();
+    stripeMethod18 = StripeResource.method;
+    EarlyFraudWarnings = StripeResource.extend({
+      retrieve: stripeMethod18({
+        method: "GET",
+        fullPath: "/v1/radar/early_fraud_warnings/{early_fraud_warning}"
+      }),
+      list: stripeMethod18({
+        method: "GET",
+        fullPath: "/v1/radar/early_fraud_warnings",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Entitlements/Features.js
+var stripeMethod19, Features;
+var init_Features = __esm({
+  "node_modules/stripe/esm/resources/Entitlements/Features.js"() {
+    init_StripeResource();
+    stripeMethod19 = StripeResource.method;
+    Features = StripeResource.extend({
+      create: stripeMethod19({ method: "POST", fullPath: "/v1/entitlements/features" }),
+      retrieve: stripeMethod19({
+        method: "GET",
+        fullPath: "/v1/entitlements/features/{id}"
+      }),
+      update: stripeMethod19({
+        method: "POST",
+        fullPath: "/v1/entitlements/features/{id}"
+      }),
+      list: stripeMethod19({
+        method: "GET",
+        fullPath: "/v1/entitlements/features",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Treasury/FinancialAccounts.js
+var stripeMethod20, FinancialAccounts;
+var init_FinancialAccounts = __esm({
+  "node_modules/stripe/esm/resources/Treasury/FinancialAccounts.js"() {
+    init_StripeResource();
+    stripeMethod20 = StripeResource.method;
+    FinancialAccounts = StripeResource.extend({
+      create: stripeMethod20({
+        method: "POST",
+        fullPath: "/v1/treasury/financial_accounts"
+      }),
+      retrieve: stripeMethod20({
+        method: "GET",
+        fullPath: "/v1/treasury/financial_accounts/{financial_account}"
+      }),
+      update: stripeMethod20({
+        method: "POST",
+        fullPath: "/v1/treasury/financial_accounts/{financial_account}"
+      }),
+      list: stripeMethod20({
+        method: "GET",
+        fullPath: "/v1/treasury/financial_accounts",
+        methodType: "list"
+      }),
+      retrieveFeatures: stripeMethod20({
+        method: "GET",
+        fullPath: "/v1/treasury/financial_accounts/{financial_account}/features"
+      }),
+      updateFeatures: stripeMethod20({
+        method: "POST",
+        fullPath: "/v1/treasury/financial_accounts/{financial_account}/features"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TestHelpers/Treasury/InboundTransfers.js
+var stripeMethod21, InboundTransfers;
+var init_InboundTransfers = __esm({
+  "node_modules/stripe/esm/resources/TestHelpers/Treasury/InboundTransfers.js"() {
+    init_StripeResource();
+    stripeMethod21 = StripeResource.method;
+    InboundTransfers = StripeResource.extend({
+      fail: stripeMethod21({
+        method: "POST",
+        fullPath: "/v1/test_helpers/treasury/inbound_transfers/{id}/fail"
+      }),
+      returnInboundTransfer: stripeMethod21({
+        method: "POST",
+        fullPath: "/v1/test_helpers/treasury/inbound_transfers/{id}/return"
+      }),
+      succeed: stripeMethod21({
+        method: "POST",
+        fullPath: "/v1/test_helpers/treasury/inbound_transfers/{id}/succeed"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Treasury/InboundTransfers.js
+var stripeMethod22, InboundTransfers2;
+var init_InboundTransfers2 = __esm({
+  "node_modules/stripe/esm/resources/Treasury/InboundTransfers.js"() {
+    init_StripeResource();
+    stripeMethod22 = StripeResource.method;
+    InboundTransfers2 = StripeResource.extend({
+      create: stripeMethod22({
+        method: "POST",
+        fullPath: "/v1/treasury/inbound_transfers"
+      }),
+      retrieve: stripeMethod22({
+        method: "GET",
+        fullPath: "/v1/treasury/inbound_transfers/{id}"
+      }),
+      list: stripeMethod22({
+        method: "GET",
+        fullPath: "/v1/treasury/inbound_transfers",
+        methodType: "list"
+      }),
+      cancel: stripeMethod22({
+        method: "POST",
+        fullPath: "/v1/treasury/inbound_transfers/{inbound_transfer}/cancel"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Terminal/Locations.js
+var stripeMethod23, Locations;
+var init_Locations = __esm({
+  "node_modules/stripe/esm/resources/Terminal/Locations.js"() {
+    init_StripeResource();
+    stripeMethod23 = StripeResource.method;
+    Locations = StripeResource.extend({
+      create: stripeMethod23({ method: "POST", fullPath: "/v1/terminal/locations" }),
+      retrieve: stripeMethod23({
+        method: "GET",
+        fullPath: "/v1/terminal/locations/{location}"
+      }),
+      update: stripeMethod23({
+        method: "POST",
+        fullPath: "/v1/terminal/locations/{location}"
+      }),
+      list: stripeMethod23({
+        method: "GET",
+        fullPath: "/v1/terminal/locations",
+        methodType: "list"
+      }),
+      del: stripeMethod23({
+        method: "DELETE",
+        fullPath: "/v1/terminal/locations/{location}"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Billing/MeterEventAdjustments.js
+var stripeMethod24, MeterEventAdjustments;
+var init_MeterEventAdjustments = __esm({
+  "node_modules/stripe/esm/resources/Billing/MeterEventAdjustments.js"() {
+    init_StripeResource();
+    stripeMethod24 = StripeResource.method;
+    MeterEventAdjustments = StripeResource.extend({
+      create: stripeMethod24({
+        method: "POST",
+        fullPath: "/v1/billing/meter_event_adjustments"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Billing/MeterEvents.js
+var stripeMethod25, MeterEvents;
+var init_MeterEvents = __esm({
+  "node_modules/stripe/esm/resources/Billing/MeterEvents.js"() {
+    init_StripeResource();
+    stripeMethod25 = StripeResource.method;
+    MeterEvents = StripeResource.extend({
+      create: stripeMethod25({ method: "POST", fullPath: "/v1/billing/meter_events" })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Billing/Meters.js
+var stripeMethod26, Meters;
+var init_Meters = __esm({
+  "node_modules/stripe/esm/resources/Billing/Meters.js"() {
+    init_StripeResource();
+    stripeMethod26 = StripeResource.method;
+    Meters = StripeResource.extend({
+      create: stripeMethod26({ method: "POST", fullPath: "/v1/billing/meters" }),
+      retrieve: stripeMethod26({ method: "GET", fullPath: "/v1/billing/meters/{id}" }),
+      update: stripeMethod26({ method: "POST", fullPath: "/v1/billing/meters/{id}" }),
+      list: stripeMethod26({
+        method: "GET",
+        fullPath: "/v1/billing/meters",
+        methodType: "list"
+      }),
+      deactivate: stripeMethod26({
+        method: "POST",
+        fullPath: "/v1/billing/meters/{id}/deactivate"
+      }),
+      listEventSummaries: stripeMethod26({
+        method: "GET",
+        fullPath: "/v1/billing/meters/{id}/event_summaries",
+        methodType: "list"
+      }),
+      reactivate: stripeMethod26({
+        method: "POST",
+        fullPath: "/v1/billing/meters/{id}/reactivate"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Climate/Orders.js
+var stripeMethod27, Orders;
+var init_Orders = __esm({
+  "node_modules/stripe/esm/resources/Climate/Orders.js"() {
+    init_StripeResource();
+    stripeMethod27 = StripeResource.method;
+    Orders = StripeResource.extend({
+      create: stripeMethod27({ method: "POST", fullPath: "/v1/climate/orders" }),
+      retrieve: stripeMethod27({
+        method: "GET",
+        fullPath: "/v1/climate/orders/{order}"
+      }),
+      update: stripeMethod27({
+        method: "POST",
+        fullPath: "/v1/climate/orders/{order}"
+      }),
+      list: stripeMethod27({
+        method: "GET",
+        fullPath: "/v1/climate/orders",
+        methodType: "list"
+      }),
+      cancel: stripeMethod27({
+        method: "POST",
+        fullPath: "/v1/climate/orders/{order}/cancel"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TestHelpers/Treasury/OutboundPayments.js
+var stripeMethod28, OutboundPayments;
+var init_OutboundPayments = __esm({
+  "node_modules/stripe/esm/resources/TestHelpers/Treasury/OutboundPayments.js"() {
+    init_StripeResource();
+    stripeMethod28 = StripeResource.method;
+    OutboundPayments = StripeResource.extend({
+      fail: stripeMethod28({
+        method: "POST",
+        fullPath: "/v1/test_helpers/treasury/outbound_payments/{id}/fail"
+      }),
+      post: stripeMethod28({
+        method: "POST",
+        fullPath: "/v1/test_helpers/treasury/outbound_payments/{id}/post"
+      }),
+      returnOutboundPayment: stripeMethod28({
+        method: "POST",
+        fullPath: "/v1/test_helpers/treasury/outbound_payments/{id}/return"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Treasury/OutboundPayments.js
+var stripeMethod29, OutboundPayments2;
+var init_OutboundPayments2 = __esm({
+  "node_modules/stripe/esm/resources/Treasury/OutboundPayments.js"() {
+    init_StripeResource();
+    stripeMethod29 = StripeResource.method;
+    OutboundPayments2 = StripeResource.extend({
+      create: stripeMethod29({
+        method: "POST",
+        fullPath: "/v1/treasury/outbound_payments"
+      }),
+      retrieve: stripeMethod29({
+        method: "GET",
+        fullPath: "/v1/treasury/outbound_payments/{id}"
+      }),
+      list: stripeMethod29({
+        method: "GET",
+        fullPath: "/v1/treasury/outbound_payments",
+        methodType: "list"
+      }),
+      cancel: stripeMethod29({
+        method: "POST",
+        fullPath: "/v1/treasury/outbound_payments/{id}/cancel"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TestHelpers/Treasury/OutboundTransfers.js
+var stripeMethod30, OutboundTransfers;
+var init_OutboundTransfers = __esm({
+  "node_modules/stripe/esm/resources/TestHelpers/Treasury/OutboundTransfers.js"() {
+    init_StripeResource();
+    stripeMethod30 = StripeResource.method;
+    OutboundTransfers = StripeResource.extend({
+      fail: stripeMethod30({
+        method: "POST",
+        fullPath: "/v1/test_helpers/treasury/outbound_transfers/{outbound_transfer}/fail"
+      }),
+      post: stripeMethod30({
+        method: "POST",
+        fullPath: "/v1/test_helpers/treasury/outbound_transfers/{outbound_transfer}/post"
+      }),
+      returnOutboundTransfer: stripeMethod30({
+        method: "POST",
+        fullPath: "/v1/test_helpers/treasury/outbound_transfers/{outbound_transfer}/return"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Treasury/OutboundTransfers.js
+var stripeMethod31, OutboundTransfers2;
+var init_OutboundTransfers2 = __esm({
+  "node_modules/stripe/esm/resources/Treasury/OutboundTransfers.js"() {
+    init_StripeResource();
+    stripeMethod31 = StripeResource.method;
+    OutboundTransfers2 = StripeResource.extend({
+      create: stripeMethod31({
+        method: "POST",
+        fullPath: "/v1/treasury/outbound_transfers"
+      }),
+      retrieve: stripeMethod31({
+        method: "GET",
+        fullPath: "/v1/treasury/outbound_transfers/{outbound_transfer}"
+      }),
+      list: stripeMethod31({
+        method: "GET",
+        fullPath: "/v1/treasury/outbound_transfers",
+        methodType: "list"
+      }),
+      cancel: stripeMethod31({
+        method: "POST",
+        fullPath: "/v1/treasury/outbound_transfers/{outbound_transfer}/cancel"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TestHelpers/Issuing/PersonalizationDesigns.js
+var stripeMethod32, PersonalizationDesigns;
+var init_PersonalizationDesigns = __esm({
+  "node_modules/stripe/esm/resources/TestHelpers/Issuing/PersonalizationDesigns.js"() {
+    init_StripeResource();
+    stripeMethod32 = StripeResource.method;
+    PersonalizationDesigns = StripeResource.extend({
+      activate: stripeMethod32({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/personalization_designs/{personalization_design}/activate"
+      }),
+      deactivate: stripeMethod32({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/personalization_designs/{personalization_design}/deactivate"
+      }),
+      reject: stripeMethod32({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/personalization_designs/{personalization_design}/reject"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Issuing/PersonalizationDesigns.js
+var stripeMethod33, PersonalizationDesigns2;
+var init_PersonalizationDesigns2 = __esm({
+  "node_modules/stripe/esm/resources/Issuing/PersonalizationDesigns.js"() {
+    init_StripeResource();
+    stripeMethod33 = StripeResource.method;
+    PersonalizationDesigns2 = StripeResource.extend({
+      create: stripeMethod33({
+        method: "POST",
+        fullPath: "/v1/issuing/personalization_designs"
+      }),
+      retrieve: stripeMethod33({
+        method: "GET",
+        fullPath: "/v1/issuing/personalization_designs/{personalization_design}"
+      }),
+      update: stripeMethod33({
+        method: "POST",
+        fullPath: "/v1/issuing/personalization_designs/{personalization_design}"
+      }),
+      list: stripeMethod33({
+        method: "GET",
+        fullPath: "/v1/issuing/personalization_designs",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Issuing/PhysicalBundles.js
+var stripeMethod34, PhysicalBundles;
+var init_PhysicalBundles = __esm({
+  "node_modules/stripe/esm/resources/Issuing/PhysicalBundles.js"() {
+    init_StripeResource();
+    stripeMethod34 = StripeResource.method;
+    PhysicalBundles = StripeResource.extend({
+      retrieve: stripeMethod34({
+        method: "GET",
+        fullPath: "/v1/issuing/physical_bundles/{physical_bundle}"
+      }),
+      list: stripeMethod34({
+        method: "GET",
+        fullPath: "/v1/issuing/physical_bundles",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Climate/Products.js
+var stripeMethod35, Products;
+var init_Products = __esm({
+  "node_modules/stripe/esm/resources/Climate/Products.js"() {
+    init_StripeResource();
+    stripeMethod35 = StripeResource.method;
+    Products = StripeResource.extend({
+      retrieve: stripeMethod35({
+        method: "GET",
+        fullPath: "/v1/climate/products/{product}"
+      }),
+      list: stripeMethod35({
+        method: "GET",
+        fullPath: "/v1/climate/products",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TestHelpers/Terminal/Readers.js
+var stripeMethod36, Readers;
+var init_Readers = __esm({
+  "node_modules/stripe/esm/resources/TestHelpers/Terminal/Readers.js"() {
+    init_StripeResource();
+    stripeMethod36 = StripeResource.method;
+    Readers = StripeResource.extend({
+      presentPaymentMethod: stripeMethod36({
+        method: "POST",
+        fullPath: "/v1/test_helpers/terminal/readers/{reader}/present_payment_method"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Terminal/Readers.js
+var stripeMethod37, Readers2;
+var init_Readers2 = __esm({
+  "node_modules/stripe/esm/resources/Terminal/Readers.js"() {
+    init_StripeResource();
+    stripeMethod37 = StripeResource.method;
+    Readers2 = StripeResource.extend({
+      create: stripeMethod37({ method: "POST", fullPath: "/v1/terminal/readers" }),
+      retrieve: stripeMethod37({
+        method: "GET",
+        fullPath: "/v1/terminal/readers/{reader}"
+      }),
+      update: stripeMethod37({
+        method: "POST",
+        fullPath: "/v1/terminal/readers/{reader}"
+      }),
+      list: stripeMethod37({
+        method: "GET",
+        fullPath: "/v1/terminal/readers",
+        methodType: "list"
+      }),
+      del: stripeMethod37({
+        method: "DELETE",
+        fullPath: "/v1/terminal/readers/{reader}"
+      }),
+      cancelAction: stripeMethod37({
+        method: "POST",
+        fullPath: "/v1/terminal/readers/{reader}/cancel_action"
+      }),
+      processPaymentIntent: stripeMethod37({
+        method: "POST",
+        fullPath: "/v1/terminal/readers/{reader}/process_payment_intent"
+      }),
+      processSetupIntent: stripeMethod37({
+        method: "POST",
+        fullPath: "/v1/terminal/readers/{reader}/process_setup_intent"
+      }),
+      refundPayment: stripeMethod37({
+        method: "POST",
+        fullPath: "/v1/terminal/readers/{reader}/refund_payment"
+      }),
+      setReaderDisplay: stripeMethod37({
+        method: "POST",
+        fullPath: "/v1/terminal/readers/{reader}/set_reader_display"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TestHelpers/Treasury/ReceivedCredits.js
+var stripeMethod38, ReceivedCredits;
+var init_ReceivedCredits = __esm({
+  "node_modules/stripe/esm/resources/TestHelpers/Treasury/ReceivedCredits.js"() {
+    init_StripeResource();
+    stripeMethod38 = StripeResource.method;
+    ReceivedCredits = StripeResource.extend({
+      create: stripeMethod38({
+        method: "POST",
+        fullPath: "/v1/test_helpers/treasury/received_credits"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Treasury/ReceivedCredits.js
+var stripeMethod39, ReceivedCredits2;
+var init_ReceivedCredits2 = __esm({
+  "node_modules/stripe/esm/resources/Treasury/ReceivedCredits.js"() {
+    init_StripeResource();
+    stripeMethod39 = StripeResource.method;
+    ReceivedCredits2 = StripeResource.extend({
+      retrieve: stripeMethod39({
+        method: "GET",
+        fullPath: "/v1/treasury/received_credits/{id}"
+      }),
+      list: stripeMethod39({
+        method: "GET",
+        fullPath: "/v1/treasury/received_credits",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TestHelpers/Treasury/ReceivedDebits.js
+var stripeMethod40, ReceivedDebits;
+var init_ReceivedDebits = __esm({
+  "node_modules/stripe/esm/resources/TestHelpers/Treasury/ReceivedDebits.js"() {
+    init_StripeResource();
+    stripeMethod40 = StripeResource.method;
+    ReceivedDebits = StripeResource.extend({
+      create: stripeMethod40({
+        method: "POST",
+        fullPath: "/v1/test_helpers/treasury/received_debits"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Treasury/ReceivedDebits.js
+var stripeMethod41, ReceivedDebits2;
+var init_ReceivedDebits2 = __esm({
+  "node_modules/stripe/esm/resources/Treasury/ReceivedDebits.js"() {
+    init_StripeResource();
+    stripeMethod41 = StripeResource.method;
+    ReceivedDebits2 = StripeResource.extend({
+      retrieve: stripeMethod41({
+        method: "GET",
+        fullPath: "/v1/treasury/received_debits/{id}"
+      }),
+      list: stripeMethod41({
+        method: "GET",
+        fullPath: "/v1/treasury/received_debits",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TestHelpers/Refunds.js
+var stripeMethod42, Refunds;
+var init_Refunds = __esm({
+  "node_modules/stripe/esm/resources/TestHelpers/Refunds.js"() {
+    init_StripeResource();
+    stripeMethod42 = StripeResource.method;
+    Refunds = StripeResource.extend({
+      expire: stripeMethod42({
+        method: "POST",
+        fullPath: "/v1/test_helpers/refunds/{refund}/expire"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Tax/Registrations.js
+var stripeMethod43, Registrations;
+var init_Registrations = __esm({
+  "node_modules/stripe/esm/resources/Tax/Registrations.js"() {
+    init_StripeResource();
+    stripeMethod43 = StripeResource.method;
+    Registrations = StripeResource.extend({
+      create: stripeMethod43({ method: "POST", fullPath: "/v1/tax/registrations" }),
+      retrieve: stripeMethod43({
+        method: "GET",
+        fullPath: "/v1/tax/registrations/{id}"
+      }),
+      update: stripeMethod43({
+        method: "POST",
+        fullPath: "/v1/tax/registrations/{id}"
+      }),
+      list: stripeMethod43({
+        method: "GET",
+        fullPath: "/v1/tax/registrations",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Reporting/ReportRuns.js
+var stripeMethod44, ReportRuns;
+var init_ReportRuns = __esm({
+  "node_modules/stripe/esm/resources/Reporting/ReportRuns.js"() {
+    init_StripeResource();
+    stripeMethod44 = StripeResource.method;
+    ReportRuns = StripeResource.extend({
+      create: stripeMethod44({ method: "POST", fullPath: "/v1/reporting/report_runs" }),
+      retrieve: stripeMethod44({
+        method: "GET",
+        fullPath: "/v1/reporting/report_runs/{report_run}"
+      }),
+      list: stripeMethod44({
+        method: "GET",
+        fullPath: "/v1/reporting/report_runs",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Reporting/ReportTypes.js
+var stripeMethod45, ReportTypes;
+var init_ReportTypes = __esm({
+  "node_modules/stripe/esm/resources/Reporting/ReportTypes.js"() {
+    init_StripeResource();
+    stripeMethod45 = StripeResource.method;
+    ReportTypes = StripeResource.extend({
+      retrieve: stripeMethod45({
+        method: "GET",
+        fullPath: "/v1/reporting/report_types/{report_type}"
+      }),
+      list: stripeMethod45({
+        method: "GET",
+        fullPath: "/v1/reporting/report_types",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Forwarding/Requests.js
+var stripeMethod46, Requests;
+var init_Requests = __esm({
+  "node_modules/stripe/esm/resources/Forwarding/Requests.js"() {
+    init_StripeResource();
+    stripeMethod46 = StripeResource.method;
+    Requests = StripeResource.extend({
+      create: stripeMethod46({ method: "POST", fullPath: "/v1/forwarding/requests" }),
+      retrieve: stripeMethod46({
+        method: "GET",
+        fullPath: "/v1/forwarding/requests/{id}"
+      }),
+      list: stripeMethod46({
+        method: "GET",
+        fullPath: "/v1/forwarding/requests",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Sigma/ScheduledQueryRuns.js
+var stripeMethod47, ScheduledQueryRuns;
+var init_ScheduledQueryRuns = __esm({
+  "node_modules/stripe/esm/resources/Sigma/ScheduledQueryRuns.js"() {
+    init_StripeResource();
+    stripeMethod47 = StripeResource.method;
+    ScheduledQueryRuns = StripeResource.extend({
+      retrieve: stripeMethod47({
+        method: "GET",
+        fullPath: "/v1/sigma/scheduled_query_runs/{scheduled_query_run}"
+      }),
+      list: stripeMethod47({
+        method: "GET",
+        fullPath: "/v1/sigma/scheduled_query_runs",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Apps/Secrets.js
+var stripeMethod48, Secrets;
+var init_Secrets = __esm({
+  "node_modules/stripe/esm/resources/Apps/Secrets.js"() {
+    init_StripeResource();
+    stripeMethod48 = StripeResource.method;
+    Secrets = StripeResource.extend({
+      create: stripeMethod48({ method: "POST", fullPath: "/v1/apps/secrets" }),
+      list: stripeMethod48({
+        method: "GET",
+        fullPath: "/v1/apps/secrets",
+        methodType: "list"
+      }),
+      deleteWhere: stripeMethod48({
+        method: "POST",
+        fullPath: "/v1/apps/secrets/delete"
+      }),
+      find: stripeMethod48({ method: "GET", fullPath: "/v1/apps/secrets/find" })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/BillingPortal/Sessions.js
+var stripeMethod49, Sessions;
+var init_Sessions = __esm({
+  "node_modules/stripe/esm/resources/BillingPortal/Sessions.js"() {
+    init_StripeResource();
+    stripeMethod49 = StripeResource.method;
+    Sessions = StripeResource.extend({
+      create: stripeMethod49({
+        method: "POST",
+        fullPath: "/v1/billing_portal/sessions"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Checkout/Sessions.js
+var stripeMethod50, Sessions2;
+var init_Sessions2 = __esm({
+  "node_modules/stripe/esm/resources/Checkout/Sessions.js"() {
+    init_StripeResource();
+    stripeMethod50 = StripeResource.method;
+    Sessions2 = StripeResource.extend({
+      create: stripeMethod50({ method: "POST", fullPath: "/v1/checkout/sessions" }),
+      retrieve: stripeMethod50({
+        method: "GET",
+        fullPath: "/v1/checkout/sessions/{session}"
+      }),
+      list: stripeMethod50({
+        method: "GET",
+        fullPath: "/v1/checkout/sessions",
+        methodType: "list"
+      }),
+      expire: stripeMethod50({
+        method: "POST",
+        fullPath: "/v1/checkout/sessions/{session}/expire"
+      }),
+      listLineItems: stripeMethod50({
+        method: "GET",
+        fullPath: "/v1/checkout/sessions/{session}/line_items",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/FinancialConnections/Sessions.js
+var stripeMethod51, Sessions3;
+var init_Sessions3 = __esm({
+  "node_modules/stripe/esm/resources/FinancialConnections/Sessions.js"() {
+    init_StripeResource();
+    stripeMethod51 = StripeResource.method;
+    Sessions3 = StripeResource.extend({
+      create: stripeMethod51({
+        method: "POST",
+        fullPath: "/v1/financial_connections/sessions"
+      }),
+      retrieve: stripeMethod51({
+        method: "GET",
+        fullPath: "/v1/financial_connections/sessions/{session}"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Tax/Settings.js
+var stripeMethod52, Settings;
+var init_Settings = __esm({
+  "node_modules/stripe/esm/resources/Tax/Settings.js"() {
+    init_StripeResource();
+    stripeMethod52 = StripeResource.method;
+    Settings = StripeResource.extend({
+      retrieve: stripeMethod52({ method: "GET", fullPath: "/v1/tax/settings" }),
+      update: stripeMethod52({ method: "POST", fullPath: "/v1/tax/settings" })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Climate/Suppliers.js
+var stripeMethod53, Suppliers;
+var init_Suppliers = __esm({
+  "node_modules/stripe/esm/resources/Climate/Suppliers.js"() {
+    init_StripeResource();
+    stripeMethod53 = StripeResource.method;
+    Suppliers = StripeResource.extend({
+      retrieve: stripeMethod53({
+        method: "GET",
+        fullPath: "/v1/climate/suppliers/{supplier}"
+      }),
+      list: stripeMethod53({
+        method: "GET",
+        fullPath: "/v1/climate/suppliers",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TestHelpers/TestClocks.js
+var stripeMethod54, TestClocks;
+var init_TestClocks = __esm({
+  "node_modules/stripe/esm/resources/TestHelpers/TestClocks.js"() {
+    init_StripeResource();
+    stripeMethod54 = StripeResource.method;
+    TestClocks = StripeResource.extend({
+      create: stripeMethod54({
+        method: "POST",
+        fullPath: "/v1/test_helpers/test_clocks"
+      }),
+      retrieve: stripeMethod54({
+        method: "GET",
+        fullPath: "/v1/test_helpers/test_clocks/{test_clock}"
+      }),
+      list: stripeMethod54({
+        method: "GET",
+        fullPath: "/v1/test_helpers/test_clocks",
+        methodType: "list"
+      }),
+      del: stripeMethod54({
+        method: "DELETE",
+        fullPath: "/v1/test_helpers/test_clocks/{test_clock}"
+      }),
+      advance: stripeMethod54({
+        method: "POST",
+        fullPath: "/v1/test_helpers/test_clocks/{test_clock}/advance"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Issuing/Tokens.js
+var stripeMethod55, Tokens;
+var init_Tokens = __esm({
+  "node_modules/stripe/esm/resources/Issuing/Tokens.js"() {
+    init_StripeResource();
+    stripeMethod55 = StripeResource.method;
+    Tokens = StripeResource.extend({
+      retrieve: stripeMethod55({
+        method: "GET",
+        fullPath: "/v1/issuing/tokens/{token}"
+      }),
+      update: stripeMethod55({
+        method: "POST",
+        fullPath: "/v1/issuing/tokens/{token}"
+      }),
+      list: stripeMethod55({
+        method: "GET",
+        fullPath: "/v1/issuing/tokens",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Treasury/TransactionEntries.js
+var stripeMethod56, TransactionEntries;
+var init_TransactionEntries = __esm({
+  "node_modules/stripe/esm/resources/Treasury/TransactionEntries.js"() {
+    init_StripeResource();
+    stripeMethod56 = StripeResource.method;
+    TransactionEntries = StripeResource.extend({
+      retrieve: stripeMethod56({
+        method: "GET",
+        fullPath: "/v1/treasury/transaction_entries/{id}"
+      }),
+      list: stripeMethod56({
+        method: "GET",
+        fullPath: "/v1/treasury/transaction_entries",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TestHelpers/Issuing/Transactions.js
+var stripeMethod57, Transactions;
+var init_Transactions = __esm({
+  "node_modules/stripe/esm/resources/TestHelpers/Issuing/Transactions.js"() {
+    init_StripeResource();
+    stripeMethod57 = StripeResource.method;
+    Transactions = StripeResource.extend({
+      createForceCapture: stripeMethod57({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/transactions/create_force_capture"
+      }),
+      createUnlinkedRefund: stripeMethod57({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/transactions/create_unlinked_refund"
+      }),
+      refund: stripeMethod57({
+        method: "POST",
+        fullPath: "/v1/test_helpers/issuing/transactions/{transaction}/refund"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/FinancialConnections/Transactions.js
+var stripeMethod58, Transactions2;
+var init_Transactions2 = __esm({
+  "node_modules/stripe/esm/resources/FinancialConnections/Transactions.js"() {
+    init_StripeResource();
+    stripeMethod58 = StripeResource.method;
+    Transactions2 = StripeResource.extend({
+      retrieve: stripeMethod58({
+        method: "GET",
+        fullPath: "/v1/financial_connections/transactions/{transaction}"
+      }),
+      list: stripeMethod58({
+        method: "GET",
+        fullPath: "/v1/financial_connections/transactions",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Issuing/Transactions.js
+var stripeMethod59, Transactions3;
+var init_Transactions3 = __esm({
+  "node_modules/stripe/esm/resources/Issuing/Transactions.js"() {
+    init_StripeResource();
+    stripeMethod59 = StripeResource.method;
+    Transactions3 = StripeResource.extend({
+      retrieve: stripeMethod59({
+        method: "GET",
+        fullPath: "/v1/issuing/transactions/{transaction}"
+      }),
+      update: stripeMethod59({
+        method: "POST",
+        fullPath: "/v1/issuing/transactions/{transaction}"
+      }),
+      list: stripeMethod59({
+        method: "GET",
+        fullPath: "/v1/issuing/transactions",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Tax/Transactions.js
+var stripeMethod60, Transactions4;
+var init_Transactions4 = __esm({
+  "node_modules/stripe/esm/resources/Tax/Transactions.js"() {
+    init_StripeResource();
+    stripeMethod60 = StripeResource.method;
+    Transactions4 = StripeResource.extend({
+      retrieve: stripeMethod60({
+        method: "GET",
+        fullPath: "/v1/tax/transactions/{transaction}"
+      }),
+      createFromCalculation: stripeMethod60({
+        method: "POST",
+        fullPath: "/v1/tax/transactions/create_from_calculation"
+      }),
+      createReversal: stripeMethod60({
+        method: "POST",
+        fullPath: "/v1/tax/transactions/create_reversal"
+      }),
+      listLineItems: stripeMethod60({
+        method: "GET",
+        fullPath: "/v1/tax/transactions/{transaction}/line_items",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Treasury/Transactions.js
+var stripeMethod61, Transactions5;
+var init_Transactions5 = __esm({
+  "node_modules/stripe/esm/resources/Treasury/Transactions.js"() {
+    init_StripeResource();
+    stripeMethod61 = StripeResource.method;
+    Transactions5 = StripeResource.extend({
+      retrieve: stripeMethod61({
+        method: "GET",
+        fullPath: "/v1/treasury/transactions/{id}"
+      }),
+      list: stripeMethod61({
+        method: "GET",
+        fullPath: "/v1/treasury/transactions",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Radar/ValueListItems.js
+var stripeMethod62, ValueListItems;
+var init_ValueListItems = __esm({
+  "node_modules/stripe/esm/resources/Radar/ValueListItems.js"() {
+    init_StripeResource();
+    stripeMethod62 = StripeResource.method;
+    ValueListItems = StripeResource.extend({
+      create: stripeMethod62({
+        method: "POST",
+        fullPath: "/v1/radar/value_list_items"
+      }),
+      retrieve: stripeMethod62({
+        method: "GET",
+        fullPath: "/v1/radar/value_list_items/{item}"
+      }),
+      list: stripeMethod62({
+        method: "GET",
+        fullPath: "/v1/radar/value_list_items",
+        methodType: "list"
+      }),
+      del: stripeMethod62({
+        method: "DELETE",
+        fullPath: "/v1/radar/value_list_items/{item}"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Radar/ValueLists.js
+var stripeMethod63, ValueLists;
+var init_ValueLists = __esm({
+  "node_modules/stripe/esm/resources/Radar/ValueLists.js"() {
+    init_StripeResource();
+    stripeMethod63 = StripeResource.method;
+    ValueLists = StripeResource.extend({
+      create: stripeMethod63({ method: "POST", fullPath: "/v1/radar/value_lists" }),
+      retrieve: stripeMethod63({
+        method: "GET",
+        fullPath: "/v1/radar/value_lists/{value_list}"
+      }),
+      update: stripeMethod63({
+        method: "POST",
+        fullPath: "/v1/radar/value_lists/{value_list}"
+      }),
+      list: stripeMethod63({
+        method: "GET",
+        fullPath: "/v1/radar/value_lists",
+        methodType: "list"
+      }),
+      del: stripeMethod63({
+        method: "DELETE",
+        fullPath: "/v1/radar/value_lists/{value_list}"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Identity/VerificationReports.js
+var stripeMethod64, VerificationReports;
+var init_VerificationReports = __esm({
+  "node_modules/stripe/esm/resources/Identity/VerificationReports.js"() {
+    init_StripeResource();
+    stripeMethod64 = StripeResource.method;
+    VerificationReports = StripeResource.extend({
+      retrieve: stripeMethod64({
+        method: "GET",
+        fullPath: "/v1/identity/verification_reports/{report}"
+      }),
+      list: stripeMethod64({
+        method: "GET",
+        fullPath: "/v1/identity/verification_reports",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Identity/VerificationSessions.js
+var stripeMethod65, VerificationSessions;
+var init_VerificationSessions = __esm({
+  "node_modules/stripe/esm/resources/Identity/VerificationSessions.js"() {
+    init_StripeResource();
+    stripeMethod65 = StripeResource.method;
+    VerificationSessions = StripeResource.extend({
+      create: stripeMethod65({
+        method: "POST",
+        fullPath: "/v1/identity/verification_sessions"
+      }),
+      retrieve: stripeMethod65({
+        method: "GET",
+        fullPath: "/v1/identity/verification_sessions/{session}"
+      }),
+      update: stripeMethod65({
+        method: "POST",
+        fullPath: "/v1/identity/verification_sessions/{session}"
+      }),
+      list: stripeMethod65({
+        method: "GET",
+        fullPath: "/v1/identity/verification_sessions",
+        methodType: "list"
+      }),
+      cancel: stripeMethod65({
+        method: "POST",
+        fullPath: "/v1/identity/verification_sessions/{session}/cancel"
+      }),
+      redact: stripeMethod65({
+        method: "POST",
+        fullPath: "/v1/identity/verification_sessions/{session}/redact"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Accounts.js
+var stripeMethod66, Accounts2;
+var init_Accounts2 = __esm({
+  "node_modules/stripe/esm/resources/Accounts.js"() {
+    init_StripeResource();
+    stripeMethod66 = StripeResource.method;
+    Accounts2 = StripeResource.extend({
+      create: stripeMethod66({ method: "POST", fullPath: "/v1/accounts" }),
+      retrieve(id, ...args) {
+        if (typeof id === "string") {
+          return stripeMethod66({
+            method: "GET",
+            fullPath: "/v1/accounts/{id}"
+          }).apply(this, [id, ...args]);
+        } else {
+          if (id === null || id === void 0) {
+            [].shift.apply([id, ...args]);
+          }
+          return stripeMethod66({
+            method: "GET",
+            fullPath: "/v1/account"
+          }).apply(this, [id, ...args]);
+        }
+      },
+      update: stripeMethod66({ method: "POST", fullPath: "/v1/accounts/{account}" }),
+      list: stripeMethod66({
+        method: "GET",
+        fullPath: "/v1/accounts",
+        methodType: "list"
+      }),
+      del: stripeMethod66({ method: "DELETE", fullPath: "/v1/accounts/{account}" }),
+      createExternalAccount: stripeMethod66({
+        method: "POST",
+        fullPath: "/v1/accounts/{account}/external_accounts"
+      }),
+      createLoginLink: stripeMethod66({
+        method: "POST",
+        fullPath: "/v1/accounts/{account}/login_links"
+      }),
+      createPerson: stripeMethod66({
+        method: "POST",
+        fullPath: "/v1/accounts/{account}/persons"
+      }),
+      deleteExternalAccount: stripeMethod66({
+        method: "DELETE",
+        fullPath: "/v1/accounts/{account}/external_accounts/{id}"
+      }),
+      deletePerson: stripeMethod66({
+        method: "DELETE",
+        fullPath: "/v1/accounts/{account}/persons/{person}"
+      }),
+      listCapabilities: stripeMethod66({
+        method: "GET",
+        fullPath: "/v1/accounts/{account}/capabilities",
+        methodType: "list"
+      }),
+      listExternalAccounts: stripeMethod66({
+        method: "GET",
+        fullPath: "/v1/accounts/{account}/external_accounts",
+        methodType: "list"
+      }),
+      listPersons: stripeMethod66({
+        method: "GET",
+        fullPath: "/v1/accounts/{account}/persons",
+        methodType: "list"
+      }),
+      reject: stripeMethod66({
+        method: "POST",
+        fullPath: "/v1/accounts/{account}/reject"
+      }),
+      retrieveCurrent: stripeMethod66({ method: "GET", fullPath: "/v1/account" }),
+      retrieveCapability: stripeMethod66({
+        method: "GET",
+        fullPath: "/v1/accounts/{account}/capabilities/{capability}"
+      }),
+      retrieveExternalAccount: stripeMethod66({
+        method: "GET",
+        fullPath: "/v1/accounts/{account}/external_accounts/{id}"
+      }),
+      retrievePerson: stripeMethod66({
+        method: "GET",
+        fullPath: "/v1/accounts/{account}/persons/{person}"
+      }),
+      updateCapability: stripeMethod66({
+        method: "POST",
+        fullPath: "/v1/accounts/{account}/capabilities/{capability}"
+      }),
+      updateExternalAccount: stripeMethod66({
+        method: "POST",
+        fullPath: "/v1/accounts/{account}/external_accounts/{id}"
+      }),
+      updatePerson: stripeMethod66({
+        method: "POST",
+        fullPath: "/v1/accounts/{account}/persons/{person}"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/AccountLinks.js
+var stripeMethod67, AccountLinks;
+var init_AccountLinks = __esm({
+  "node_modules/stripe/esm/resources/AccountLinks.js"() {
+    init_StripeResource();
+    stripeMethod67 = StripeResource.method;
+    AccountLinks = StripeResource.extend({
+      create: stripeMethod67({ method: "POST", fullPath: "/v1/account_links" })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/AccountSessions.js
+var stripeMethod68, AccountSessions;
+var init_AccountSessions = __esm({
+  "node_modules/stripe/esm/resources/AccountSessions.js"() {
+    init_StripeResource();
+    stripeMethod68 = StripeResource.method;
+    AccountSessions = StripeResource.extend({
+      create: stripeMethod68({ method: "POST", fullPath: "/v1/account_sessions" })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/ApplePayDomains.js
+var stripeMethod69, ApplePayDomains;
+var init_ApplePayDomains = __esm({
+  "node_modules/stripe/esm/resources/ApplePayDomains.js"() {
+    init_StripeResource();
+    stripeMethod69 = StripeResource.method;
+    ApplePayDomains = StripeResource.extend({
+      create: stripeMethod69({ method: "POST", fullPath: "/v1/apple_pay/domains" }),
+      retrieve: stripeMethod69({
+        method: "GET",
+        fullPath: "/v1/apple_pay/domains/{domain}"
+      }),
+      list: stripeMethod69({
+        method: "GET",
+        fullPath: "/v1/apple_pay/domains",
+        methodType: "list"
+      }),
+      del: stripeMethod69({
+        method: "DELETE",
+        fullPath: "/v1/apple_pay/domains/{domain}"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/ApplicationFees.js
+var stripeMethod70, ApplicationFees;
+var init_ApplicationFees = __esm({
+  "node_modules/stripe/esm/resources/ApplicationFees.js"() {
+    init_StripeResource();
+    stripeMethod70 = StripeResource.method;
+    ApplicationFees = StripeResource.extend({
+      retrieve: stripeMethod70({
+        method: "GET",
+        fullPath: "/v1/application_fees/{id}"
+      }),
+      list: stripeMethod70({
+        method: "GET",
+        fullPath: "/v1/application_fees",
+        methodType: "list"
+      }),
+      createRefund: stripeMethod70({
+        method: "POST",
+        fullPath: "/v1/application_fees/{id}/refunds"
+      }),
+      listRefunds: stripeMethod70({
+        method: "GET",
+        fullPath: "/v1/application_fees/{id}/refunds",
+        methodType: "list"
+      }),
+      retrieveRefund: stripeMethod70({
+        method: "GET",
+        fullPath: "/v1/application_fees/{fee}/refunds/{id}"
+      }),
+      updateRefund: stripeMethod70({
+        method: "POST",
+        fullPath: "/v1/application_fees/{fee}/refunds/{id}"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Balance.js
+var stripeMethod71, Balance;
+var init_Balance = __esm({
+  "node_modules/stripe/esm/resources/Balance.js"() {
+    init_StripeResource();
+    stripeMethod71 = StripeResource.method;
+    Balance = StripeResource.extend({
+      retrieve: stripeMethod71({ method: "GET", fullPath: "/v1/balance" })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/BalanceTransactions.js
+var stripeMethod72, BalanceTransactions;
+var init_BalanceTransactions = __esm({
+  "node_modules/stripe/esm/resources/BalanceTransactions.js"() {
+    init_StripeResource();
+    stripeMethod72 = StripeResource.method;
+    BalanceTransactions = StripeResource.extend({
+      retrieve: stripeMethod72({
+        method: "GET",
+        fullPath: "/v1/balance_transactions/{id}"
+      }),
+      list: stripeMethod72({
+        method: "GET",
+        fullPath: "/v1/balance_transactions",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Charges.js
+var stripeMethod73, Charges;
+var init_Charges = __esm({
+  "node_modules/stripe/esm/resources/Charges.js"() {
+    init_StripeResource();
+    stripeMethod73 = StripeResource.method;
+    Charges = StripeResource.extend({
+      create: stripeMethod73({ method: "POST", fullPath: "/v1/charges" }),
+      retrieve: stripeMethod73({ method: "GET", fullPath: "/v1/charges/{charge}" }),
+      update: stripeMethod73({ method: "POST", fullPath: "/v1/charges/{charge}" }),
+      list: stripeMethod73({
+        method: "GET",
+        fullPath: "/v1/charges",
+        methodType: "list"
+      }),
+      capture: stripeMethod73({
+        method: "POST",
+        fullPath: "/v1/charges/{charge}/capture"
+      }),
+      search: stripeMethod73({
+        method: "GET",
+        fullPath: "/v1/charges/search",
+        methodType: "search"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/ConfirmationTokens.js
+var stripeMethod74, ConfirmationTokens2;
+var init_ConfirmationTokens2 = __esm({
+  "node_modules/stripe/esm/resources/ConfirmationTokens.js"() {
+    init_StripeResource();
+    stripeMethod74 = StripeResource.method;
+    ConfirmationTokens2 = StripeResource.extend({
+      retrieve: stripeMethod74({
+        method: "GET",
+        fullPath: "/v1/confirmation_tokens/{confirmation_token}"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/CountrySpecs.js
+var stripeMethod75, CountrySpecs;
+var init_CountrySpecs = __esm({
+  "node_modules/stripe/esm/resources/CountrySpecs.js"() {
+    init_StripeResource();
+    stripeMethod75 = StripeResource.method;
+    CountrySpecs = StripeResource.extend({
+      retrieve: stripeMethod75({
+        method: "GET",
+        fullPath: "/v1/country_specs/{country}"
+      }),
+      list: stripeMethod75({
+        method: "GET",
+        fullPath: "/v1/country_specs",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Coupons.js
+var stripeMethod76, Coupons;
+var init_Coupons = __esm({
+  "node_modules/stripe/esm/resources/Coupons.js"() {
+    init_StripeResource();
+    stripeMethod76 = StripeResource.method;
+    Coupons = StripeResource.extend({
+      create: stripeMethod76({ method: "POST", fullPath: "/v1/coupons" }),
+      retrieve: stripeMethod76({ method: "GET", fullPath: "/v1/coupons/{coupon}" }),
+      update: stripeMethod76({ method: "POST", fullPath: "/v1/coupons/{coupon}" }),
+      list: stripeMethod76({
+        method: "GET",
+        fullPath: "/v1/coupons",
+        methodType: "list"
+      }),
+      del: stripeMethod76({ method: "DELETE", fullPath: "/v1/coupons/{coupon}" })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/CreditNotes.js
+var stripeMethod77, CreditNotes;
+var init_CreditNotes = __esm({
+  "node_modules/stripe/esm/resources/CreditNotes.js"() {
+    init_StripeResource();
+    stripeMethod77 = StripeResource.method;
+    CreditNotes = StripeResource.extend({
+      create: stripeMethod77({ method: "POST", fullPath: "/v1/credit_notes" }),
+      retrieve: stripeMethod77({ method: "GET", fullPath: "/v1/credit_notes/{id}" }),
+      update: stripeMethod77({ method: "POST", fullPath: "/v1/credit_notes/{id}" }),
+      list: stripeMethod77({
+        method: "GET",
+        fullPath: "/v1/credit_notes",
+        methodType: "list"
+      }),
+      listLineItems: stripeMethod77({
+        method: "GET",
+        fullPath: "/v1/credit_notes/{credit_note}/lines",
+        methodType: "list"
+      }),
+      listPreviewLineItems: stripeMethod77({
+        method: "GET",
+        fullPath: "/v1/credit_notes/preview/lines",
+        methodType: "list"
+      }),
+      preview: stripeMethod77({ method: "GET", fullPath: "/v1/credit_notes/preview" }),
+      voidCreditNote: stripeMethod77({
+        method: "POST",
+        fullPath: "/v1/credit_notes/{id}/void"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/CustomerSessions.js
+var stripeMethod78, CustomerSessions;
+var init_CustomerSessions = __esm({
+  "node_modules/stripe/esm/resources/CustomerSessions.js"() {
+    init_StripeResource();
+    stripeMethod78 = StripeResource.method;
+    CustomerSessions = StripeResource.extend({
+      create: stripeMethod78({ method: "POST", fullPath: "/v1/customer_sessions" })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Customers.js
+var stripeMethod79, Customers2;
+var init_Customers2 = __esm({
+  "node_modules/stripe/esm/resources/Customers.js"() {
+    init_StripeResource();
+    stripeMethod79 = StripeResource.method;
+    Customers2 = StripeResource.extend({
+      create: stripeMethod79({ method: "POST", fullPath: "/v1/customers" }),
+      retrieve: stripeMethod79({ method: "GET", fullPath: "/v1/customers/{customer}" }),
+      update: stripeMethod79({ method: "POST", fullPath: "/v1/customers/{customer}" }),
+      list: stripeMethod79({
+        method: "GET",
+        fullPath: "/v1/customers",
+        methodType: "list"
+      }),
+      del: stripeMethod79({ method: "DELETE", fullPath: "/v1/customers/{customer}" }),
+      createBalanceTransaction: stripeMethod79({
+        method: "POST",
+        fullPath: "/v1/customers/{customer}/balance_transactions"
+      }),
+      createFundingInstructions: stripeMethod79({
+        method: "POST",
+        fullPath: "/v1/customers/{customer}/funding_instructions"
+      }),
+      createSource: stripeMethod79({
+        method: "POST",
+        fullPath: "/v1/customers/{customer}/sources"
+      }),
+      createTaxId: stripeMethod79({
+        method: "POST",
+        fullPath: "/v1/customers/{customer}/tax_ids"
+      }),
+      deleteDiscount: stripeMethod79({
+        method: "DELETE",
+        fullPath: "/v1/customers/{customer}/discount"
+      }),
+      deleteSource: stripeMethod79({
+        method: "DELETE",
+        fullPath: "/v1/customers/{customer}/sources/{id}"
+      }),
+      deleteTaxId: stripeMethod79({
+        method: "DELETE",
+        fullPath: "/v1/customers/{customer}/tax_ids/{id}"
+      }),
+      listBalanceTransactions: stripeMethod79({
+        method: "GET",
+        fullPath: "/v1/customers/{customer}/balance_transactions",
+        methodType: "list"
+      }),
+      listCashBalanceTransactions: stripeMethod79({
+        method: "GET",
+        fullPath: "/v1/customers/{customer}/cash_balance_transactions",
+        methodType: "list"
+      }),
+      listPaymentMethods: stripeMethod79({
+        method: "GET",
+        fullPath: "/v1/customers/{customer}/payment_methods",
+        methodType: "list"
+      }),
+      listSources: stripeMethod79({
+        method: "GET",
+        fullPath: "/v1/customers/{customer}/sources",
+        methodType: "list"
+      }),
+      listTaxIds: stripeMethod79({
+        method: "GET",
+        fullPath: "/v1/customers/{customer}/tax_ids",
+        methodType: "list"
+      }),
+      retrieveBalanceTransaction: stripeMethod79({
+        method: "GET",
+        fullPath: "/v1/customers/{customer}/balance_transactions/{transaction}"
+      }),
+      retrieveCashBalance: stripeMethod79({
+        method: "GET",
+        fullPath: "/v1/customers/{customer}/cash_balance"
+      }),
+      retrieveCashBalanceTransaction: stripeMethod79({
+        method: "GET",
+        fullPath: "/v1/customers/{customer}/cash_balance_transactions/{transaction}"
+      }),
+      retrievePaymentMethod: stripeMethod79({
+        method: "GET",
+        fullPath: "/v1/customers/{customer}/payment_methods/{payment_method}"
+      }),
+      retrieveSource: stripeMethod79({
+        method: "GET",
+        fullPath: "/v1/customers/{customer}/sources/{id}"
+      }),
+      retrieveTaxId: stripeMethod79({
+        method: "GET",
+        fullPath: "/v1/customers/{customer}/tax_ids/{id}"
+      }),
+      search: stripeMethod79({
+        method: "GET",
+        fullPath: "/v1/customers/search",
+        methodType: "search"
+      }),
+      updateBalanceTransaction: stripeMethod79({
+        method: "POST",
+        fullPath: "/v1/customers/{customer}/balance_transactions/{transaction}"
+      }),
+      updateCashBalance: stripeMethod79({
+        method: "POST",
+        fullPath: "/v1/customers/{customer}/cash_balance"
+      }),
+      updateSource: stripeMethod79({
+        method: "POST",
+        fullPath: "/v1/customers/{customer}/sources/{id}"
+      }),
+      verifySource: stripeMethod79({
+        method: "POST",
+        fullPath: "/v1/customers/{customer}/sources/{id}/verify"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Disputes.js
+var stripeMethod80, Disputes2;
+var init_Disputes2 = __esm({
+  "node_modules/stripe/esm/resources/Disputes.js"() {
+    init_StripeResource();
+    stripeMethod80 = StripeResource.method;
+    Disputes2 = StripeResource.extend({
+      retrieve: stripeMethod80({ method: "GET", fullPath: "/v1/disputes/{dispute}" }),
+      update: stripeMethod80({ method: "POST", fullPath: "/v1/disputes/{dispute}" }),
+      list: stripeMethod80({
+        method: "GET",
+        fullPath: "/v1/disputes",
+        methodType: "list"
+      }),
+      close: stripeMethod80({
+        method: "POST",
+        fullPath: "/v1/disputes/{dispute}/close"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/EphemeralKeys.js
+var stripeMethod81, EphemeralKeys;
+var init_EphemeralKeys = __esm({
+  "node_modules/stripe/esm/resources/EphemeralKeys.js"() {
+    init_StripeResource();
+    stripeMethod81 = StripeResource.method;
+    EphemeralKeys = StripeResource.extend({
+      create: stripeMethod81({
+        method: "POST",
+        fullPath: "/v1/ephemeral_keys",
+        validator: (data, options) => {
+          if (!options.headers || !options.headers["Stripe-Version"]) {
+            throw new Error("Passing apiVersion in a separate options hash is required to create an ephemeral key. See https://stripe.com/docs/api/versioning?lang=node");
+          }
+        }
+      }),
+      del: stripeMethod81({ method: "DELETE", fullPath: "/v1/ephemeral_keys/{key}" })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Events.js
+var stripeMethod82, Events;
+var init_Events = __esm({
+  "node_modules/stripe/esm/resources/Events.js"() {
+    init_StripeResource();
+    stripeMethod82 = StripeResource.method;
+    Events = StripeResource.extend({
+      retrieve: stripeMethod82({ method: "GET", fullPath: "/v1/events/{id}" }),
+      list: stripeMethod82({
+        method: "GET",
+        fullPath: "/v1/events",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/ExchangeRates.js
+var stripeMethod83, ExchangeRates;
+var init_ExchangeRates = __esm({
+  "node_modules/stripe/esm/resources/ExchangeRates.js"() {
+    init_StripeResource();
+    stripeMethod83 = StripeResource.method;
+    ExchangeRates = StripeResource.extend({
+      retrieve: stripeMethod83({
+        method: "GET",
+        fullPath: "/v1/exchange_rates/{rate_id}"
+      }),
+      list: stripeMethod83({
+        method: "GET",
+        fullPath: "/v1/exchange_rates",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/FileLinks.js
+var stripeMethod84, FileLinks;
+var init_FileLinks = __esm({
+  "node_modules/stripe/esm/resources/FileLinks.js"() {
+    init_StripeResource();
+    stripeMethod84 = StripeResource.method;
+    FileLinks = StripeResource.extend({
+      create: stripeMethod84({ method: "POST", fullPath: "/v1/file_links" }),
+      retrieve: stripeMethod84({ method: "GET", fullPath: "/v1/file_links/{link}" }),
+      update: stripeMethod84({ method: "POST", fullPath: "/v1/file_links/{link}" }),
+      list: stripeMethod84({
+        method: "GET",
+        fullPath: "/v1/file_links",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/multipart.js
+function multipartRequestDataProcessor(method, data, headers, callback) {
+  data = data || {};
+  if (method !== "POST") {
+    return callback(null, stringifyRequestData(data));
+  }
+  this._stripe._platformFunctions.tryBufferData(data).then((bufferedData) => {
+    const buffer = multipartDataGenerator(method, bufferedData, headers);
+    return callback(null, buffer);
+  }).catch((err) => callback(err, null));
+}
+var multipartDataGenerator;
+var init_multipart = __esm({
+  "node_modules/stripe/esm/multipart.js"() {
+    init_utils();
+    multipartDataGenerator = (method, data, headers) => {
+      const segno = (Math.round(Math.random() * 1e16) + Math.round(Math.random() * 1e16)).toString();
+      headers["Content-Type"] = `multipart/form-data; boundary=${segno}`;
+      const textEncoder = new TextEncoder();
+      let buffer = new Uint8Array(0);
+      const endBuffer = textEncoder.encode("\r\n");
+      function push(l) {
+        const prevBuffer = buffer;
+        const newBuffer = l instanceof Uint8Array ? l : new Uint8Array(textEncoder.encode(l));
+        buffer = new Uint8Array(prevBuffer.length + newBuffer.length + 2);
+        buffer.set(prevBuffer);
+        buffer.set(newBuffer, prevBuffer.length);
+        buffer.set(endBuffer, buffer.length - 2);
+      }
+      function q(s) {
+        return `"${s.replace(/"|"/g, "%22").replace(/\r\n|\r|\n/g, " ")}"`;
+      }
+      const flattenedData = flattenAndStringify(data);
+      for (const k in flattenedData) {
+        const v = flattenedData[k];
+        push(`--${segno}`);
+        if (Object.prototype.hasOwnProperty.call(v, "data")) {
+          const typedEntry = v;
+          push(`Content-Disposition: form-data; name=${q(k)}; filename=${q(typedEntry.name || "blob")}`);
+          push(`Content-Type: ${typedEntry.type || "application/octet-stream"}`);
+          push("");
+          push(typedEntry.data);
+        } else {
+          push(`Content-Disposition: form-data; name=${q(k)}`);
+          push("");
+          push(v);
+        }
+      }
+      push(`--${segno}--`);
+      return buffer;
+    };
+  }
+});
+
+// node_modules/stripe/esm/resources/Files.js
+var stripeMethod85, Files;
+var init_Files = __esm({
+  "node_modules/stripe/esm/resources/Files.js"() {
+    init_multipart();
+    init_StripeResource();
+    stripeMethod85 = StripeResource.method;
+    Files = StripeResource.extend({
+      create: stripeMethod85({
+        method: "POST",
+        fullPath: "/v1/files",
+        headers: {
+          "Content-Type": "multipart/form-data"
+        },
+        host: "files.stripe.com"
+      }),
+      retrieve: stripeMethod85({ method: "GET", fullPath: "/v1/files/{file}" }),
+      list: stripeMethod85({
+        method: "GET",
+        fullPath: "/v1/files",
+        methodType: "list"
+      }),
+      requestDataProcessor: multipartRequestDataProcessor
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/InvoiceItems.js
+var stripeMethod86, InvoiceItems;
+var init_InvoiceItems = __esm({
+  "node_modules/stripe/esm/resources/InvoiceItems.js"() {
+    init_StripeResource();
+    stripeMethod86 = StripeResource.method;
+    InvoiceItems = StripeResource.extend({
+      create: stripeMethod86({ method: "POST", fullPath: "/v1/invoiceitems" }),
+      retrieve: stripeMethod86({
+        method: "GET",
+        fullPath: "/v1/invoiceitems/{invoiceitem}"
+      }),
+      update: stripeMethod86({
+        method: "POST",
+        fullPath: "/v1/invoiceitems/{invoiceitem}"
+      }),
+      list: stripeMethod86({
+        method: "GET",
+        fullPath: "/v1/invoiceitems",
+        methodType: "list"
+      }),
+      del: stripeMethod86({
+        method: "DELETE",
+        fullPath: "/v1/invoiceitems/{invoiceitem}"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Invoices.js
+var stripeMethod87, Invoices;
+var init_Invoices = __esm({
+  "node_modules/stripe/esm/resources/Invoices.js"() {
+    init_StripeResource();
+    stripeMethod87 = StripeResource.method;
+    Invoices = StripeResource.extend({
+      create: stripeMethod87({ method: "POST", fullPath: "/v1/invoices" }),
+      retrieve: stripeMethod87({ method: "GET", fullPath: "/v1/invoices/{invoice}" }),
+      update: stripeMethod87({ method: "POST", fullPath: "/v1/invoices/{invoice}" }),
+      list: stripeMethod87({
+        method: "GET",
+        fullPath: "/v1/invoices",
+        methodType: "list"
+      }),
+      del: stripeMethod87({ method: "DELETE", fullPath: "/v1/invoices/{invoice}" }),
+      finalizeInvoice: stripeMethod87({
+        method: "POST",
+        fullPath: "/v1/invoices/{invoice}/finalize"
+      }),
+      listLineItems: stripeMethod87({
+        method: "GET",
+        fullPath: "/v1/invoices/{invoice}/lines",
+        methodType: "list"
+      }),
+      listUpcomingLines: stripeMethod87({
+        method: "GET",
+        fullPath: "/v1/invoices/upcoming/lines",
+        methodType: "list"
+      }),
+      markUncollectible: stripeMethod87({
+        method: "POST",
+        fullPath: "/v1/invoices/{invoice}/mark_uncollectible"
+      }),
+      pay: stripeMethod87({ method: "POST", fullPath: "/v1/invoices/{invoice}/pay" }),
+      retrieveUpcoming: stripeMethod87({
+        method: "GET",
+        fullPath: "/v1/invoices/upcoming"
+      }),
+      search: stripeMethod87({
+        method: "GET",
+        fullPath: "/v1/invoices/search",
+        methodType: "search"
+      }),
+      sendInvoice: stripeMethod87({
+        method: "POST",
+        fullPath: "/v1/invoices/{invoice}/send"
+      }),
+      updateLineItem: stripeMethod87({
+        method: "POST",
+        fullPath: "/v1/invoices/{invoice}/lines/{line_item_id}"
+      }),
+      voidInvoice: stripeMethod87({
+        method: "POST",
+        fullPath: "/v1/invoices/{invoice}/void"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Mandates.js
+var stripeMethod88, Mandates;
+var init_Mandates = __esm({
+  "node_modules/stripe/esm/resources/Mandates.js"() {
+    init_StripeResource();
+    stripeMethod88 = StripeResource.method;
+    Mandates = StripeResource.extend({
+      retrieve: stripeMethod88({ method: "GET", fullPath: "/v1/mandates/{mandate}" })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/OAuth.js
+var stripeMethod89, oAuthHost, OAuth;
+var init_OAuth = __esm({
+  "node_modules/stripe/esm/resources/OAuth.js"() {
+    "use strict";
+    init_StripeResource();
+    init_utils();
+    stripeMethod89 = StripeResource.method;
+    oAuthHost = "connect.stripe.com";
+    OAuth = StripeResource.extend({
+      basePath: "/",
+      authorizeUrl(params, options) {
+        params = params || {};
+        options = options || {};
+        let path = "oauth/authorize";
+        if (options.express) {
+          path = `express/${path}`;
+        }
+        if (!params.response_type) {
+          params.response_type = "code";
+        }
+        if (!params.client_id) {
+          params.client_id = this._stripe.getClientId();
+        }
+        if (!params.scope) {
+          params.scope = "read_write";
+        }
+        return `https://${oAuthHost}/${path}?${stringifyRequestData(params)}`;
+      },
+      token: stripeMethod89({
+        method: "POST",
+        path: "oauth/token",
+        host: oAuthHost
+      }),
+      deauthorize(spec, ...args) {
+        if (!spec.client_id) {
+          spec.client_id = this._stripe.getClientId();
+        }
+        return stripeMethod89({
+          method: "POST",
+          path: "oauth/deauthorize",
+          host: oAuthHost
+        }).apply(this, [spec, ...args]);
+      }
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/PaymentIntents.js
+var stripeMethod90, PaymentIntents;
+var init_PaymentIntents = __esm({
+  "node_modules/stripe/esm/resources/PaymentIntents.js"() {
+    init_StripeResource();
+    stripeMethod90 = StripeResource.method;
+    PaymentIntents = StripeResource.extend({
+      create: stripeMethod90({ method: "POST", fullPath: "/v1/payment_intents" }),
+      retrieve: stripeMethod90({
+        method: "GET",
+        fullPath: "/v1/payment_intents/{intent}"
+      }),
+      update: stripeMethod90({
+        method: "POST",
+        fullPath: "/v1/payment_intents/{intent}"
+      }),
+      list: stripeMethod90({
+        method: "GET",
+        fullPath: "/v1/payment_intents",
+        methodType: "list"
+      }),
+      applyCustomerBalance: stripeMethod90({
+        method: "POST",
+        fullPath: "/v1/payment_intents/{intent}/apply_customer_balance"
+      }),
+      cancel: stripeMethod90({
+        method: "POST",
+        fullPath: "/v1/payment_intents/{intent}/cancel"
+      }),
+      capture: stripeMethod90({
+        method: "POST",
+        fullPath: "/v1/payment_intents/{intent}/capture"
+      }),
+      confirm: stripeMethod90({
+        method: "POST",
+        fullPath: "/v1/payment_intents/{intent}/confirm"
+      }),
+      incrementAuthorization: stripeMethod90({
+        method: "POST",
+        fullPath: "/v1/payment_intents/{intent}/increment_authorization"
+      }),
+      search: stripeMethod90({
+        method: "GET",
+        fullPath: "/v1/payment_intents/search",
+        methodType: "search"
+      }),
+      verifyMicrodeposits: stripeMethod90({
+        method: "POST",
+        fullPath: "/v1/payment_intents/{intent}/verify_microdeposits"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/PaymentLinks.js
+var stripeMethod91, PaymentLinks;
+var init_PaymentLinks = __esm({
+  "node_modules/stripe/esm/resources/PaymentLinks.js"() {
+    init_StripeResource();
+    stripeMethod91 = StripeResource.method;
+    PaymentLinks = StripeResource.extend({
+      create: stripeMethod91({ method: "POST", fullPath: "/v1/payment_links" }),
+      retrieve: stripeMethod91({
+        method: "GET",
+        fullPath: "/v1/payment_links/{payment_link}"
+      }),
+      update: stripeMethod91({
+        method: "POST",
+        fullPath: "/v1/payment_links/{payment_link}"
+      }),
+      list: stripeMethod91({
+        method: "GET",
+        fullPath: "/v1/payment_links",
+        methodType: "list"
+      }),
+      listLineItems: stripeMethod91({
+        method: "GET",
+        fullPath: "/v1/payment_links/{payment_link}/line_items",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/PaymentMethodConfigurations.js
+var stripeMethod92, PaymentMethodConfigurations;
+var init_PaymentMethodConfigurations = __esm({
+  "node_modules/stripe/esm/resources/PaymentMethodConfigurations.js"() {
+    init_StripeResource();
+    stripeMethod92 = StripeResource.method;
+    PaymentMethodConfigurations = StripeResource.extend({
+      create: stripeMethod92({
+        method: "POST",
+        fullPath: "/v1/payment_method_configurations"
+      }),
+      retrieve: stripeMethod92({
+        method: "GET",
+        fullPath: "/v1/payment_method_configurations/{configuration}"
+      }),
+      update: stripeMethod92({
+        method: "POST",
+        fullPath: "/v1/payment_method_configurations/{configuration}"
+      }),
+      list: stripeMethod92({
+        method: "GET",
+        fullPath: "/v1/payment_method_configurations",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/PaymentMethodDomains.js
+var stripeMethod93, PaymentMethodDomains;
+var init_PaymentMethodDomains = __esm({
+  "node_modules/stripe/esm/resources/PaymentMethodDomains.js"() {
+    init_StripeResource();
+    stripeMethod93 = StripeResource.method;
+    PaymentMethodDomains = StripeResource.extend({
+      create: stripeMethod93({
+        method: "POST",
+        fullPath: "/v1/payment_method_domains"
+      }),
+      retrieve: stripeMethod93({
+        method: "GET",
+        fullPath: "/v1/payment_method_domains/{payment_method_domain}"
+      }),
+      update: stripeMethod93({
+        method: "POST",
+        fullPath: "/v1/payment_method_domains/{payment_method_domain}"
+      }),
+      list: stripeMethod93({
+        method: "GET",
+        fullPath: "/v1/payment_method_domains",
+        methodType: "list"
+      }),
+      validate: stripeMethod93({
+        method: "POST",
+        fullPath: "/v1/payment_method_domains/{payment_method_domain}/validate"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/PaymentMethods.js
+var stripeMethod94, PaymentMethods;
+var init_PaymentMethods = __esm({
+  "node_modules/stripe/esm/resources/PaymentMethods.js"() {
+    init_StripeResource();
+    stripeMethod94 = StripeResource.method;
+    PaymentMethods = StripeResource.extend({
+      create: stripeMethod94({ method: "POST", fullPath: "/v1/payment_methods" }),
+      retrieve: stripeMethod94({
+        method: "GET",
+        fullPath: "/v1/payment_methods/{payment_method}"
+      }),
+      update: stripeMethod94({
+        method: "POST",
+        fullPath: "/v1/payment_methods/{payment_method}"
+      }),
+      list: stripeMethod94({
+        method: "GET",
+        fullPath: "/v1/payment_methods",
+        methodType: "list"
+      }),
+      attach: stripeMethod94({
+        method: "POST",
+        fullPath: "/v1/payment_methods/{payment_method}/attach"
+      }),
+      detach: stripeMethod94({
+        method: "POST",
+        fullPath: "/v1/payment_methods/{payment_method}/detach"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Payouts.js
+var stripeMethod95, Payouts;
+var init_Payouts = __esm({
+  "node_modules/stripe/esm/resources/Payouts.js"() {
+    init_StripeResource();
+    stripeMethod95 = StripeResource.method;
+    Payouts = StripeResource.extend({
+      create: stripeMethod95({ method: "POST", fullPath: "/v1/payouts" }),
+      retrieve: stripeMethod95({ method: "GET", fullPath: "/v1/payouts/{payout}" }),
+      update: stripeMethod95({ method: "POST", fullPath: "/v1/payouts/{payout}" }),
+      list: stripeMethod95({
+        method: "GET",
+        fullPath: "/v1/payouts",
+        methodType: "list"
+      }),
+      cancel: stripeMethod95({
+        method: "POST",
+        fullPath: "/v1/payouts/{payout}/cancel"
+      }),
+      reverse: stripeMethod95({
+        method: "POST",
+        fullPath: "/v1/payouts/{payout}/reverse"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Plans.js
+var stripeMethod96, Plans;
+var init_Plans = __esm({
+  "node_modules/stripe/esm/resources/Plans.js"() {
+    init_StripeResource();
+    stripeMethod96 = StripeResource.method;
+    Plans = StripeResource.extend({
+      create: stripeMethod96({ method: "POST", fullPath: "/v1/plans" }),
+      retrieve: stripeMethod96({ method: "GET", fullPath: "/v1/plans/{plan}" }),
+      update: stripeMethod96({ method: "POST", fullPath: "/v1/plans/{plan}" }),
+      list: stripeMethod96({
+        method: "GET",
+        fullPath: "/v1/plans",
+        methodType: "list"
+      }),
+      del: stripeMethod96({ method: "DELETE", fullPath: "/v1/plans/{plan}" })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Prices.js
+var stripeMethod97, Prices;
+var init_Prices = __esm({
+  "node_modules/stripe/esm/resources/Prices.js"() {
+    init_StripeResource();
+    stripeMethod97 = StripeResource.method;
+    Prices = StripeResource.extend({
+      create: stripeMethod97({ method: "POST", fullPath: "/v1/prices" }),
+      retrieve: stripeMethod97({ method: "GET", fullPath: "/v1/prices/{price}" }),
+      update: stripeMethod97({ method: "POST", fullPath: "/v1/prices/{price}" }),
+      list: stripeMethod97({
+        method: "GET",
+        fullPath: "/v1/prices",
+        methodType: "list"
+      }),
+      search: stripeMethod97({
+        method: "GET",
+        fullPath: "/v1/prices/search",
+        methodType: "search"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Products.js
+var stripeMethod98, Products2;
+var init_Products2 = __esm({
+  "node_modules/stripe/esm/resources/Products.js"() {
+    init_StripeResource();
+    stripeMethod98 = StripeResource.method;
+    Products2 = StripeResource.extend({
+      create: stripeMethod98({ method: "POST", fullPath: "/v1/products" }),
+      retrieve: stripeMethod98({ method: "GET", fullPath: "/v1/products/{id}" }),
+      update: stripeMethod98({ method: "POST", fullPath: "/v1/products/{id}" }),
+      list: stripeMethod98({
+        method: "GET",
+        fullPath: "/v1/products",
+        methodType: "list"
+      }),
+      del: stripeMethod98({ method: "DELETE", fullPath: "/v1/products/{id}" }),
+      createFeature: stripeMethod98({
+        method: "POST",
+        fullPath: "/v1/products/{product}/features"
+      }),
+      deleteFeature: stripeMethod98({
+        method: "DELETE",
+        fullPath: "/v1/products/{product}/features/{id}"
+      }),
+      listFeatures: stripeMethod98({
+        method: "GET",
+        fullPath: "/v1/products/{product}/features",
+        methodType: "list"
+      }),
+      retrieveFeature: stripeMethod98({
+        method: "GET",
+        fullPath: "/v1/products/{product}/features/{id}"
+      }),
+      search: stripeMethod98({
+        method: "GET",
+        fullPath: "/v1/products/search",
+        methodType: "search"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/PromotionCodes.js
+var stripeMethod99, PromotionCodes;
+var init_PromotionCodes = __esm({
+  "node_modules/stripe/esm/resources/PromotionCodes.js"() {
+    init_StripeResource();
+    stripeMethod99 = StripeResource.method;
+    PromotionCodes = StripeResource.extend({
+      create: stripeMethod99({ method: "POST", fullPath: "/v1/promotion_codes" }),
+      retrieve: stripeMethod99({
+        method: "GET",
+        fullPath: "/v1/promotion_codes/{promotion_code}"
+      }),
+      update: stripeMethod99({
+        method: "POST",
+        fullPath: "/v1/promotion_codes/{promotion_code}"
+      }),
+      list: stripeMethod99({
+        method: "GET",
+        fullPath: "/v1/promotion_codes",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Quotes.js
+var stripeMethod100, Quotes;
+var init_Quotes = __esm({
+  "node_modules/stripe/esm/resources/Quotes.js"() {
+    init_StripeResource();
+    stripeMethod100 = StripeResource.method;
+    Quotes = StripeResource.extend({
+      create: stripeMethod100({ method: "POST", fullPath: "/v1/quotes" }),
+      retrieve: stripeMethod100({ method: "GET", fullPath: "/v1/quotes/{quote}" }),
+      update: stripeMethod100({ method: "POST", fullPath: "/v1/quotes/{quote}" }),
+      list: stripeMethod100({
+        method: "GET",
+        fullPath: "/v1/quotes",
+        methodType: "list"
+      }),
+      accept: stripeMethod100({ method: "POST", fullPath: "/v1/quotes/{quote}/accept" }),
+      cancel: stripeMethod100({ method: "POST", fullPath: "/v1/quotes/{quote}/cancel" }),
+      finalizeQuote: stripeMethod100({
+        method: "POST",
+        fullPath: "/v1/quotes/{quote}/finalize"
+      }),
+      listComputedUpfrontLineItems: stripeMethod100({
+        method: "GET",
+        fullPath: "/v1/quotes/{quote}/computed_upfront_line_items",
+        methodType: "list"
+      }),
+      listLineItems: stripeMethod100({
+        method: "GET",
+        fullPath: "/v1/quotes/{quote}/line_items",
+        methodType: "list"
+      }),
+      pdf: stripeMethod100({
+        method: "GET",
+        fullPath: "/v1/quotes/{quote}/pdf",
+        host: "files.stripe.com",
+        streaming: true
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Refunds.js
+var stripeMethod101, Refunds2;
+var init_Refunds2 = __esm({
+  "node_modules/stripe/esm/resources/Refunds.js"() {
+    init_StripeResource();
+    stripeMethod101 = StripeResource.method;
+    Refunds2 = StripeResource.extend({
+      create: stripeMethod101({ method: "POST", fullPath: "/v1/refunds" }),
+      retrieve: stripeMethod101({ method: "GET", fullPath: "/v1/refunds/{refund}" }),
+      update: stripeMethod101({ method: "POST", fullPath: "/v1/refunds/{refund}" }),
+      list: stripeMethod101({
+        method: "GET",
+        fullPath: "/v1/refunds",
+        methodType: "list"
+      }),
+      cancel: stripeMethod101({
+        method: "POST",
+        fullPath: "/v1/refunds/{refund}/cancel"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Reviews.js
+var stripeMethod102, Reviews;
+var init_Reviews = __esm({
+  "node_modules/stripe/esm/resources/Reviews.js"() {
+    init_StripeResource();
+    stripeMethod102 = StripeResource.method;
+    Reviews = StripeResource.extend({
+      retrieve: stripeMethod102({ method: "GET", fullPath: "/v1/reviews/{review}" }),
+      list: stripeMethod102({
+        method: "GET",
+        fullPath: "/v1/reviews",
+        methodType: "list"
+      }),
+      approve: stripeMethod102({
+        method: "POST",
+        fullPath: "/v1/reviews/{review}/approve"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/SetupAttempts.js
+var stripeMethod103, SetupAttempts;
+var init_SetupAttempts = __esm({
+  "node_modules/stripe/esm/resources/SetupAttempts.js"() {
+    init_StripeResource();
+    stripeMethod103 = StripeResource.method;
+    SetupAttempts = StripeResource.extend({
+      list: stripeMethod103({
+        method: "GET",
+        fullPath: "/v1/setup_attempts",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/SetupIntents.js
+var stripeMethod104, SetupIntents;
+var init_SetupIntents = __esm({
+  "node_modules/stripe/esm/resources/SetupIntents.js"() {
+    init_StripeResource();
+    stripeMethod104 = StripeResource.method;
+    SetupIntents = StripeResource.extend({
+      create: stripeMethod104({ method: "POST", fullPath: "/v1/setup_intents" }),
+      retrieve: stripeMethod104({
+        method: "GET",
+        fullPath: "/v1/setup_intents/{intent}"
+      }),
+      update: stripeMethod104({
+        method: "POST",
+        fullPath: "/v1/setup_intents/{intent}"
+      }),
+      list: stripeMethod104({
+        method: "GET",
+        fullPath: "/v1/setup_intents",
+        methodType: "list"
+      }),
+      cancel: stripeMethod104({
+        method: "POST",
+        fullPath: "/v1/setup_intents/{intent}/cancel"
+      }),
+      confirm: stripeMethod104({
+        method: "POST",
+        fullPath: "/v1/setup_intents/{intent}/confirm"
+      }),
+      verifyMicrodeposits: stripeMethod104({
+        method: "POST",
+        fullPath: "/v1/setup_intents/{intent}/verify_microdeposits"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/ShippingRates.js
+var stripeMethod105, ShippingRates;
+var init_ShippingRates = __esm({
+  "node_modules/stripe/esm/resources/ShippingRates.js"() {
+    init_StripeResource();
+    stripeMethod105 = StripeResource.method;
+    ShippingRates = StripeResource.extend({
+      create: stripeMethod105({ method: "POST", fullPath: "/v1/shipping_rates" }),
+      retrieve: stripeMethod105({
+        method: "GET",
+        fullPath: "/v1/shipping_rates/{shipping_rate_token}"
+      }),
+      update: stripeMethod105({
+        method: "POST",
+        fullPath: "/v1/shipping_rates/{shipping_rate_token}"
+      }),
+      list: stripeMethod105({
+        method: "GET",
+        fullPath: "/v1/shipping_rates",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Sources.js
+var stripeMethod106, Sources;
+var init_Sources = __esm({
+  "node_modules/stripe/esm/resources/Sources.js"() {
+    init_StripeResource();
+    stripeMethod106 = StripeResource.method;
+    Sources = StripeResource.extend({
+      create: stripeMethod106({ method: "POST", fullPath: "/v1/sources" }),
+      retrieve: stripeMethod106({ method: "GET", fullPath: "/v1/sources/{source}" }),
+      update: stripeMethod106({ method: "POST", fullPath: "/v1/sources/{source}" }),
+      listSourceTransactions: stripeMethod106({
+        method: "GET",
+        fullPath: "/v1/sources/{source}/source_transactions",
+        methodType: "list"
+      }),
+      verify: stripeMethod106({
+        method: "POST",
+        fullPath: "/v1/sources/{source}/verify"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/SubscriptionItems.js
+var stripeMethod107, SubscriptionItems;
+var init_SubscriptionItems = __esm({
+  "node_modules/stripe/esm/resources/SubscriptionItems.js"() {
+    init_StripeResource();
+    stripeMethod107 = StripeResource.method;
+    SubscriptionItems = StripeResource.extend({
+      create: stripeMethod107({ method: "POST", fullPath: "/v1/subscription_items" }),
+      retrieve: stripeMethod107({
+        method: "GET",
+        fullPath: "/v1/subscription_items/{item}"
+      }),
+      update: stripeMethod107({
+        method: "POST",
+        fullPath: "/v1/subscription_items/{item}"
+      }),
+      list: stripeMethod107({
+        method: "GET",
+        fullPath: "/v1/subscription_items",
+        methodType: "list"
+      }),
+      del: stripeMethod107({
+        method: "DELETE",
+        fullPath: "/v1/subscription_items/{item}"
+      }),
+      createUsageRecord: stripeMethod107({
+        method: "POST",
+        fullPath: "/v1/subscription_items/{subscription_item}/usage_records"
+      }),
+      listUsageRecordSummaries: stripeMethod107({
+        method: "GET",
+        fullPath: "/v1/subscription_items/{subscription_item}/usage_record_summaries",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/SubscriptionSchedules.js
+var stripeMethod108, SubscriptionSchedules;
+var init_SubscriptionSchedules = __esm({
+  "node_modules/stripe/esm/resources/SubscriptionSchedules.js"() {
+    init_StripeResource();
+    stripeMethod108 = StripeResource.method;
+    SubscriptionSchedules = StripeResource.extend({
+      create: stripeMethod108({
+        method: "POST",
+        fullPath: "/v1/subscription_schedules"
+      }),
+      retrieve: stripeMethod108({
+        method: "GET",
+        fullPath: "/v1/subscription_schedules/{schedule}"
+      }),
+      update: stripeMethod108({
+        method: "POST",
+        fullPath: "/v1/subscription_schedules/{schedule}"
+      }),
+      list: stripeMethod108({
+        method: "GET",
+        fullPath: "/v1/subscription_schedules",
+        methodType: "list"
+      }),
+      cancel: stripeMethod108({
+        method: "POST",
+        fullPath: "/v1/subscription_schedules/{schedule}/cancel"
+      }),
+      release: stripeMethod108({
+        method: "POST",
+        fullPath: "/v1/subscription_schedules/{schedule}/release"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Subscriptions.js
+var stripeMethod109, Subscriptions;
+var init_Subscriptions = __esm({
+  "node_modules/stripe/esm/resources/Subscriptions.js"() {
+    init_StripeResource();
+    stripeMethod109 = StripeResource.method;
+    Subscriptions = StripeResource.extend({
+      create: stripeMethod109({ method: "POST", fullPath: "/v1/subscriptions" }),
+      retrieve: stripeMethod109({
+        method: "GET",
+        fullPath: "/v1/subscriptions/{subscription_exposed_id}"
+      }),
+      update: stripeMethod109({
+        method: "POST",
+        fullPath: "/v1/subscriptions/{subscription_exposed_id}"
+      }),
+      list: stripeMethod109({
+        method: "GET",
+        fullPath: "/v1/subscriptions",
+        methodType: "list"
+      }),
+      cancel: stripeMethod109({
+        method: "DELETE",
+        fullPath: "/v1/subscriptions/{subscription_exposed_id}"
+      }),
+      deleteDiscount: stripeMethod109({
+        method: "DELETE",
+        fullPath: "/v1/subscriptions/{subscription_exposed_id}/discount"
+      }),
+      resume: stripeMethod109({
+        method: "POST",
+        fullPath: "/v1/subscriptions/{subscription}/resume"
+      }),
+      search: stripeMethod109({
+        method: "GET",
+        fullPath: "/v1/subscriptions/search",
+        methodType: "search"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TaxCodes.js
+var stripeMethod110, TaxCodes;
+var init_TaxCodes = __esm({
+  "node_modules/stripe/esm/resources/TaxCodes.js"() {
+    init_StripeResource();
+    stripeMethod110 = StripeResource.method;
+    TaxCodes = StripeResource.extend({
+      retrieve: stripeMethod110({ method: "GET", fullPath: "/v1/tax_codes/{id}" }),
+      list: stripeMethod110({
+        method: "GET",
+        fullPath: "/v1/tax_codes",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TaxIds.js
+var stripeMethod111, TaxIds;
+var init_TaxIds = __esm({
+  "node_modules/stripe/esm/resources/TaxIds.js"() {
+    init_StripeResource();
+    stripeMethod111 = StripeResource.method;
+    TaxIds = StripeResource.extend({
+      create: stripeMethod111({ method: "POST", fullPath: "/v1/tax_ids" }),
+      retrieve: stripeMethod111({ method: "GET", fullPath: "/v1/tax_ids/{id}" }),
+      list: stripeMethod111({
+        method: "GET",
+        fullPath: "/v1/tax_ids",
+        methodType: "list"
+      }),
+      del: stripeMethod111({ method: "DELETE", fullPath: "/v1/tax_ids/{id}" })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/TaxRates.js
+var stripeMethod112, TaxRates;
+var init_TaxRates = __esm({
+  "node_modules/stripe/esm/resources/TaxRates.js"() {
+    init_StripeResource();
+    stripeMethod112 = StripeResource.method;
+    TaxRates = StripeResource.extend({
+      create: stripeMethod112({ method: "POST", fullPath: "/v1/tax_rates" }),
+      retrieve: stripeMethod112({ method: "GET", fullPath: "/v1/tax_rates/{tax_rate}" }),
+      update: stripeMethod112({ method: "POST", fullPath: "/v1/tax_rates/{tax_rate}" }),
+      list: stripeMethod112({
+        method: "GET",
+        fullPath: "/v1/tax_rates",
+        methodType: "list"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Tokens.js
+var stripeMethod113, Tokens2;
+var init_Tokens2 = __esm({
+  "node_modules/stripe/esm/resources/Tokens.js"() {
+    init_StripeResource();
+    stripeMethod113 = StripeResource.method;
+    Tokens2 = StripeResource.extend({
+      create: stripeMethod113({ method: "POST", fullPath: "/v1/tokens" }),
+      retrieve: stripeMethod113({ method: "GET", fullPath: "/v1/tokens/{token}" })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Topups.js
+var stripeMethod114, Topups;
+var init_Topups = __esm({
+  "node_modules/stripe/esm/resources/Topups.js"() {
+    init_StripeResource();
+    stripeMethod114 = StripeResource.method;
+    Topups = StripeResource.extend({
+      create: stripeMethod114({ method: "POST", fullPath: "/v1/topups" }),
+      retrieve: stripeMethod114({ method: "GET", fullPath: "/v1/topups/{topup}" }),
+      update: stripeMethod114({ method: "POST", fullPath: "/v1/topups/{topup}" }),
+      list: stripeMethod114({
+        method: "GET",
+        fullPath: "/v1/topups",
+        methodType: "list"
+      }),
+      cancel: stripeMethod114({ method: "POST", fullPath: "/v1/topups/{topup}/cancel" })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/Transfers.js
+var stripeMethod115, Transfers;
+var init_Transfers = __esm({
+  "node_modules/stripe/esm/resources/Transfers.js"() {
+    init_StripeResource();
+    stripeMethod115 = StripeResource.method;
+    Transfers = StripeResource.extend({
+      create: stripeMethod115({ method: "POST", fullPath: "/v1/transfers" }),
+      retrieve: stripeMethod115({ method: "GET", fullPath: "/v1/transfers/{transfer}" }),
+      update: stripeMethod115({ method: "POST", fullPath: "/v1/transfers/{transfer}" }),
+      list: stripeMethod115({
+        method: "GET",
+        fullPath: "/v1/transfers",
+        methodType: "list"
+      }),
+      createReversal: stripeMethod115({
+        method: "POST",
+        fullPath: "/v1/transfers/{id}/reversals"
+      }),
+      listReversals: stripeMethod115({
+        method: "GET",
+        fullPath: "/v1/transfers/{id}/reversals",
+        methodType: "list"
+      }),
+      retrieveReversal: stripeMethod115({
+        method: "GET",
+        fullPath: "/v1/transfers/{transfer}/reversals/{id}"
+      }),
+      updateReversal: stripeMethod115({
+        method: "POST",
+        fullPath: "/v1/transfers/{transfer}/reversals/{id}"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources/WebhookEndpoints.js
+var stripeMethod116, WebhookEndpoints;
+var init_WebhookEndpoints = __esm({
+  "node_modules/stripe/esm/resources/WebhookEndpoints.js"() {
+    init_StripeResource();
+    stripeMethod116 = StripeResource.method;
+    WebhookEndpoints = StripeResource.extend({
+      create: stripeMethod116({ method: "POST", fullPath: "/v1/webhook_endpoints" }),
+      retrieve: stripeMethod116({
+        method: "GET",
+        fullPath: "/v1/webhook_endpoints/{webhook_endpoint}"
+      }),
+      update: stripeMethod116({
+        method: "POST",
+        fullPath: "/v1/webhook_endpoints/{webhook_endpoint}"
+      }),
+      list: stripeMethod116({
+        method: "GET",
+        fullPath: "/v1/webhook_endpoints",
+        methodType: "list"
+      }),
+      del: stripeMethod116({
+        method: "DELETE",
+        fullPath: "/v1/webhook_endpoints/{webhook_endpoint}"
+      })
+    });
+  }
+});
+
+// node_modules/stripe/esm/resources.js
+var resources_exports = {};
+__export(resources_exports, {
+  Account: () => Accounts2,
+  AccountLinks: () => AccountLinks,
+  AccountSessions: () => AccountSessions,
+  Accounts: () => Accounts2,
+  ApplePayDomains: () => ApplePayDomains,
+  ApplicationFees: () => ApplicationFees,
+  Apps: () => Apps,
+  Balance: () => Balance,
+  BalanceTransactions: () => BalanceTransactions,
+  Billing: () => Billing,
+  BillingPortal: () => BillingPortal,
+  Charges: () => Charges,
+  Checkout: () => Checkout,
+  Climate: () => Climate,
+  ConfirmationTokens: () => ConfirmationTokens2,
+  CountrySpecs: () => CountrySpecs,
+  Coupons: () => Coupons,
+  CreditNotes: () => CreditNotes,
+  CustomerSessions: () => CustomerSessions,
+  Customers: () => Customers2,
+  Disputes: () => Disputes2,
+  Entitlements: () => Entitlements,
+  EphemeralKeys: () => EphemeralKeys,
+  Events: () => Events,
+  ExchangeRates: () => ExchangeRates,
+  FileLinks: () => FileLinks,
+  Files: () => Files,
+  FinancialConnections: () => FinancialConnections,
+  Forwarding: () => Forwarding,
+  Identity: () => Identity,
+  InvoiceItems: () => InvoiceItems,
+  Invoices: () => Invoices,
+  Issuing: () => Issuing,
+  Mandates: () => Mandates,
+  OAuth: () => OAuth,
+  PaymentIntents: () => PaymentIntents,
+  PaymentLinks: () => PaymentLinks,
+  PaymentMethodConfigurations: () => PaymentMethodConfigurations,
+  PaymentMethodDomains: () => PaymentMethodDomains,
+  PaymentMethods: () => PaymentMethods,
+  Payouts: () => Payouts,
+  Plans: () => Plans,
+  Prices: () => Prices,
+  Products: () => Products2,
+  PromotionCodes: () => PromotionCodes,
+  Quotes: () => Quotes,
+  Radar: () => Radar,
+  Refunds: () => Refunds2,
+  Reporting: () => Reporting,
+  Reviews: () => Reviews,
+  SetupAttempts: () => SetupAttempts,
+  SetupIntents: () => SetupIntents,
+  ShippingRates: () => ShippingRates,
+  Sigma: () => Sigma,
+  Sources: () => Sources,
+  SubscriptionItems: () => SubscriptionItems,
+  SubscriptionSchedules: () => SubscriptionSchedules,
+  Subscriptions: () => Subscriptions,
+  Tax: () => Tax,
+  TaxCodes: () => TaxCodes,
+  TaxIds: () => TaxIds,
+  TaxRates: () => TaxRates,
+  Terminal: () => Terminal,
+  TestHelpers: () => TestHelpers,
+  Tokens: () => Tokens2,
+  Topups: () => Topups,
+  Transfers: () => Transfers,
+  Treasury: () => Treasury,
+  WebhookEndpoints: () => WebhookEndpoints
+});
+var Apps, Billing, BillingPortal, Checkout, Climate, Entitlements, FinancialConnections, Forwarding, Identity, Issuing, Radar, Reporting, Sigma, Tax, Terminal, TestHelpers, Treasury;
+var init_resources = __esm({
+  "node_modules/stripe/esm/resources.js"() {
+    init_ResourceNamespace();
+    init_Accounts();
+    init_ActiveEntitlements();
+    init_Authorizations();
+    init_Authorizations2();
+    init_Calculations();
+    init_Cardholders();
+    init_Cards();
+    init_Cards2();
+    init_Configurations();
+    init_Configurations2();
+    init_ConfirmationTokens();
+    init_ConnectionTokens();
+    init_CreditReversals();
+    init_Customers();
+    init_DebitReversals();
+    init_Disputes();
+    init_EarlyFraudWarnings();
+    init_Features();
+    init_FinancialAccounts();
+    init_InboundTransfers();
+    init_InboundTransfers2();
+    init_Locations();
+    init_MeterEventAdjustments();
+    init_MeterEvents();
+    init_Meters();
+    init_Orders();
+    init_OutboundPayments();
+    init_OutboundPayments2();
+    init_OutboundTransfers();
+    init_OutboundTransfers2();
+    init_PersonalizationDesigns();
+    init_PersonalizationDesigns2();
+    init_PhysicalBundles();
+    init_Products();
+    init_Readers();
+    init_Readers2();
+    init_ReceivedCredits();
+    init_ReceivedCredits2();
+    init_ReceivedDebits();
+    init_ReceivedDebits2();
+    init_Refunds();
+    init_Registrations();
+    init_ReportRuns();
+    init_ReportTypes();
+    init_Requests();
+    init_ScheduledQueryRuns();
+    init_Secrets();
+    init_Sessions();
+    init_Sessions2();
+    init_Sessions3();
+    init_Settings();
+    init_Suppliers();
+    init_TestClocks();
+    init_Tokens();
+    init_TransactionEntries();
+    init_Transactions();
+    init_Transactions2();
+    init_Transactions3();
+    init_Transactions4();
+    init_Transactions5();
+    init_ValueListItems();
+    init_ValueLists();
+    init_VerificationReports();
+    init_VerificationSessions();
+    init_Accounts2();
+    init_AccountLinks();
+    init_AccountSessions();
+    init_Accounts2();
+    init_ApplePayDomains();
+    init_ApplicationFees();
+    init_Balance();
+    init_BalanceTransactions();
+    init_Charges();
+    init_ConfirmationTokens2();
+    init_CountrySpecs();
+    init_Coupons();
+    init_CreditNotes();
+    init_CustomerSessions();
+    init_Customers2();
+    init_Disputes2();
+    init_EphemeralKeys();
+    init_Events();
+    init_ExchangeRates();
+    init_FileLinks();
+    init_Files();
+    init_InvoiceItems();
+    init_Invoices();
+    init_Mandates();
+    init_OAuth();
+    init_PaymentIntents();
+    init_PaymentLinks();
+    init_PaymentMethodConfigurations();
+    init_PaymentMethodDomains();
+    init_PaymentMethods();
+    init_Payouts();
+    init_Plans();
+    init_Prices();
+    init_Products2();
+    init_PromotionCodes();
+    init_Quotes();
+    init_Refunds2();
+    init_Reviews();
+    init_SetupAttempts();
+    init_SetupIntents();
+    init_ShippingRates();
+    init_Sources();
+    init_SubscriptionItems();
+    init_SubscriptionSchedules();
+    init_Subscriptions();
+    init_TaxCodes();
+    init_TaxIds();
+    init_TaxRates();
+    init_Tokens2();
+    init_Topups();
+    init_Transfers();
+    init_WebhookEndpoints();
+    Apps = resourceNamespace("apps", { Secrets });
+    Billing = resourceNamespace("billing", {
+      MeterEventAdjustments,
+      MeterEvents,
+      Meters
+    });
+    BillingPortal = resourceNamespace("billingPortal", {
+      Configurations,
+      Sessions
+    });
+    Checkout = resourceNamespace("checkout", {
+      Sessions: Sessions2
+    });
+    Climate = resourceNamespace("climate", {
+      Orders,
+      Products,
+      Suppliers
+    });
+    Entitlements = resourceNamespace("entitlements", {
+      ActiveEntitlements,
+      Features
+    });
+    FinancialConnections = resourceNamespace("financialConnections", {
+      Accounts,
+      Sessions: Sessions3,
+      Transactions: Transactions2
+    });
+    Forwarding = resourceNamespace("forwarding", {
+      Requests
+    });
+    Identity = resourceNamespace("identity", {
+      VerificationReports,
+      VerificationSessions
+    });
+    Issuing = resourceNamespace("issuing", {
+      Authorizations: Authorizations2,
+      Cardholders,
+      Cards: Cards2,
+      Disputes,
+      PersonalizationDesigns: PersonalizationDesigns2,
+      PhysicalBundles,
+      Tokens,
+      Transactions: Transactions3
+    });
+    Radar = resourceNamespace("radar", {
+      EarlyFraudWarnings,
+      ValueListItems,
+      ValueLists
+    });
+    Reporting = resourceNamespace("reporting", {
+      ReportRuns,
+      ReportTypes
+    });
+    Sigma = resourceNamespace("sigma", {
+      ScheduledQueryRuns
+    });
+    Tax = resourceNamespace("tax", {
+      Calculations,
+      Registrations,
+      Settings,
+      Transactions: Transactions4
+    });
+    Terminal = resourceNamespace("terminal", {
+      Configurations: Configurations2,
+      ConnectionTokens,
+      Locations,
+      Readers: Readers2
+    });
+    TestHelpers = resourceNamespace("testHelpers", {
+      ConfirmationTokens,
+      Customers,
+      Refunds,
+      TestClocks,
+      Issuing: resourceNamespace("issuing", {
+        Authorizations,
+        Cards,
+        PersonalizationDesigns,
+        Transactions
+      }),
+      Terminal: resourceNamespace("terminal", {
+        Readers
+      }),
+      Treasury: resourceNamespace("treasury", {
+        InboundTransfers,
+        OutboundPayments,
+        OutboundTransfers,
+        ReceivedCredits,
+        ReceivedDebits
+      })
+    });
+    Treasury = resourceNamespace("treasury", {
+      CreditReversals,
+      DebitReversals,
+      FinancialAccounts,
+      InboundTransfers: InboundTransfers2,
+      OutboundPayments: OutboundPayments2,
+      OutboundTransfers: OutboundTransfers2,
+      ReceivedCredits: ReceivedCredits2,
+      ReceivedDebits: ReceivedDebits2,
+      TransactionEntries,
+      Transactions: Transactions5
+    });
+  }
+});
+
+// node_modules/stripe/esm/RequestSender.js
+var MAX_RETRY_AFTER_WAIT, RequestSender;
+var init_RequestSender = __esm({
+  "node_modules/stripe/esm/RequestSender.js"() {
+    init_Error();
+    init_utils();
+    init_HttpClient();
+    MAX_RETRY_AFTER_WAIT = 60;
+    RequestSender = class _RequestSender {
+      constructor(stripe, maxBufferedRequestMetric) {
+        this._stripe = stripe;
+        this._maxBufferedRequestMetric = maxBufferedRequestMetric;
+      }
+      _addHeadersDirectlyToObject(obj, headers) {
+        obj.requestId = headers["request-id"];
+        obj.stripeAccount = obj.stripeAccount || headers["stripe-account"];
+        obj.apiVersion = obj.apiVersion || headers["stripe-version"];
+        obj.idempotencyKey = obj.idempotencyKey || headers["idempotency-key"];
+      }
+      _makeResponseEvent(requestEvent, statusCode, headers) {
+        const requestEndTime = Date.now();
+        const requestDurationMs = requestEndTime - requestEvent.request_start_time;
+        return removeNullish({
+          api_version: headers["stripe-version"],
+          account: headers["stripe-account"],
+          idempotency_key: headers["idempotency-key"],
+          method: requestEvent.method,
+          path: requestEvent.path,
+          status: statusCode,
+          request_id: this._getRequestId(headers),
+          elapsed: requestDurationMs,
+          request_start_time: requestEvent.request_start_time,
+          request_end_time: requestEndTime
+        });
+      }
+      _getRequestId(headers) {
+        return headers["request-id"];
+      }
+      /**
+       * Used by methods with spec.streaming === true. For these methods, we do not
+       * buffer successful responses into memory or do parse them into stripe
+       * objects, we delegate that all of that to the user and pass back the raw
+       * http.Response object to the callback.
+       *
+       * (Unsuccessful responses shouldn't make it here, they should
+       * still be buffered/parsed and handled by _jsonResponseHandler -- see
+       * makeRequest)
+       */
+      _streamingResponseHandler(requestEvent, usage, callback) {
+        return (res) => {
+          const headers = res.getHeaders();
+          const streamCompleteCallback = () => {
+            const responseEvent = this._makeResponseEvent(requestEvent, res.getStatusCode(), headers);
+            this._stripe._emitter.emit("response", responseEvent);
+            this._recordRequestMetrics(this._getRequestId(headers), responseEvent.elapsed, usage);
+          };
+          const stream = res.toStream(streamCompleteCallback);
+          this._addHeadersDirectlyToObject(stream, headers);
+          return callback(null, stream);
+        };
+      }
+      /**
+       * Default handler for Stripe responses. Buffers the response into memory,
+       * parses the JSON and returns it (i.e. passes it to the callback) if there
+       * is no "error" field. Otherwise constructs/passes an appropriate Error.
+       */
+      _jsonResponseHandler(requestEvent, usage, callback) {
+        return (res) => {
+          const headers = res.getHeaders();
+          const requestId = this._getRequestId(headers);
+          const statusCode = res.getStatusCode();
+          const responseEvent = this._makeResponseEvent(requestEvent, statusCode, headers);
+          this._stripe._emitter.emit("response", responseEvent);
+          res.toJSON().then((jsonResponse) => {
+            if (jsonResponse.error) {
+              let err;
+              if (typeof jsonResponse.error === "string") {
+                jsonResponse.error = {
+                  type: jsonResponse.error,
+                  message: jsonResponse.error_description
+                };
+              }
+              jsonResponse.error.headers = headers;
+              jsonResponse.error.statusCode = statusCode;
+              jsonResponse.error.requestId = requestId;
+              if (statusCode === 401) {
+                err = new StripeAuthenticationError(jsonResponse.error);
+              } else if (statusCode === 403) {
+                err = new StripePermissionError(jsonResponse.error);
+              } else if (statusCode === 429) {
+                err = new StripeRateLimitError(jsonResponse.error);
+              } else {
+                err = StripeError.generate(jsonResponse.error);
+              }
+              throw err;
+            }
+            return jsonResponse;
+          }, (e) => {
+            throw new StripeAPIError({
+              message: "Invalid JSON received from the Stripe API",
+              exception: e,
+              requestId: headers["request-id"]
+            });
+          }).then((jsonResponse) => {
+            this._recordRequestMetrics(requestId, responseEvent.elapsed, usage);
+            const rawResponse = res.getRawResponse();
+            this._addHeadersDirectlyToObject(rawResponse, headers);
+            Object.defineProperty(jsonResponse, "lastResponse", {
+              enumerable: false,
+              writable: false,
+              value: rawResponse
+            });
+            callback(null, jsonResponse);
+          }, (e) => callback(e, null));
+        };
+      }
+      static _generateConnectionErrorMessage(requestRetries) {
+        return `An error occurred with our connection to Stripe.${requestRetries > 0 ? ` Request was retried ${requestRetries} times.` : ""}`;
+      }
+      // For more on when and how to retry API requests, see https://stripe.com/docs/error-handling#safely-retrying-requests-with-idempotency
+      static _shouldRetry(res, numRetries, maxRetries, error) {
+        if (error && numRetries === 0 && HttpClient.CONNECTION_CLOSED_ERROR_CODES.includes(error.code)) {
+          return true;
+        }
+        if (numRetries >= maxRetries) {
+          return false;
+        }
+        if (!res) {
+          return true;
+        }
+        if (res.getHeaders()["stripe-should-retry"] === "false") {
+          return false;
+        }
+        if (res.getHeaders()["stripe-should-retry"] === "true") {
+          return true;
+        }
+        if (res.getStatusCode() === 409) {
+          return true;
+        }
+        if (res.getStatusCode() >= 500) {
+          return true;
+        }
+        return false;
+      }
+      _getSleepTimeInMS(numRetries, retryAfter = null) {
+        const initialNetworkRetryDelay = this._stripe.getInitialNetworkRetryDelay();
+        const maxNetworkRetryDelay = this._stripe.getMaxNetworkRetryDelay();
+        let sleepSeconds = Math.min(initialNetworkRetryDelay * Math.pow(numRetries - 1, 2), maxNetworkRetryDelay);
+        sleepSeconds *= 0.5 * (1 + Math.random());
+        sleepSeconds = Math.max(initialNetworkRetryDelay, sleepSeconds);
+        if (Number.isInteger(retryAfter) && retryAfter <= MAX_RETRY_AFTER_WAIT) {
+          sleepSeconds = Math.max(sleepSeconds, retryAfter);
+        }
+        return sleepSeconds * 1e3;
+      }
+      // Max retries can be set on a per request basis. Favor those over the global setting
+      _getMaxNetworkRetries(settings = {}) {
+        return settings.maxNetworkRetries !== void 0 && Number.isInteger(settings.maxNetworkRetries) ? settings.maxNetworkRetries : this._stripe.getMaxNetworkRetries();
+      }
+      _defaultIdempotencyKey(method, settings) {
+        const maxRetries = this._getMaxNetworkRetries(settings);
+        if (method === "POST" && maxRetries > 0) {
+          return `stripe-node-retry-${this._stripe._platformFunctions.uuid4()}`;
+        }
+        return null;
+      }
+      _makeHeaders(auth, contentLength, apiVersion, clientUserAgent, method, userSuppliedHeaders, userSuppliedSettings) {
+        const defaultHeaders = {
+          // Use specified auth token or use default from this stripe instance:
+          Authorization: auth ? `Bearer ${auth}` : this._stripe.getApiField("auth"),
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "User-Agent": this._getUserAgentString(),
+          "X-Stripe-Client-User-Agent": clientUserAgent,
+          "X-Stripe-Client-Telemetry": this._getTelemetryHeader(),
+          "Stripe-Version": apiVersion,
+          "Stripe-Account": this._stripe.getApiField("stripeAccount"),
+          "Idempotency-Key": this._defaultIdempotencyKey(method, userSuppliedSettings)
+        };
+        const methodHasPayload = method == "POST" || method == "PUT" || method == "PATCH";
+        if (methodHasPayload || contentLength) {
+          if (!methodHasPayload) {
+            emitWarning(`${method} method had non-zero contentLength but no payload is expected for this verb`);
+          }
+          defaultHeaders["Content-Length"] = contentLength;
+        }
+        return Object.assign(
+          removeNullish(defaultHeaders),
+          // If the user supplied, say 'idempotency-key', override instead of appending by ensuring caps are the same.
+          normalizeHeaders(userSuppliedHeaders)
+        );
+      }
+      _getUserAgentString() {
+        const packageVersion = this._stripe.getConstant("PACKAGE_VERSION");
+        const appInfo = this._stripe._appInfo ? this._stripe.getAppInfoAsString() : "";
+        return `Stripe/v1 NodeBindings/${packageVersion} ${appInfo}`.trim();
+      }
+      _getTelemetryHeader() {
+        if (this._stripe.getTelemetryEnabled() && this._stripe._prevRequestMetrics.length > 0) {
+          const metrics = this._stripe._prevRequestMetrics.shift();
+          return JSON.stringify({
+            last_request_metrics: metrics
+          });
+        }
+      }
+      _recordRequestMetrics(requestId, requestDurationMs, usage) {
+        if (this._stripe.getTelemetryEnabled() && requestId) {
+          if (this._stripe._prevRequestMetrics.length > this._maxBufferedRequestMetric) {
+            emitWarning("Request metrics buffer is full, dropping telemetry message.");
+          } else {
+            const m = {
+              request_id: requestId,
+              request_duration_ms: requestDurationMs
+            };
+            if (usage && usage.length > 0) {
+              m.usage = usage;
+            }
+            this._stripe._prevRequestMetrics.push(m);
+          }
+        }
+      }
+      _request(method, host, path, data, auth, options = {}, usage = [], callback, requestDataProcessor = null) {
+        let requestData;
+        const retryRequest = (requestFn, apiVersion, headers, requestRetries, retryAfter) => {
+          return setTimeout(requestFn, this._getSleepTimeInMS(requestRetries, retryAfter), apiVersion, headers, requestRetries + 1);
+        };
+        const makeRequest = (apiVersion, headers, numRetries) => {
+          const timeout = options.settings && options.settings.timeout && Number.isInteger(options.settings.timeout) && options.settings.timeout >= 0 ? options.settings.timeout : this._stripe.getApiField("timeout");
+          const req = this._stripe.getApiField("httpClient").makeRequest(host || this._stripe.getApiField("host"), this._stripe.getApiField("port"), path, method, headers, requestData, this._stripe.getApiField("protocol"), timeout);
+          const requestStartTime = Date.now();
+          const requestEvent = removeNullish({
+            api_version: apiVersion,
+            account: headers["Stripe-Account"],
+            idempotency_key: headers["Idempotency-Key"],
+            method,
+            path,
+            request_start_time: requestStartTime
+          });
+          const requestRetries = numRetries || 0;
+          const maxRetries = this._getMaxNetworkRetries(options.settings || {});
+          this._stripe._emitter.emit("request", requestEvent);
+          req.then((res) => {
+            if (_RequestSender._shouldRetry(res, requestRetries, maxRetries)) {
+              return retryRequest(
+                makeRequest,
+                apiVersion,
+                headers,
+                requestRetries,
+                // @ts-ignore
+                res.getHeaders()["retry-after"]
+              );
+            } else if (options.streaming && res.getStatusCode() < 400) {
+              return this._streamingResponseHandler(requestEvent, usage, callback)(res);
+            } else {
+              return this._jsonResponseHandler(requestEvent, usage, callback)(res);
+            }
+          }).catch((error) => {
+            if (_RequestSender._shouldRetry(null, requestRetries, maxRetries, error)) {
+              return retryRequest(makeRequest, apiVersion, headers, requestRetries, null);
+            } else {
+              const isTimeoutError = error.code && error.code === HttpClient.TIMEOUT_ERROR_CODE;
+              return callback(new StripeConnectionError({
+                message: isTimeoutError ? `Request aborted due to timeout being reached (${timeout}ms)` : _RequestSender._generateConnectionErrorMessage(requestRetries),
+                // @ts-ignore
+                detail: error
+              }));
+            }
+          });
+        };
+        const prepareAndMakeRequest = (error, data2) => {
+          if (error) {
+            return callback(error);
+          }
+          requestData = data2;
+          this._stripe.getClientUserAgent((clientUserAgent) => {
+            var _a, _b;
+            const apiVersion = this._stripe.getApiField("version");
+            const headers = this._makeHeaders(auth, requestData.length, apiVersion, clientUserAgent, method, (_a = options.headers) !== null && _a !== void 0 ? _a : null, (_b = options.settings) !== null && _b !== void 0 ? _b : {});
+            makeRequest(apiVersion, headers, 0);
+          });
+        };
+        if (requestDataProcessor) {
+          requestDataProcessor(method, data, options.headers, prepareAndMakeRequest);
+        } else {
+          prepareAndMakeRequest(null, stringifyRequestData(data || {}));
+        }
+      }
+    };
+  }
+});
+
+// node_modules/stripe/esm/Webhooks.js
+function createWebhooks(platformFunctions) {
+  const Webhook = {
+    DEFAULT_TOLERANCE: 300,
+    // @ts-ignore
+    signature: null,
+    constructEvent(payload, header, secret, tolerance, cryptoProvider, receivedAt) {
+      try {
+        this.signature.verifyHeader(payload, header, secret, tolerance || Webhook.DEFAULT_TOLERANCE, cryptoProvider, receivedAt);
+      } catch (e) {
+        if (e instanceof CryptoProviderOnlySupportsAsyncError) {
+          e.message += "\nUse `await constructEventAsync(...)` instead of `constructEvent(...)`";
+        }
+        throw e;
+      }
+      const jsonPayload = payload instanceof Uint8Array ? JSON.parse(new TextDecoder("utf8").decode(payload)) : JSON.parse(payload);
+      return jsonPayload;
+    },
+    async constructEventAsync(payload, header, secret, tolerance, cryptoProvider, receivedAt) {
+      await this.signature.verifyHeaderAsync(payload, header, secret, tolerance || Webhook.DEFAULT_TOLERANCE, cryptoProvider, receivedAt);
+      const jsonPayload = payload instanceof Uint8Array ? JSON.parse(new TextDecoder("utf8").decode(payload)) : JSON.parse(payload);
+      return jsonPayload;
+    },
+    /**
+     * Generates a header to be used for webhook mocking
+     *
+     * @typedef {object} opts
+     * @property {number} timestamp - Timestamp of the header. Defaults to Date.now()
+     * @property {string} payload - JSON stringified payload object, containing the 'id' and 'object' parameters
+     * @property {string} secret - Stripe webhook secret 'whsec_...'
+     * @property {string} scheme - Version of API to hit. Defaults to 'v1'.
+     * @property {string} signature - Computed webhook signature
+     * @property {CryptoProvider} cryptoProvider - Crypto provider to use for computing the signature if none was provided. Defaults to NodeCryptoProvider.
+     */
+    generateTestHeaderString: function(opts) {
+      if (!opts) {
+        throw new StripeError({
+          message: "Options are required"
+        });
+      }
+      opts.timestamp = Math.floor(opts.timestamp) || Math.floor(Date.now() / 1e3);
+      opts.scheme = opts.scheme || signature.EXPECTED_SCHEME;
+      opts.cryptoProvider = opts.cryptoProvider || getCryptoProvider();
+      opts.signature = opts.signature || opts.cryptoProvider.computeHMACSignature(opts.timestamp + "." + opts.payload, opts.secret);
+      const generatedHeader = [
+        "t=" + opts.timestamp,
+        opts.scheme + "=" + opts.signature
+      ].join(",");
+      return generatedHeader;
+    }
+  };
+  const signature = {
+    EXPECTED_SCHEME: "v1",
+    verifyHeader(encodedPayload, encodedHeader, secret, tolerance, cryptoProvider, receivedAt) {
+      const { decodedHeader: header, decodedPayload: payload, details, suspectPayloadType } = parseEventDetails(encodedPayload, encodedHeader, this.EXPECTED_SCHEME);
+      const secretContainsWhitespace = /\s/.test(secret);
+      cryptoProvider = cryptoProvider || getCryptoProvider();
+      const expectedSignature = cryptoProvider.computeHMACSignature(makeHMACContent(payload, details), secret);
+      validateComputedSignature(payload, header, details, expectedSignature, tolerance, suspectPayloadType, secretContainsWhitespace, receivedAt);
+      return true;
+    },
+    async verifyHeaderAsync(encodedPayload, encodedHeader, secret, tolerance, cryptoProvider, receivedAt) {
+      const { decodedHeader: header, decodedPayload: payload, details, suspectPayloadType } = parseEventDetails(encodedPayload, encodedHeader, this.EXPECTED_SCHEME);
+      const secretContainsWhitespace = /\s/.test(secret);
+      cryptoProvider = cryptoProvider || getCryptoProvider();
+      const expectedSignature = await cryptoProvider.computeHMACSignatureAsync(makeHMACContent(payload, details), secret);
+      return validateComputedSignature(payload, header, details, expectedSignature, tolerance, suspectPayloadType, secretContainsWhitespace, receivedAt);
+    }
+  };
+  function makeHMACContent(payload, details) {
+    return `${details.timestamp}.${payload}`;
+  }
+  function parseEventDetails(encodedPayload, encodedHeader, expectedScheme) {
+    if (!encodedPayload) {
+      throw new StripeSignatureVerificationError(encodedHeader, encodedPayload, {
+        message: "No webhook payload was provided."
+      });
+    }
+    const suspectPayloadType = typeof encodedPayload != "string" && !(encodedPayload instanceof Uint8Array);
+    const textDecoder2 = new TextDecoder("utf8");
+    const decodedPayload = encodedPayload instanceof Uint8Array ? textDecoder2.decode(encodedPayload) : encodedPayload;
+    if (Array.isArray(encodedHeader)) {
+      throw new Error("Unexpected: An array was passed as a header, which should not be possible for the stripe-signature header.");
+    }
+    if (encodedHeader == null || encodedHeader == "") {
+      throw new StripeSignatureVerificationError(encodedHeader, encodedPayload, {
+        message: "No stripe-signature header value was provided."
+      });
+    }
+    const decodedHeader = encodedHeader instanceof Uint8Array ? textDecoder2.decode(encodedHeader) : encodedHeader;
+    const details = parseHeader(decodedHeader, expectedScheme);
+    if (!details || details.timestamp === -1) {
+      throw new StripeSignatureVerificationError(decodedHeader, decodedPayload, {
+        message: "Unable to extract timestamp and signatures from header"
+      });
+    }
+    if (!details.signatures.length) {
+      throw new StripeSignatureVerificationError(decodedHeader, decodedPayload, {
+        message: "No signatures found with expected scheme"
+      });
+    }
+    return {
+      decodedPayload,
+      decodedHeader,
+      details,
+      suspectPayloadType
+    };
+  }
+  function validateComputedSignature(payload, header, details, expectedSignature, tolerance, suspectPayloadType, secretContainsWhitespace, receivedAt) {
+    const signatureFound = !!details.signatures.filter(platformFunctions.secureCompare.bind(platformFunctions, expectedSignature)).length;
+    const docsLocation = "\nLearn more about webhook signing and explore webhook integration examples for various frameworks at https://github.com/stripe/stripe-node#webhook-signing";
+    const whitespaceMessage = secretContainsWhitespace ? "\n\nNote: The provided signing secret contains whitespace. This often indicates an extra newline or space is in the value" : "";
+    if (!signatureFound) {
+      if (suspectPayloadType) {
+        throw new StripeSignatureVerificationError(header, payload, {
+          message: "Webhook payload must be provided as a string or a Buffer (https://nodejs.org/api/buffer.html) instance representing the _raw_ request body.Payload was provided as a parsed JavaScript object instead. \nSignature verification is impossible without access to the original signed material. \n" + docsLocation + "\n" + whitespaceMessage
+        });
+      }
+      throw new StripeSignatureVerificationError(header, payload, {
+        message: "No signatures found matching the expected signature for payload. Are you passing the raw request body you received from Stripe? \n If a webhook request is being forwarded by a third-party tool, ensure that the exact request body, including JSON formatting and new line style, is preserved.\n" + docsLocation + "\n" + whitespaceMessage
+      });
+    }
+    const timestampAge = Math.floor((typeof receivedAt === "number" ? receivedAt : Date.now()) / 1e3) - details.timestamp;
+    if (tolerance > 0 && timestampAge > tolerance) {
+      throw new StripeSignatureVerificationError(header, payload, {
+        message: "Timestamp outside the tolerance zone"
+      });
+    }
+    return true;
+  }
+  function parseHeader(header, scheme) {
+    if (typeof header !== "string") {
+      return null;
+    }
+    return header.split(",").reduce((accum, item) => {
+      const kv = item.split("=");
+      if (kv[0] === "t") {
+        accum.timestamp = parseInt(kv[1], 10);
+      }
+      if (kv[0] === scheme) {
+        accum.signatures.push(kv[1]);
+      }
+      return accum;
+    }, {
+      timestamp: -1,
+      signatures: []
+    });
+  }
+  let webhooksCryptoProviderInstance = null;
+  function getCryptoProvider() {
+    if (!webhooksCryptoProviderInstance) {
+      webhooksCryptoProviderInstance = platformFunctions.createDefaultCryptoProvider();
+    }
+    return webhooksCryptoProviderInstance;
+  }
+  Webhook.signature = signature;
+  return Webhook;
+}
+var init_Webhooks = __esm({
+  "node_modules/stripe/esm/Webhooks.js"() {
+    init_Error();
+    init_CryptoProvider();
+  }
+});
+
+// node_modules/stripe/esm/stripe.core.js
+function createStripe(platformFunctions, requestSender = defaultRequestSenderFactory) {
+  Stripe2.PACKAGE_VERSION = "14.25.0";
+  Stripe2.USER_AGENT = Object.assign({ bindings_version: Stripe2.PACKAGE_VERSION, lang: "node", publisher: "stripe", uname: null, typescript: false }, determineProcessUserAgentProperties());
+  Stripe2.StripeResource = StripeResource;
+  Stripe2.resources = resources_exports;
+  Stripe2.HttpClient = HttpClient;
+  Stripe2.HttpClientResponse = HttpClientResponse;
+  Stripe2.CryptoProvider = CryptoProvider;
+  function createWebhooksDefault(fns = platformFunctions) {
+    return createWebhooks(fns);
+  }
+  Stripe2.webhooks = Object.assign(createWebhooksDefault, createWebhooks(platformFunctions));
+  function Stripe2(key, config = {}) {
+    if (!(this instanceof Stripe2)) {
+      return new Stripe2(key, config);
+    }
+    const props = this._getPropsFromConfig(config);
+    this._platformFunctions = platformFunctions;
+    Object.defineProperty(this, "_emitter", {
+      value: this._platformFunctions.createEmitter(),
+      enumerable: false,
+      configurable: false,
+      writable: false
+    });
+    this.VERSION = Stripe2.PACKAGE_VERSION;
+    this.on = this._emitter.on.bind(this._emitter);
+    this.once = this._emitter.once.bind(this._emitter);
+    this.off = this._emitter.removeListener.bind(this._emitter);
+    const agent = props.httpAgent || null;
+    this._api = {
+      auth: null,
+      host: props.host || DEFAULT_HOST,
+      port: props.port || DEFAULT_PORT,
+      protocol: props.protocol || "https",
+      basePath: DEFAULT_BASE_PATH,
+      version: props.apiVersion || DEFAULT_API_VERSION,
+      timeout: validateInteger("timeout", props.timeout, DEFAULT_TIMEOUT),
+      maxNetworkRetries: validateInteger("maxNetworkRetries", props.maxNetworkRetries, 1),
+      agent,
+      httpClient: props.httpClient || (agent ? this._platformFunctions.createNodeHttpClient(agent) : this._platformFunctions.createDefaultHttpClient()),
+      dev: false,
+      stripeAccount: props.stripeAccount || null
+    };
+    const typescript = props.typescript || false;
+    if (typescript !== Stripe2.USER_AGENT.typescript) {
+      Stripe2.USER_AGENT.typescript = typescript;
+    }
+    if (props.appInfo) {
+      this._setAppInfo(props.appInfo);
+    }
+    this._prepResources();
+    this._setApiKey(key);
+    this.errors = Error_exports;
+    this.webhooks = createWebhooksDefault();
+    this._prevRequestMetrics = [];
+    this._enableTelemetry = props.telemetry !== false;
+    this._requestSender = requestSender(this);
+    this.StripeResource = Stripe2.StripeResource;
+  }
+  Stripe2.errors = Error_exports;
+  Stripe2.createNodeHttpClient = platformFunctions.createNodeHttpClient;
+  Stripe2.createFetchHttpClient = platformFunctions.createFetchHttpClient;
+  Stripe2.createNodeCryptoProvider = platformFunctions.createNodeCryptoProvider;
+  Stripe2.createSubtleCryptoProvider = platformFunctions.createSubtleCryptoProvider;
+  Stripe2.prototype = {
+    // Properties are set in the constructor above
+    _appInfo: void 0,
+    on: null,
+    off: null,
+    once: null,
+    VERSION: null,
+    StripeResource: null,
+    webhooks: null,
+    errors: null,
+    _api: null,
+    _prevRequestMetrics: null,
+    _emitter: null,
+    _enableTelemetry: null,
+    _requestSender: null,
+    _platformFunctions: null,
+    /**
+     * @private
+     */
+    _setApiKey(key) {
+      if (key) {
+        this._setApiField("auth", `Bearer ${key}`);
+      }
+    },
+    /**
+     * @private
+     * This may be removed in the future.
+     */
+    _setAppInfo(info) {
+      if (info && typeof info !== "object") {
+        throw new Error("AppInfo must be an object.");
+      }
+      if (info && !info.name) {
+        throw new Error("AppInfo.name is required");
+      }
+      info = info || {};
+      this._appInfo = APP_INFO_PROPERTIES.reduce(
+        (accum, prop) => {
+          if (typeof info[prop] == "string") {
+            accum = accum || {};
+            accum[prop] = info[prop];
+          }
+          return accum;
+        },
+        // @ts-ignore
+        void 0
+      );
+    },
+    /**
+     * @private
+     * This may be removed in the future.
+     */
+    _setApiField(key, value) {
+      this._api[key] = value;
+    },
+    /**
+     * @private
+     * Please open or upvote an issue at github.com/stripe/stripe-node
+     * if you use this, detailing your use-case.
+     *
+     * It may be deprecated and removed in the future.
+     */
+    getApiField(key) {
+      return this._api[key];
+    },
+    setClientId(clientId) {
+      this._clientId = clientId;
+    },
+    getClientId() {
+      return this._clientId;
+    },
+    /**
+     * @private
+     * Please open or upvote an issue at github.com/stripe/stripe-node
+     * if you use this, detailing your use-case.
+     *
+     * It may be deprecated and removed in the future.
+     */
+    getConstant: (c) => {
+      switch (c) {
+        case "DEFAULT_HOST":
+          return DEFAULT_HOST;
+        case "DEFAULT_PORT":
+          return DEFAULT_PORT;
+        case "DEFAULT_BASE_PATH":
+          return DEFAULT_BASE_PATH;
+        case "DEFAULT_API_VERSION":
+          return DEFAULT_API_VERSION;
+        case "DEFAULT_TIMEOUT":
+          return DEFAULT_TIMEOUT;
+        case "MAX_NETWORK_RETRY_DELAY_SEC":
+          return MAX_NETWORK_RETRY_DELAY_SEC;
+        case "INITIAL_NETWORK_RETRY_DELAY_SEC":
+          return INITIAL_NETWORK_RETRY_DELAY_SEC;
+      }
+      return Stripe2[c];
+    },
+    getMaxNetworkRetries() {
+      return this.getApiField("maxNetworkRetries");
+    },
+    /**
+     * @private
+     * This may be removed in the future.
+     */
+    _setApiNumberField(prop, n, defaultVal) {
+      const val = validateInteger(prop, n, defaultVal);
+      this._setApiField(prop, val);
+    },
+    getMaxNetworkRetryDelay() {
+      return MAX_NETWORK_RETRY_DELAY_SEC;
+    },
+    getInitialNetworkRetryDelay() {
+      return INITIAL_NETWORK_RETRY_DELAY_SEC;
+    },
+    /**
+     * @private
+     * Please open or upvote an issue at github.com/stripe/stripe-node
+     * if you use this, detailing your use-case.
+     *
+     * It may be deprecated and removed in the future.
+     *
+     * Gets a JSON version of a User-Agent and uses a cached version for a slight
+     * speed advantage.
+     */
+    getClientUserAgent(cb) {
+      return this.getClientUserAgentSeeded(Stripe2.USER_AGENT, cb);
+    },
+    /**
+     * @private
+     * Please open or upvote an issue at github.com/stripe/stripe-node
+     * if you use this, detailing your use-case.
+     *
+     * It may be deprecated and removed in the future.
+     *
+     * Gets a JSON version of a User-Agent by encoding a seeded object and
+     * fetching a uname from the system.
+     */
+    getClientUserAgentSeeded(seed, cb) {
+      this._platformFunctions.getUname().then((uname) => {
+        var _a;
+        const userAgent = {};
+        for (const field in seed) {
+          userAgent[field] = encodeURIComponent((_a = seed[field]) !== null && _a !== void 0 ? _a : "null");
+        }
+        userAgent.uname = encodeURIComponent(uname || "UNKNOWN");
+        const client = this.getApiField("httpClient");
+        if (client) {
+          userAgent.httplib = encodeURIComponent(client.getClientName());
+        }
+        if (this._appInfo) {
+          userAgent.application = this._appInfo;
+        }
+        cb(JSON.stringify(userAgent));
+      });
+    },
+    /**
+     * @private
+     * Please open or upvote an issue at github.com/stripe/stripe-node
+     * if you use this, detailing your use-case.
+     *
+     * It may be deprecated and removed in the future.
+     */
+    getAppInfoAsString() {
+      if (!this._appInfo) {
+        return "";
+      }
+      let formatted = this._appInfo.name;
+      if (this._appInfo.version) {
+        formatted += `/${this._appInfo.version}`;
+      }
+      if (this._appInfo.url) {
+        formatted += ` (${this._appInfo.url})`;
+      }
+      return formatted;
+    },
+    getTelemetryEnabled() {
+      return this._enableTelemetry;
+    },
+    /**
+     * @private
+     * This may be removed in the future.
+     */
+    _prepResources() {
+      for (const name in resources_exports) {
+        this[pascalToCamelCase(name)] = new resources_exports[name](this);
+      }
+    },
+    /**
+     * @private
+     * This may be removed in the future.
+     */
+    _getPropsFromConfig(config) {
+      if (!config) {
+        return {};
+      }
+      const isString = typeof config === "string";
+      const isObject2 = config === Object(config) && !Array.isArray(config);
+      if (!isObject2 && !isString) {
+        throw new Error("Config must either be an object or a string");
+      }
+      if (isString) {
+        return {
+          apiVersion: config
+        };
+      }
+      const values = Object.keys(config).filter((value) => !ALLOWED_CONFIG_PROPERTIES.includes(value));
+      if (values.length > 0) {
+        throw new Error(`Config object may only contain the following: ${ALLOWED_CONFIG_PROPERTIES.join(", ")}`);
+      }
+      return config;
+    }
+  };
+  return Stripe2;
+}
+var DEFAULT_HOST, DEFAULT_PORT, DEFAULT_BASE_PATH, DEFAULT_API_VERSION, DEFAULT_TIMEOUT, MAX_NETWORK_RETRY_DELAY_SEC, INITIAL_NETWORK_RETRY_DELAY_SEC, APP_INFO_PROPERTIES, ALLOWED_CONFIG_PROPERTIES, defaultRequestSenderFactory;
+var init_stripe_core = __esm({
+  "node_modules/stripe/esm/stripe.core.js"() {
+    init_Error();
+    init_apiVersion();
+    init_resources();
+    init_HttpClient();
+    init_utils();
+    init_CryptoProvider();
+    init_RequestSender();
+    init_StripeResource();
+    init_Webhooks();
+    DEFAULT_HOST = "api.stripe.com";
+    DEFAULT_PORT = "443";
+    DEFAULT_BASE_PATH = "/v1/";
+    DEFAULT_API_VERSION = ApiVersion;
+    DEFAULT_TIMEOUT = 8e4;
+    MAX_NETWORK_RETRY_DELAY_SEC = 2;
+    INITIAL_NETWORK_RETRY_DELAY_SEC = 0.5;
+    APP_INFO_PROPERTIES = ["name", "version", "url", "partner_id"];
+    ALLOWED_CONFIG_PROPERTIES = [
+      "apiVersion",
+      "typescript",
+      "maxNetworkRetries",
+      "httpAgent",
+      "httpClient",
+      "timeout",
+      "host",
+      "port",
+      "protocol",
+      "telemetry",
+      "appInfo",
+      "stripeAccount"
+    ];
+    defaultRequestSenderFactory = (stripe) => new RequestSender(stripe, StripeResource.MAX_BUFFERED_REQUEST_METRICS);
+  }
+});
+
+// node_modules/stripe/esm/stripe.esm.node.js
+var stripe_esm_node_exports = {};
+__export(stripe_esm_node_exports, {
+  Stripe: () => Stripe,
+  default: () => stripe_esm_node_default
+});
+var Stripe, stripe_esm_node_default;
+var init_stripe_esm_node = __esm({
+  "node_modules/stripe/esm/stripe.esm.node.js"() {
+    init_NodePlatformFunctions();
+    init_stripe_core();
+    Stripe = createStripe(new NodePlatformFunctions());
+    stripe_esm_node_default = Stripe;
   }
 });
 
@@ -37527,7 +42979,7 @@ ZodNaN.create = (params) => {
     ...processCreateParams(params)
   });
 };
-var BRAND = Symbol("zod_brand");
+var BRAND = /* @__PURE__ */ Symbol("zod_brand");
 var ZodBranded = class extends ZodType {
   _parse(input) {
     const { ctx } = this._processInputParams(input);
@@ -37729,14 +43181,14 @@ var ostring = () => stringType().optional();
 var onumber = () => numberType().optional();
 var oboolean = () => booleanType().optional();
 var coerce = {
-  string: (arg) => ZodString.create({ ...arg, coerce: true }),
-  number: (arg) => ZodNumber.create({ ...arg, coerce: true }),
-  boolean: (arg) => ZodBoolean.create({
+  string: ((arg) => ZodString.create({ ...arg, coerce: true })),
+  number: ((arg) => ZodNumber.create({ ...arg, coerce: true })),
+  boolean: ((arg) => ZodBoolean.create({
     ...arg,
     coerce: true
-  }),
-  bigint: (arg) => ZodBigInt.create({ ...arg, coerce: true }),
-  date: (arg) => ZodDate.create({ ...arg, coerce: true })
+  })),
+  bigint: ((arg) => ZodBigInt.create({ ...arg, coerce: true })),
+  date: ((arg) => ZodDate.create({ ...arg, coerce: true }))
 };
 var NEVER = INVALID;
 
@@ -37880,7 +43332,7 @@ var health_default = router;
 
 // src/routes/ohanna.ts
 var import_express2 = __toESM(require_express2(), 1);
-import { randomUUID as randomUUID4 } from "crypto";
+import { randomUUID as randomUUID5 } from "crypto";
 
 // node_modules/pg/esm/index.mjs
 var import_lib = __toESM(require_lib5(), 1);
@@ -37898,8 +43350,7 @@ var defaults = import_lib.default.defaults;
 var esm_default = import_lib.default;
 
 // node_modules/drizzle-orm/entity.js
-var entityKind = Symbol.for("drizzle:entityKind");
-var hasOwnEntityKind = Symbol.for("drizzle:hasOwnEntityKind");
+var entityKind = /* @__PURE__ */ Symbol.for("drizzle:entityKind");
 function is(value, type) {
   if (!value || typeof value !== "object") {
     return false;
@@ -38134,7 +43585,7 @@ var ColumnBuilder = class {
 };
 
 // node_modules/drizzle-orm/table.utils.js
-var TableName = Symbol.for("drizzle:Name");
+var TableName = /* @__PURE__ */ Symbol.for("drizzle:Name");
 
 // node_modules/drizzle-orm/pg-core/foreign-keys.js
 var ForeignKeyBuilder = class {
@@ -38535,7 +43986,7 @@ var PgEnumObjectColumn = class extends PgColumn {
     return this.enum.enumName;
   }
 };
-var isPgEnumSym = Symbol.for("drizzle:isPgEnum");
+var isPgEnumSym = /* @__PURE__ */ Symbol.for("drizzle:isPgEnum");
 function isPgEnum(obj) {
   return !!obj && typeof obj === "function" && isPgEnumSym in obj && obj[isPgEnumSym] === true;
 }
@@ -38626,17 +44077,17 @@ var tracer = {
 };
 
 // node_modules/drizzle-orm/view-common.js
-var ViewBaseConfig = Symbol.for("drizzle:ViewBaseConfig");
+var ViewBaseConfig = /* @__PURE__ */ Symbol.for("drizzle:ViewBaseConfig");
 
 // node_modules/drizzle-orm/table.js
-var Schema = Symbol.for("drizzle:Schema");
-var Columns = Symbol.for("drizzle:Columns");
-var ExtraConfigColumns = Symbol.for("drizzle:ExtraConfigColumns");
-var OriginalName = Symbol.for("drizzle:OriginalName");
-var BaseName = Symbol.for("drizzle:BaseName");
-var IsAlias = Symbol.for("drizzle:IsAlias");
-var ExtraConfigBuilder = Symbol.for("drizzle:ExtraConfigBuilder");
-var IsDrizzleTable = Symbol.for("drizzle:IsDrizzleTable");
+var Schema = /* @__PURE__ */ Symbol.for("drizzle:Schema");
+var Columns = /* @__PURE__ */ Symbol.for("drizzle:Columns");
+var ExtraConfigColumns = /* @__PURE__ */ Symbol.for("drizzle:ExtraConfigColumns");
+var OriginalName = /* @__PURE__ */ Symbol.for("drizzle:OriginalName");
+var BaseName = /* @__PURE__ */ Symbol.for("drizzle:BaseName");
+var IsAlias = /* @__PURE__ */ Symbol.for("drizzle:IsAlias");
+var ExtraConfigBuilder = /* @__PURE__ */ Symbol.for("drizzle:ExtraConfigBuilder");
+var IsDrizzleTable = /* @__PURE__ */ Symbol.for("drizzle:IsDrizzleTable");
 var Table = class {
   static [entityKind] = "Table";
   /** @internal */
@@ -39052,7 +44503,7 @@ function fillPlaceholders(params, values) {
     return p;
   });
 }
-var IsDrizzleView = Symbol.for("drizzle:IsDrizzleView");
+var IsDrizzleView = /* @__PURE__ */ Symbol.for("drizzle:IsDrizzleView");
 var View = class {
   static [entityKind] = "View";
   /** @internal */
@@ -40756,8 +46207,8 @@ function getPgColumnBuilders() {
 }
 
 // node_modules/drizzle-orm/pg-core/table.js
-var InlineForeignKeys = Symbol.for("drizzle:PgInlineForeignKeys");
-var EnableRLS = Symbol.for("drizzle:EnableRLS");
+var InlineForeignKeys = /* @__PURE__ */ Symbol.for("drizzle:PgInlineForeignKeys");
+var EnableRLS = /* @__PURE__ */ Symbol.for("drizzle:EnableRLS");
 var PgTable = class extends Table {
   static [entityKind] = "PgTable";
   /** @internal */
@@ -45264,8 +50715,8 @@ router2.post(
     let checkoutUrl;
     if (stripeKey && stripeKey.startsWith("sk_")) {
       try {
-        const Stripe = (await import("stripe")).default;
-        const stripe = new Stripe(stripeKey, { apiVersion: "2024-04-10" });
+        const Stripe2 = (await Promise.resolve().then(() => (init_stripe_esm_node(), stripe_esm_node_exports))).default;
+        const stripe = new Stripe2(stripeKey, { apiVersion: "2024-04-10" });
         const lineItems = items.map((item) => ({
           price_data: {
             currency: "egp",
@@ -45289,11 +50740,11 @@ router2.post(
         checkoutUrl = session.url || "";
       } catch (stripeErr) {
         logger.error({ err: stripeErr }, "Stripe error");
-        sessionId = `mock_${randomUUID4()}`;
+        sessionId = `mock_${randomUUID5()}`;
         checkoutUrl = successUrl;
       }
     } else {
-      sessionId = `mock_${randomUUID4()}`;
+      sessionId = `mock_${randomUUID5()}`;
       checkoutUrl = successUrl;
     }
     const orderId = `OHN-${Date.now()}`;
@@ -45340,7 +50791,7 @@ router2.post(
       return;
     }
     const contactData = {
-      id: randomUUID4(),
+      id: randomUUID5(),
       name: name.trim(),
       email: email.trim().toLowerCase(),
       subject: (subject ?? "").trim(),
