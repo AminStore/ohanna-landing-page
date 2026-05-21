@@ -45245,13 +45245,18 @@ router2.get(
 router2.post(
   "/checkout",
   asyncHandler(async (req, res) => {
-    const { items, successUrl, cancelUrl, customerEmail, customerName, shippingAddress } = req.body;
+    const {
+      items,
+      successUrl,
+      cancelUrl,
+      customerEmail: rawEmail,
+      customerName: rawName,
+      shippingAddress
+    } = req.body;
+    const customerEmail = rawEmail?.trim() || "guest@ohanna.store";
+    const customerName = rawName?.trim() || "Guest";
     if (!items?.length) {
       res.status(400).json({ error: "Cart is empty" });
-      return;
-    }
-    if (!customerEmail?.trim() || !customerName?.trim()) {
-      res.status(400).json({ error: "Customer email and name are required" });
       return;
     }
     const stripeKey = process.env["STRIPE_SECRET_KEY"];
