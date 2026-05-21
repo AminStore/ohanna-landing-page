@@ -1,15 +1,16 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Search, X, Filter, Eye } from "lucide-react";
-import type { Metadata } from "next";
+import { Search, X, Filter, Eye, ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import ProductCard from "@/components/product/product-card";
 import { ProductGridSkeleton } from "@/components/product/product-skeleton";
 import { PRODUCTS, CATEGORIES, getProductsByCategory } from "@/lib/products-data";
 import type { Product } from "@/lib/types";
+
+const PAGE_SIZE = 6;
 
 function useDebounce<T>(val: T, ms: number) {
   const [deb, setDeb] = useState(val);
@@ -29,26 +30,32 @@ export default function CollectionPage() {
   const [category, setCategory] = useState(getInitialCategory);
   const [searchInput, setSearchInput] = useState("");
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [page, setPage] = useState(1);
 
   const debouncedSearch = useDebounce(searchInput, 300);
 
+  const filtered = useMemo<Product[]>(() => {
+    let results = getProductsByCategory(category);
+    if (debouncedSearch.trim()) {
+      const q = debouncedSearch.toLowerCase();
+      results = results.filter(
+        (p) => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)
+      );
+    }
+    return results;
+  }, [category, debouncedSearch]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
   useEffect(() => {
     setLoading(true);
-    const timer = setTimeout(() => {
-      let results = getProductsByCategory(category);
-      if (debouncedSearch.trim()) {
-        const q = debouncedSearch.toLowerCase();
-        results = results.filter(
-          (p) =>
-            p.name.toLowerCase().includes(q) ||
-            p.description.toLowerCase().includes(q),
-        );
-      }
-      setProducts(results);
-      setLoading(false);
-    }, 200);
-    return () => clearTimeout(timer);
+    const t = setTimeout(() => setLoading(false), 250);
+    return () => clearTimeout(t);
+  }, [category, debouncedSearch]);
+
+  useEffect(() => {
+    setPage(1);
   }, [category, debouncedSearch]);
 
   const handleCategory = useCallback((cat: string) => {
@@ -72,46 +79,50 @@ export default function CollectionPage() {
               <Eye className="h-7 w-7 text-[#C89D29]" />
               <div className="h-1 w-12 bg-[#C89D29] sketchy-line" />
             </div>
-            <h1 className="text-4xl sm:text-6xl font-black hieroglyph-font mb-3">SACRED COLLECTION</h1>
-            <p className="text-[#1B1B1B]/55 text-sm max-w-lg mx-auto">
-              {products.length > 0
-                ? `${products.length} premium Egyptian streetwear piece${products.length !== 1 ? "s" : ""}`
-                : "Ancient power in modern form"}
+            <h1 className="text-4xl sm:text-6xl font-black hieroglyph-font mb-3">
+              SACRED <span className="text-[#C89D29]">COLLECTION</span>
+            </h1>
+            <p className="text-[#1B1B1B]/55 text-sm">
+              {filtered.length} premium Egyptian streetwear piece{filtered.length !== 1 ? "s" : ""}
+              {category !== "All" && ` in ${category}`}
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Filters */}
-      <div className="sticky top-[61px] z-20 bg-[#FDF8EF]/95 backdrop-blur-sm border-b-2 border-[#1B1B1B]/10 py-3 shadow-sm">
+      {/* Sticky filters */}
+      <div className="sticky top-[61px] z-20 bg-[#FDF8EF]/95 backdrop-blur-sm border-b border-[#1B1B1B]/8 py-3 shadow-sm">
         <div className="container mx-auto px-4 space-y-3">
+          {/* Search */}
           <div className="relative max-w-xs">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B1B1B]/40 pointer-events-none" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B1B1B]/35 pointer-events-none" />
             <input
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Search pieces..."
-              className="w-full pl-9 pr-8 py-2 text-sm border-2 border-[#1B1B1B]/15 bg-white focus:outline-none focus:border-[#C89D29] transition-colors placeholder:text-[#1B1B1B]/30"
+              className="w-full pl-9 pr-8 py-2 text-sm border-2 border-[#1B1B1B]/12 rounded-lg bg-white focus:outline-none focus:border-[#C89D29] transition-colors placeholder:text-[#1B1B1B]/30"
             />
             {searchInput && (
               <button
                 onClick={() => setSearchInput("")}
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#1B1B1B]/40 hover:text-[#1B1B1B]"
+                aria-label="Clear search"
               >
                 <X className="h-3.5 w-3.5" />
               </button>
             )}
           </div>
-          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none">
-            <Filter className="h-4 w-4 text-[#1B1B1B]/40 shrink-0" />
+          {/* Categories */}
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pb-0.5">
+            <Filter className="h-4 w-4 text-[#1B1B1B]/35 shrink-0" />
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 onClick={() => handleCategory(cat)}
-                className={`shrink-0 px-4 py-1.5 text-xs font-black hieroglyph-font border-2 transition-all ${
+                className={`shrink-0 px-4 py-1.5 text-xs font-black hieroglyph-font border-2 rounded-md transition-all ${
                   category === cat
                     ? "bg-[#1B1B1B] text-[#FDF8EF] border-[#1B1B1B]"
-                    : "bg-white border-[#1B1B1B]/15 text-[#1B1B1B]/60 hover:border-[#C89D29] hover:text-[#C89D29]"
+                    : "bg-white border-[#1B1B1B]/12 text-[#1B1B1B]/55 hover:border-[#C89D29] hover:text-[#C89D29]"
                 }`}
               >
                 {cat}
@@ -125,13 +136,11 @@ export default function CollectionPage() {
       <main className="flex-1 py-10">
         <div className="container mx-auto px-4">
           {loading ? (
-            <ProductGridSkeleton count={8} />
-          ) : products.length === 0 ? (
+            <ProductGridSkeleton count={PAGE_SIZE} />
+          ) : filtered.length === 0 ? (
             <div className="text-center py-24">
               <span className="text-6xl block mb-4 text-[#C89D29]/30">𓋹</span>
-              <p className="font-black hieroglyph-font text-[#1B1B1B]/30 text-xs tracking-widest mb-2">
-                NO PIECES FOUND
-              </p>
+              <p className="font-black hieroglyph-font text-[#1B1B1B]/30 text-xs tracking-widest mb-2">NO PIECES FOUND</p>
               <p className="text-xs text-[#1B1B1B]/30">
                 {searchInput ? `No results for "${searchInput}"` : "Try a different category"}
               </p>
@@ -143,11 +152,58 @@ export default function CollectionPage() {
               </button>
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-              {products.map((p, i) => (
-                <ProductCard key={p.id} product={p} index={i} />
-              ))}
-            </div>
+            <>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {paginated.map((p, i) => (
+                  <ProductCard key={p.id} product={p} index={i} />
+                ))}
+              </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2 mt-12">
+                  <button
+                    onClick={() => setPage(p => Math.max(1, p - 1))}
+                    disabled={page === 1}
+                    className="flex items-center gap-1.5 px-4 py-2 text-xs font-black hieroglyph-font border-2 border-[#1B1B1B]/15 rounded-lg hover:border-[#C89D29] hover:text-[#C89D29] disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                    aria-label="Previous page"
+                  >
+                    <ChevronLeft className="h-3.5 w-3.5" />
+                    PREV
+                  </button>
+
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+                      <button
+                        key={n}
+                        onClick={() => setPage(n)}
+                        className={`w-9 h-9 text-xs font-black hieroglyph-font rounded-lg border-2 transition-all ${
+                          n === page
+                            ? "bg-[#C89D29] border-[#C89D29] text-[#1B1B1B]"
+                            : "border-[#1B1B1B]/12 text-[#1B1B1B]/55 hover:border-[#C89D29] hover:text-[#C89D29]"
+                        }`}
+                      >
+                        {n}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                    disabled={page === totalPages}
+                    className="flex items-center gap-1.5 px-4 py-2 text-xs font-black hieroglyph-font border-2 border-[#1B1B1B]/15 rounded-lg hover:border-[#C89D29] hover:text-[#C89D29] disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                    aria-label="Next page"
+                  >
+                    NEXT
+                    <ChevronRight className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              )}
+
+              <p className="text-center text-xs text-[#1B1B1B]/30 mt-4">
+                Page {page} of {totalPages} · Showing {paginated.length} of {filtered.length} pieces
+              </p>
+            </>
           )}
         </div>
       </main>

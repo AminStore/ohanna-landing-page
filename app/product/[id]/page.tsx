@@ -2,7 +2,7 @@
 
 import { useState, use } from "react";
 import { motion } from "framer-motion";
-import { ShoppingBag, ArrowLeft, CheckCircle2, Minus, Plus, Star } from "lucide-react";
+import { ShoppingBag, ArrowLeft, CheckCircle2, Minus, Plus, Star, Ruler, RotateCcw, Shield, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -10,17 +10,20 @@ import { toast } from "sonner";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import ProductCard from "@/components/product/product-card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/contexts/cart-context";
 import { getProductById, fmt, BADGE_STYLES, PRODUCTS } from "@/lib/products-data";
 
 const SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
 
+const TRUST = [
+  { icon: RotateCcw, label: "FREE RETURNS", sub: "14-day policy" },
+  { icon: Shield, label: "SECURE PAYMENT", sub: "Stripe protected" },
+  { icon: Zap, label: "FAST SHIPPING", sub: "2–5 business days" },
+];
+
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const product = getProductById(id);
-
   if (!product) notFound();
 
   const { addToCart, openCart } = useCart();
@@ -29,13 +32,11 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
   const [added, setAdded] = useState(false);
 
   const related = PRODUCTS.filter(
-    (p) => p.category === product.category && p.id !== product.id,
+    (p) => p.category === product.category && p.id !== product.id
   ).slice(0, 4);
 
   const handleAdd = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart(product, selectedSize);
-    }
+    for (let i = 0; i < quantity; i++) addToCart(product, selectedSize);
     setAdded(true);
     toast.success(`${product.name} (${selectedSize}) × ${quantity} added! 𓋹`, {
       action: { label: "View Cart", onClick: openCart },
@@ -48,13 +49,18 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       <Navbar />
       <main className="flex-1 py-10">
         <div className="container mx-auto px-4 max-w-5xl">
-          <Link
-            href="/collection"
-            className="inline-flex items-center gap-2 text-sm text-[#1B1B1B]/50 hover:text-[#C89D29] transition-colors font-semibold mb-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Collection
-          </Link>
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-xs text-[#1B1B1B]/40 mb-8">
+            <Link href="/" className="hover:text-[#C89D29] transition-colors">Home</Link>
+            <span>/</span>
+            <Link href="/collection" className="hover:text-[#C89D29] transition-colors">Collection</Link>
+            <span>/</span>
+            <Link href={`/collection?category=${product.category}`} className="hover:text-[#C89D29] transition-colors">
+              {product.category}
+            </Link>
+            <span>/</span>
+            <span className="text-[#1B1B1B]/70 font-medium">{product.name}</span>
+          </div>
 
           <div className="grid md:grid-cols-2 gap-10 mb-20">
             {/* Image */}
@@ -62,23 +68,29 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="relative"
             >
-              <div className="relative aspect-[3/4] border-4 border-[#1B1B1B] overflow-hidden bg-[#E4D5B7] shadow-[8px_8px_0_#1B1B1B]">
-                <Image
-                  src={product.image_url}
-                  alt={`${product.name} — OHANNA Egyptian Streetwear`}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-                <Badge
-                  className={`absolute top-4 left-4 text-xs font-black sketchy-border ${
-                    BADGE_STYLES[product.badge] ?? "bg-[#1B1B1B] text-[#FDF8EF]"
-                  }`}
-                >
-                  {product.badge}
-                </Badge>
+              <div className="ohanna-card overflow-hidden">
+                <div className="relative aspect-[4/5] bg-[#E4D5B7]">
+                  <Image
+                    src={product.image_url}
+                    alt={`${product.name} — OHANNA Egyptian Streetwear`}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                  {product.badge && (
+                    <span className={`absolute top-4 left-4 text-xs font-black px-3 py-1.5 rounded-md ${
+                      BADGE_STYLES[product.badge] ?? "bg-[#1B1B1B] text-[#FDF8EF]"
+                    }`}>
+                      {product.badge}
+                    </span>
+                  )}
+                  {product.stock <= 5 && (
+                    <div className="absolute bottom-4 left-4 right-4 bg-[#AE1C1C]/90 text-white text-xs font-black text-center py-2 rounded-md">
+                      ONLY {product.stock} LEFT IN STOCK
+                    </div>
+                  )}
+                </div>
               </div>
             </motion.div>
 
@@ -96,7 +108,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                 <h1 className="text-3xl sm:text-4xl font-black hieroglyph-font mt-1 leading-tight">
                   {product.name}
                 </h1>
-                <div className="flex items-center gap-1 mt-2">
+                <div className="flex items-center gap-1.5 mt-2">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-4 w-4 fill-[#C89D29] text-[#C89D29]" />
                   ))}
@@ -106,22 +118,27 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
 
               <div className="text-4xl font-black text-[#C89D29]">{fmt(product.price)}</div>
 
-              <p className="text-[#1B1B1B]/70 leading-relaxed text-sm">{product.description}</p>
+              <p className="text-[#1B1B1B]/65 leading-relaxed text-sm">{product.description}</p>
 
               {/* Size selector */}
               <div>
-                <p className="text-xs font-black hieroglyph-font tracking-wider mb-2">
-                  SIZE — <span className="text-[#C89D29]">{selectedSize}</span>
-                </p>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-black hieroglyph-font tracking-wider">
+                    SIZE — <span className="text-[#C89D29]">{selectedSize}</span>
+                  </p>
+                  <Link href="/size-guide" className="flex items-center gap-1 text-xs text-[#1B1B1B]/45 hover:text-[#C89D29] transition-colors">
+                    <Ruler className="h-3 w-3" /> Size Guide
+                  </Link>
+                </div>
                 <div className="flex flex-wrap gap-2">
                   {SIZES.map((s) => (
                     <button
                       key={s}
                       onClick={() => setSelectedSize(s)}
-                      className={`w-12 h-12 text-xs font-black border-2 transition-all ${
+                      className={`w-12 h-12 text-xs font-black border-2 rounded-lg transition-all ${
                         selectedSize === s
-                          ? "bg-[#1B1B1B] text-[#FDF8EF] border-[#1B1B1B]"
-                          : "bg-white border-[#1B1B1B]/25 hover:border-[#C89D29] hover:text-[#C89D29]"
+                          ? "bg-[#1B1B1B] text-[#FDF8EF] border-[#1B1B1B] shadow-md"
+                          : "bg-white border-[#1B1B1B]/15 hover:border-[#C89D29] hover:text-[#C89D29]"
                       }`}
                     >
                       {s}
@@ -133,17 +150,19 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
               {/* Quantity */}
               <div>
                 <p className="text-xs font-black hieroglyph-font tracking-wider mb-2">QUANTITY</p>
-                <div className="flex items-center border-2 border-[#1B1B1B] w-fit">
+                <div className="flex items-center border border-[#1B1B1B]/15 rounded-lg overflow-hidden w-fit">
                   <button
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="w-10 h-10 flex items-center justify-center hover:bg-[#1B1B1B] hover:text-[#FDF8EF] transition-colors"
+                    className="w-11 h-11 flex items-center justify-center hover:bg-[#1B1B1B]/5 transition-colors"
+                    aria-label="Decrease"
                   >
                     <Minus className="h-4 w-4" />
                   </button>
-                  <span className="w-12 text-center font-bold">{quantity}</span>
+                  <span className="w-12 text-center font-bold border-x border-[#1B1B1B]/12">{quantity}</span>
                   <button
                     onClick={() => setQuantity((q) => Math.min(q + 1, product.stock))}
-                    className="w-10 h-10 flex items-center justify-center hover:bg-[#1B1B1B] hover:text-[#FDF8EF] transition-colors"
+                    className="w-11 h-11 flex items-center justify-center hover:bg-[#1B1B1B]/5 transition-colors"
+                    aria-label="Increase"
                   >
                     <Plus className="h-4 w-4" />
                   </button>
@@ -151,33 +170,24 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
               </div>
 
               {/* Add to cart */}
-              <Button
+              <button
                 onClick={handleAdd}
-                size="lg"
-                className="w-full bg-[#1B1B1B] text-[#FDF8EF] hover:bg-[#C89D29] hover:text-[#1B1B1B] sketchy-button font-black text-sm tracking-wider py-4"
+                className="w-full bg-[#1B1B1B] text-[#FDF8EF] hover:bg-[#C89D29] hover:text-[#1B1B1B] py-4 px-6 font-black hieroglyph-font text-sm sketchy-button transition-all active:scale-[0.98] flex items-center justify-center gap-2"
               >
                 {added ? (
-                  <><CheckCircle2 className="h-5 w-5 mr-2" /> ADDED TO CART!</>
+                  <><CheckCircle2 className="h-5 w-5" /> ADDED TO CART!</>
                 ) : (
-                  <><ShoppingBag className="h-5 w-5 mr-2" /> ADD TO CART — {fmt(product.price * quantity)}</>
+                  <><ShoppingBag className="h-5 w-5" /> ADD TO CART — {fmt(product.price * quantity)}</>
                 )}
-              </Button>
+              </button>
 
               {/* Trust signals */}
-              <div className="grid grid-cols-3 gap-3 pt-2">
-                {[
-                  { icon: "𓋹", label: "FREE RETURNS" },
-                  { icon: "𓂀", label: "SECURE PAYMENT" },
-                  { icon: "𓅃", label: "FAST SHIPPING" },
-                ].map((item) => (
-                  <div
-                    key={item.label}
-                    className="text-center bg-[#E4D5B7] border-2 border-[#1B1B1B]/15 p-3"
-                  >
-                    <div className="text-xl text-[#C89D29]/60 mb-1">{item.icon}</div>
-                    <p className="text-[9px] font-black hieroglyph-font text-[#1B1B1B]/50 tracking-wider">
-                      {item.label}
-                    </p>
+              <div className="grid grid-cols-3 gap-3">
+                {TRUST.map((t) => (
+                  <div key={t.label} className="ohanna-card p-3 text-center">
+                    <t.icon className="h-5 w-5 text-[#C89D29] mx-auto mb-1.5" />
+                    <p className="text-[9px] font-black hieroglyph-font text-[#1B1B1B]/60 tracking-wider leading-tight">{t.label}</p>
+                    <p className="text-[9px] text-[#1B1B1B]/35 mt-0.5">{t.sub}</p>
                   </div>
                 ))}
               </div>
@@ -187,9 +197,10 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
           {/* Related products */}
           {related.length > 0 && (
             <section>
-              <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-4 mb-8">
                 <div className="h-1 w-8 bg-[#C89D29] sketchy-line" />
                 <h2 className="text-xl font-black hieroglyph-font">YOU MAY ALSO LIKE</h2>
+                <div className="flex-1 h-px bg-[#1B1B1B]/6" />
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 {related.map((p, i) => (
