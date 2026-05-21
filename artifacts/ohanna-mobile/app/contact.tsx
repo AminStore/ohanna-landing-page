@@ -1,7 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
-import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { useState } from "react";
 import {
@@ -58,7 +58,7 @@ export default function ContactScreen() {
   };
 
   return (
-    <KeyboardAwareScrollView
+    <KeyboardAwareScrollViewCompat
       style={{ flex: 1, backgroundColor: colors.background }}
       contentContainerStyle={{ flexGrow: 1 }}
       bottomOffset={16}
@@ -151,7 +151,7 @@ export default function ContactScreen() {
       </View>
 
       <View style={{ height: Platform.OS === "web" ? 100 : 60 }} />
-    </KeyboardAwareScrollView>
+    </KeyboardAwareScrollViewCompat>
   );
 }
 

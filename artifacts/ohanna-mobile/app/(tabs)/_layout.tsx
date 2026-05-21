@@ -5,11 +5,34 @@ import { Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
 import { SymbolView } from "expo-symbols";
 import { Feather } from "@expo/vector-icons";
 import React from "react";
-import { Platform, StyleSheet, View, useColorScheme } from "react-native";
+import { Platform, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useColors } from "@/hooks/useColors";
 import { useCart } from "@/contexts/CartContext";
+
+function CartBadge({ count }: { count: number }) {
+  const colors = useColors();
+  if (count === 0) return null;
+  return (
+    <View style={{
+      position: "absolute",
+      top: -4,
+      right: -8,
+      backgroundColor: colors.primary,
+      borderRadius: 8,
+      minWidth: 16,
+      height: 16,
+      alignItems: "center",
+      justifyContent: "center",
+      paddingHorizontal: 3,
+    }}>
+      <Text style={{ color: colors.primaryForeground, fontSize: 9, fontFamily: "Inter_700Bold" }}>
+        {count > 9 ? "9+" : count}
+      </Text>
+    </View>
+  );
+}
 
 function NativeTabLayout() {
   const { totalItems } = useCart();
@@ -103,13 +126,17 @@ function ClassicTabLayout() {
       <Tabs.Screen
         name="cart"
         options={{
-          title: `Cart${totalItems > 0 ? ` (${totalItems})` : ""}`,
-          tabBarIcon: ({ color }) =>
-            isIOS ? (
-              <SymbolView name="cart" tintColor={color} size={22} />
-            ) : (
-              <Feather name="shopping-cart" size={20} color={color} />
-            ),
+          title: `Cart`,
+          tabBarIcon: ({ color, focused }) => (
+            <View>
+              {isIOS ? (
+                <SymbolView name="cart" tintColor={color} size={22} />
+              ) : (
+                <Feather name="shopping-cart" size={20} color={color} />
+              )}
+              <CartBadge count={totalItems} />
+            </View>
+          ),
         }}
       />
       <Tabs.Screen

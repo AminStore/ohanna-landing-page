@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { useState } from "react";
 import {
@@ -61,7 +61,7 @@ export default function TrackScreen() {
   const statusInfo = order ? (STATUS_LABELS[order.status] ?? STATUS_LABELS.pending) : null;
 
   return (
-    <KeyboardAwareScrollView
+    <KeyboardAwareScrollViewCompat
       style={{ flex: 1, backgroundColor: colors.background }}
       contentContainerStyle={{ flexGrow: 1 }}
       bottomOffset={16}
@@ -163,7 +163,7 @@ export default function TrackScreen() {
         )}
       </View>
       <View style={{ height: Platform.OS === "web" ? 100 : 60 }} />
-    </KeyboardAwareScrollView>
+    </KeyboardAwareScrollViewCompat>
   );
 }
 
