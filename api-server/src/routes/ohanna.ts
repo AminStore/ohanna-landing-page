@@ -23,7 +23,7 @@ router.post("/checkout", async (req, res) => {
     if (stripeKey && stripeKey.startsWith("sk_")) {
       try {
         const Stripe = (await import("stripe")).default;
-        const stripe = new Stripe(stripeKey, { apiVersion: "2025-04-30.basil" as any });
+        const stripe = new Stripe(stripeKey, { apiVersion: "2024-04-10" } as any);
 
         const lineItems = items.map((item: any) => ({
           price_data: {
