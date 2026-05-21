@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
+import { useTheme } from "@/contexts/theme-context";
 
 const HIEROGLYPHS = ["𓂀", "𓃀", "𓆣", "𓇯", "𓈖", "𓊽", "𓋹", "𓌀", "𓍯", "𓎛", "𓏌", "𓐍"];
 
@@ -31,6 +32,8 @@ function BgGlyph({ glyph, delay, x, y }: { glyph: string; delay: number; x: numb
 
 export default function NotFound() {
   const [cycleIdx, setCycleIdx] = useState(0);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   useEffect(() => {
     const t = setInterval(() => setCycleIdx((n) => (n + 1) % HIEROGLYPHS.length), 1800);
@@ -38,7 +41,7 @@ export default function NotFound() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#FDF8EF] flex items-center justify-center overflow-hidden relative py-8">
+    <div className="min-h-screen bg-[#FDF8EF] dark:bg-[#1A1410] flex items-center justify-center overflow-hidden relative py-8">
 
       {/* Ambient glow */}
       <div
@@ -92,8 +95,8 @@ export default function NotFound() {
           />
           {/* Outer orbit */}
           <motion.div
-            className="absolute rounded-full border border-[#1B1B1B]/05"
-            style={{ inset: "-18px" }}
+            className="absolute rounded-full"
+            style={{ inset: "-18px", border: isDark ? "1px solid rgba(253,248,239,0.05)" : "1px solid rgba(27,27,27,0.05)" }}
             animate={{ rotate: -360 }}
             transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
           />
@@ -108,7 +111,13 @@ export default function NotFound() {
         >
           <span
             className="hieroglyph-font font-black select-none block"
-            style={{ fontSize: "clamp(4.5rem, 14vw, 7.5rem)", lineHeight: 1, color: "transparent", WebkitTextStroke: "2px #1B1B1B", letterSpacing: "0.06em" }}
+            style={{
+              fontSize: "clamp(4.5rem, 14vw, 7.5rem)",
+              lineHeight: 1,
+              color: "transparent",
+              WebkitTextStroke: isDark ? "2px #FDF8EF" : "2px #1B1B1B",
+              letterSpacing: "0.06em",
+            }}
           >
             404
           </span>
@@ -146,7 +155,7 @@ export default function NotFound() {
 
         {/* Body copy */}
         <motion.p
-          className="text-[#1B1B1B]/50 text-[13px] max-w-[22rem] leading-relaxed mb-7"
+          className="text-[#1B1B1B]/50 dark:text-[#FDF8EF]/50 text-[13px] max-w-[22rem] leading-relaxed mb-7"
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.72 }}
@@ -163,7 +172,7 @@ export default function NotFound() {
         >
           <Link href="/">
             <motion.span
-              className="inline-flex items-center gap-2 px-7 py-2.5 bg-[#1B1B1B] text-[#FDF8EF] hieroglyph-font text-[10px] tracking-widest cursor-pointer border-2 border-[#1B1B1B] rounded-lg"
+              className="inline-flex items-center gap-2 px-7 py-2.5 bg-[#1B1B1B] dark:bg-[#FDF8EF] text-[#FDF8EF] dark:text-[#1B1B1B] hieroglyph-font text-[10px] tracking-widest cursor-pointer border-2 border-[#1B1B1B] dark:border-[#FDF8EF] rounded-lg"
               whileHover={{ scale: 1.03, boxShadow: "4px 4px 0 #C89D29" }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 400 }}

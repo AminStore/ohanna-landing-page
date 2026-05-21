@@ -47,8 +47,8 @@ export default function CommunityPage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
             {STATS.map((s, i) => (
               <div key={i}>
-                <div className="text-3xl font-black hieroglyph-font text-[#1B1B1B]">{s.value}</div>
-                <div className="text-[#1B1B1B]/60 text-sm font-semibold mt-1">{s.label}</div>
+                <div className="text-3xl font-black hieroglyph-font text-[#1B1B1B] dark:text-[#FDF8EF]">{s.value}</div>
+                <div className="text-[#1B1B1B]/60 dark:text-[#FDF8EF]/60 text-sm font-semibold mt-1">{s.label}</div>
               </div>
             ))}
           </div>
