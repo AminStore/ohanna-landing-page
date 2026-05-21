@@ -164,7 +164,7 @@ var require_ms = __commonJS({
 // node_modules/debug/src/common.js
 var require_common = __commonJS({
   "node_modules/debug/src/common.js"(exports, module) {
-    function setup(env) {
+    function setup(env2) {
       createDebug.debug = createDebug;
       createDebug.default = createDebug;
       createDebug.coerce = coerce;
@@ -173,8 +173,8 @@ var require_common = __commonJS({
       createDebug.enabled = enabled;
       createDebug.humanize = require_ms();
       createDebug.destroy = destroy;
-      Object.keys(env).forEach((key) => {
-        createDebug[key] = env[key];
+      Object.keys(env2).forEach((key) => {
+        createDebug[key] = env2[key];
       });
       createDebug.names = [];
       createDebug.skips = [];
@@ -18715,7 +18715,7 @@ var require_finalhandler = __commonJS({
     module.exports = finalhandler;
     function finalhandler(req, res, options) {
       var opts = options || {};
-      var env = opts.env || process.env.NODE_ENV || "development";
+      var env2 = opts.env || process.env.NODE_ENV || "development";
       var onerror = opts.onerror;
       return function(err) {
         var headers;
@@ -18732,7 +18732,7 @@ var require_finalhandler = __commonJS({
           } else {
             headers = getErrorHeaders(err);
           }
-          msg = getErrorMessage(err, status, env);
+          msg = getErrorMessage(err, status, env2);
         } else {
           status = 404;
           msg = "Cannot " + req.method + " " + encodeUrl(getResourceName(req));
@@ -18757,9 +18757,9 @@ var require_finalhandler = __commonJS({
       }
       return { ...err.headers };
     }
-    function getErrorMessage(err, status, env) {
+    function getErrorMessage(err, status, env2) {
       var msg;
-      if (env !== "production") {
+      if (env2 !== "production") {
         msg = err.stack;
         if (!msg && typeof err.toString === "function") {
           msg = err.toString();
@@ -21077,10 +21077,10 @@ var require_application = __commonJS({
       });
     };
     app2.defaultConfiguration = function defaultConfiguration() {
-      var env = process.env.NODE_ENV || "development";
+      var env2 = process.env.NODE_ENV || "development";
       this.enable("x-powered-by");
       this.set("etag", "weak");
-      this.set("env", env);
+      this.set("env", env2);
       this.set("query parser", "simple");
       this.set("subdomain offset", 2);
       this.set("trust proxy", false);
@@ -21088,7 +21088,7 @@ var require_application = __commonJS({
         configurable: true,
         value: true
       });
-      debug("booting in %s mode", env);
+      debug("booting in %s mode", env2);
       this.on("mount", function onmount(parent) {
         if (this.settings[trustProxyDefaultSymbol] === true && typeof parent.settings["trust proxy fn"] === "function") {
           delete this.settings["trust proxy"];
@@ -21105,7 +21105,7 @@ var require_application = __commonJS({
       this.set("view", View);
       this.set("views", resolve("views"));
       this.set("jsonp callback name", "callback");
-      if (env === "production") {
+      if (env2 === "production") {
         this.enable("view cache");
       }
     };
@@ -23761,284 +23761,6 @@ var require_express2 = __commonJS({
   "node_modules/express/index.js"(exports, module) {
     "use strict";
     module.exports = require_express();
-  }
-});
-
-// node_modules/object-assign/index.js
-var require_object_assign = __commonJS({
-  "node_modules/object-assign/index.js"(exports, module) {
-    "use strict";
-    var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-    var hasOwnProperty = Object.prototype.hasOwnProperty;
-    var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-    function toObject(val) {
-      if (val === null || val === void 0) {
-        throw new TypeError("Object.assign cannot be called with null or undefined");
-      }
-      return Object(val);
-    }
-    function shouldUseNative() {
-      try {
-        if (!Object.assign) {
-          return false;
-        }
-        var test1 = new String("abc");
-        test1[5] = "de";
-        if (Object.getOwnPropertyNames(test1)[0] === "5") {
-          return false;
-        }
-        var test2 = {};
-        for (var i = 0; i < 10; i++) {
-          test2["_" + String.fromCharCode(i)] = i;
-        }
-        var order2 = Object.getOwnPropertyNames(test2).map(function(n) {
-          return test2[n];
-        });
-        if (order2.join("") !== "0123456789") {
-          return false;
-        }
-        var test3 = {};
-        "abcdefghijklmnopqrst".split("").forEach(function(letter) {
-          test3[letter] = letter;
-        });
-        if (Object.keys(Object.assign({}, test3)).join("") !== "abcdefghijklmnopqrst") {
-          return false;
-        }
-        return true;
-      } catch (err) {
-        return false;
-      }
-    }
-    module.exports = shouldUseNative() ? Object.assign : function(target, source) {
-      var from;
-      var to = toObject(target);
-      var symbols;
-      for (var s = 1; s < arguments.length; s++) {
-        from = Object(arguments[s]);
-        for (var key in from) {
-          if (hasOwnProperty.call(from, key)) {
-            to[key] = from[key];
-          }
-        }
-        if (getOwnPropertySymbols) {
-          symbols = getOwnPropertySymbols(from);
-          for (var i = 0; i < symbols.length; i++) {
-            if (propIsEnumerable.call(from, symbols[i])) {
-              to[symbols[i]] = from[symbols[i]];
-            }
-          }
-        }
-      }
-      return to;
-    };
-  }
-});
-
-// node_modules/cors/lib/index.js
-var require_lib3 = __commonJS({
-  "node_modules/cors/lib/index.js"(exports, module) {
-    (function() {
-      "use strict";
-      var assign = require_object_assign();
-      var vary = require_vary();
-      var defaults = {
-        origin: "*",
-        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-        preflightContinue: false,
-        optionsSuccessStatus: 204
-      };
-      function isString(s) {
-        return typeof s === "string" || s instanceof String;
-      }
-      function isOriginAllowed(origin, allowedOrigin) {
-        if (Array.isArray(allowedOrigin)) {
-          for (var i = 0; i < allowedOrigin.length; ++i) {
-            if (isOriginAllowed(origin, allowedOrigin[i])) {
-              return true;
-            }
-          }
-          return false;
-        } else if (isString(allowedOrigin)) {
-          return origin === allowedOrigin;
-        } else if (allowedOrigin instanceof RegExp) {
-          return allowedOrigin.test(origin);
-        } else {
-          return !!allowedOrigin;
-        }
-      }
-      function configureOrigin(options, req) {
-        var requestOrigin = req.headers.origin, headers = [], isAllowed;
-        if (!options.origin || options.origin === "*") {
-          headers.push([{
-            key: "Access-Control-Allow-Origin",
-            value: "*"
-          }]);
-        } else if (isString(options.origin)) {
-          headers.push([{
-            key: "Access-Control-Allow-Origin",
-            value: options.origin
-          }]);
-          headers.push([{
-            key: "Vary",
-            value: "Origin"
-          }]);
-        } else {
-          isAllowed = isOriginAllowed(requestOrigin, options.origin);
-          headers.push([{
-            key: "Access-Control-Allow-Origin",
-            value: isAllowed ? requestOrigin : false
-          }]);
-          headers.push([{
-            key: "Vary",
-            value: "Origin"
-          }]);
-        }
-        return headers;
-      }
-      function configureMethods(options) {
-        var methods = options.methods;
-        if (methods.join) {
-          methods = options.methods.join(",");
-        }
-        return {
-          key: "Access-Control-Allow-Methods",
-          value: methods
-        };
-      }
-      function configureCredentials(options) {
-        if (options.credentials === true) {
-          return {
-            key: "Access-Control-Allow-Credentials",
-            value: "true"
-          };
-        }
-        return null;
-      }
-      function configureAllowedHeaders(options, req) {
-        var allowedHeaders = options.allowedHeaders || options.headers;
-        var headers = [];
-        if (!allowedHeaders) {
-          allowedHeaders = req.headers["access-control-request-headers"];
-          headers.push([{
-            key: "Vary",
-            value: "Access-Control-Request-Headers"
-          }]);
-        } else if (allowedHeaders.join) {
-          allowedHeaders = allowedHeaders.join(",");
-        }
-        if (allowedHeaders && allowedHeaders.length) {
-          headers.push([{
-            key: "Access-Control-Allow-Headers",
-            value: allowedHeaders
-          }]);
-        }
-        return headers;
-      }
-      function configureExposedHeaders(options) {
-        var headers = options.exposedHeaders;
-        if (!headers) {
-          return null;
-        } else if (headers.join) {
-          headers = headers.join(",");
-        }
-        if (headers && headers.length) {
-          return {
-            key: "Access-Control-Expose-Headers",
-            value: headers
-          };
-        }
-        return null;
-      }
-      function configureMaxAge(options) {
-        var maxAge = (typeof options.maxAge === "number" || options.maxAge) && options.maxAge.toString();
-        if (maxAge && maxAge.length) {
-          return {
-            key: "Access-Control-Max-Age",
-            value: maxAge
-          };
-        }
-        return null;
-      }
-      function applyHeaders(headers, res) {
-        for (var i = 0, n = headers.length; i < n; i++) {
-          var header = headers[i];
-          if (header) {
-            if (Array.isArray(header)) {
-              applyHeaders(header, res);
-            } else if (header.key === "Vary" && header.value) {
-              vary(res, header.value);
-            } else if (header.value) {
-              res.setHeader(header.key, header.value);
-            }
-          }
-        }
-      }
-      function cors2(options, req, res, next) {
-        var headers = [], method = req.method && req.method.toUpperCase && req.method.toUpperCase();
-        if (method === "OPTIONS") {
-          headers.push(configureOrigin(options, req));
-          headers.push(configureCredentials(options));
-          headers.push(configureMethods(options));
-          headers.push(configureAllowedHeaders(options, req));
-          headers.push(configureMaxAge(options));
-          headers.push(configureExposedHeaders(options));
-          applyHeaders(headers, res);
-          if (options.preflightContinue) {
-            next();
-          } else {
-            res.statusCode = options.optionsSuccessStatus;
-            res.setHeader("Content-Length", "0");
-            res.end();
-          }
-        } else {
-          headers.push(configureOrigin(options, req));
-          headers.push(configureCredentials(options));
-          headers.push(configureExposedHeaders(options));
-          applyHeaders(headers, res);
-          next();
-        }
-      }
-      function middlewareWrapper(o) {
-        var optionsCallback = null;
-        if (typeof o === "function") {
-          optionsCallback = o;
-        } else {
-          optionsCallback = function(req, cb) {
-            cb(null, o);
-          };
-        }
-        return function corsMiddleware(req, res, next) {
-          optionsCallback(req, function(err, options) {
-            if (err) {
-              next(err);
-            } else {
-              var corsOptions = assign({}, defaults, options);
-              var originCallback = null;
-              if (corsOptions.origin && typeof corsOptions.origin === "function") {
-                originCallback = corsOptions.origin;
-              } else if (corsOptions.origin) {
-                originCallback = function(origin, cb) {
-                  cb(null, corsOptions.origin);
-                };
-              }
-              if (originCallback) {
-                originCallback(req.headers.origin, function(err2, origin) {
-                  if (err2 || !origin) {
-                    next(err2);
-                  } else {
-                    corsOptions.origin = origin;
-                    cors2(corsOptions, req, res, next);
-                  }
-                });
-              } else {
-                next();
-              }
-            }
-          });
-        };
-      }
-      module.exports = middlewareWrapper;
-    })();
   }
 });
 
@@ -28503,7 +28225,7 @@ var require_logger = __commonJS({
           fullReqLogger = fullReqLogger.child(customPropBindings);
         }
         const responseLogger = quietResLogger ? log : fullReqLogger;
-        const requestLogger = quietReqLogger ? log : fullReqLogger;
+        const requestLogger2 = quietReqLogger ? log : fullReqLogger;
         if (!res.log) {
           res.log = responseLogger;
         }
@@ -28512,12 +28234,12 @@ var require_logger = __commonJS({
         }
         res.allLogs.push(responseLogger);
         if (!req.log) {
-          req.log = requestLogger;
+          req.log = requestLogger2;
         }
         if (!req.allLogs) {
           req.allLogs = [];
         }
-        req.allLogs.push(requestLogger);
+        req.allLogs.push(requestLogger2);
         res[startTime] = res[startTime] || Date.now();
         res[reqObject] = req;
         const onResponseComplete = (err) => {
@@ -28537,7 +28259,7 @@ var require_logger = __commonJS({
               const level = getLogLevelFromCustomLogLevel(customLogLevel, useLevel, res, void 0, req);
               const receivedObjectResult = onRequestReceivedObject !== void 0 ? onRequestReceivedObject(req, res, void 0) : {};
               const receivedStringResult = receivedMessage !== void 0 ? receivedMessage(req, res) : void 0;
-              requestLogger[level](receivedObjectResult, receivedStringResult);
+              requestLogger2[level](receivedObjectResult, receivedStringResult);
             }
             res.on("close", onResponseComplete);
             res.on("finish", onResponseComplete);
@@ -28602,6 +28324,284 @@ var require_logger = __commonJS({
     module.exports.startTime = startTime;
     module.exports.default = pinoLogger;
     module.exports.pinoHttp = pinoLogger;
+  }
+});
+
+// node_modules/object-assign/index.js
+var require_object_assign = __commonJS({
+  "node_modules/object-assign/index.js"(exports, module) {
+    "use strict";
+    var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
+    var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+    function toObject(val) {
+      if (val === null || val === void 0) {
+        throw new TypeError("Object.assign cannot be called with null or undefined");
+      }
+      return Object(val);
+    }
+    function shouldUseNative() {
+      try {
+        if (!Object.assign) {
+          return false;
+        }
+        var test1 = new String("abc");
+        test1[5] = "de";
+        if (Object.getOwnPropertyNames(test1)[0] === "5") {
+          return false;
+        }
+        var test2 = {};
+        for (var i = 0; i < 10; i++) {
+          test2["_" + String.fromCharCode(i)] = i;
+        }
+        var order2 = Object.getOwnPropertyNames(test2).map(function(n) {
+          return test2[n];
+        });
+        if (order2.join("") !== "0123456789") {
+          return false;
+        }
+        var test3 = {};
+        "abcdefghijklmnopqrst".split("").forEach(function(letter) {
+          test3[letter] = letter;
+        });
+        if (Object.keys(Object.assign({}, test3)).join("") !== "abcdefghijklmnopqrst") {
+          return false;
+        }
+        return true;
+      } catch (err) {
+        return false;
+      }
+    }
+    module.exports = shouldUseNative() ? Object.assign : function(target, source) {
+      var from;
+      var to = toObject(target);
+      var symbols;
+      for (var s = 1; s < arguments.length; s++) {
+        from = Object(arguments[s]);
+        for (var key in from) {
+          if (hasOwnProperty.call(from, key)) {
+            to[key] = from[key];
+          }
+        }
+        if (getOwnPropertySymbols) {
+          symbols = getOwnPropertySymbols(from);
+          for (var i = 0; i < symbols.length; i++) {
+            if (propIsEnumerable.call(from, symbols[i])) {
+              to[symbols[i]] = from[symbols[i]];
+            }
+          }
+        }
+      }
+      return to;
+    };
+  }
+});
+
+// node_modules/cors/lib/index.js
+var require_lib3 = __commonJS({
+  "node_modules/cors/lib/index.js"(exports, module) {
+    (function() {
+      "use strict";
+      var assign = require_object_assign();
+      var vary = require_vary();
+      var defaults = {
+        origin: "*",
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        preflightContinue: false,
+        optionsSuccessStatus: 204
+      };
+      function isString(s) {
+        return typeof s === "string" || s instanceof String;
+      }
+      function isOriginAllowed(origin, allowedOrigin) {
+        if (Array.isArray(allowedOrigin)) {
+          for (var i = 0; i < allowedOrigin.length; ++i) {
+            if (isOriginAllowed(origin, allowedOrigin[i])) {
+              return true;
+            }
+          }
+          return false;
+        } else if (isString(allowedOrigin)) {
+          return origin === allowedOrigin;
+        } else if (allowedOrigin instanceof RegExp) {
+          return allowedOrigin.test(origin);
+        } else {
+          return !!allowedOrigin;
+        }
+      }
+      function configureOrigin(options, req) {
+        var requestOrigin = req.headers.origin, headers = [], isAllowed;
+        if (!options.origin || options.origin === "*") {
+          headers.push([{
+            key: "Access-Control-Allow-Origin",
+            value: "*"
+          }]);
+        } else if (isString(options.origin)) {
+          headers.push([{
+            key: "Access-Control-Allow-Origin",
+            value: options.origin
+          }]);
+          headers.push([{
+            key: "Vary",
+            value: "Origin"
+          }]);
+        } else {
+          isAllowed = isOriginAllowed(requestOrigin, options.origin);
+          headers.push([{
+            key: "Access-Control-Allow-Origin",
+            value: isAllowed ? requestOrigin : false
+          }]);
+          headers.push([{
+            key: "Vary",
+            value: "Origin"
+          }]);
+        }
+        return headers;
+      }
+      function configureMethods(options) {
+        var methods = options.methods;
+        if (methods.join) {
+          methods = options.methods.join(",");
+        }
+        return {
+          key: "Access-Control-Allow-Methods",
+          value: methods
+        };
+      }
+      function configureCredentials(options) {
+        if (options.credentials === true) {
+          return {
+            key: "Access-Control-Allow-Credentials",
+            value: "true"
+          };
+        }
+        return null;
+      }
+      function configureAllowedHeaders(options, req) {
+        var allowedHeaders = options.allowedHeaders || options.headers;
+        var headers = [];
+        if (!allowedHeaders) {
+          allowedHeaders = req.headers["access-control-request-headers"];
+          headers.push([{
+            key: "Vary",
+            value: "Access-Control-Request-Headers"
+          }]);
+        } else if (allowedHeaders.join) {
+          allowedHeaders = allowedHeaders.join(",");
+        }
+        if (allowedHeaders && allowedHeaders.length) {
+          headers.push([{
+            key: "Access-Control-Allow-Headers",
+            value: allowedHeaders
+          }]);
+        }
+        return headers;
+      }
+      function configureExposedHeaders(options) {
+        var headers = options.exposedHeaders;
+        if (!headers) {
+          return null;
+        } else if (headers.join) {
+          headers = headers.join(",");
+        }
+        if (headers && headers.length) {
+          return {
+            key: "Access-Control-Expose-Headers",
+            value: headers
+          };
+        }
+        return null;
+      }
+      function configureMaxAge(options) {
+        var maxAge = (typeof options.maxAge === "number" || options.maxAge) && options.maxAge.toString();
+        if (maxAge && maxAge.length) {
+          return {
+            key: "Access-Control-Max-Age",
+            value: maxAge
+          };
+        }
+        return null;
+      }
+      function applyHeaders(headers, res) {
+        for (var i = 0, n = headers.length; i < n; i++) {
+          var header = headers[i];
+          if (header) {
+            if (Array.isArray(header)) {
+              applyHeaders(header, res);
+            } else if (header.key === "Vary" && header.value) {
+              vary(res, header.value);
+            } else if (header.value) {
+              res.setHeader(header.key, header.value);
+            }
+          }
+        }
+      }
+      function cors2(options, req, res, next) {
+        var headers = [], method = req.method && req.method.toUpperCase && req.method.toUpperCase();
+        if (method === "OPTIONS") {
+          headers.push(configureOrigin(options, req));
+          headers.push(configureCredentials(options));
+          headers.push(configureMethods(options));
+          headers.push(configureAllowedHeaders(options, req));
+          headers.push(configureMaxAge(options));
+          headers.push(configureExposedHeaders(options));
+          applyHeaders(headers, res);
+          if (options.preflightContinue) {
+            next();
+          } else {
+            res.statusCode = options.optionsSuccessStatus;
+            res.setHeader("Content-Length", "0");
+            res.end();
+          }
+        } else {
+          headers.push(configureOrigin(options, req));
+          headers.push(configureCredentials(options));
+          headers.push(configureExposedHeaders(options));
+          applyHeaders(headers, res);
+          next();
+        }
+      }
+      function middlewareWrapper(o) {
+        var optionsCallback = null;
+        if (typeof o === "function") {
+          optionsCallback = o;
+        } else {
+          optionsCallback = function(req, cb) {
+            cb(null, o);
+          };
+        }
+        return function corsMiddleware(req, res, next) {
+          optionsCallback(req, function(err, options) {
+            if (err) {
+              next(err);
+            } else {
+              var corsOptions = assign({}, defaults, options);
+              var originCallback = null;
+              if (corsOptions.origin && typeof corsOptions.origin === "function") {
+                originCallback = corsOptions.origin;
+              } else if (corsOptions.origin) {
+                originCallback = function(origin, cb) {
+                  cb(null, corsOptions.origin);
+                };
+              }
+              if (originCallback) {
+                originCallback(req.headers.origin, function(err2, origin) {
+                  if (err2 || !origin) {
+                    next(err2);
+                  } else {
+                    corsOptions.origin = origin;
+                    cors2(corsOptions, req, res, next);
+                  }
+                });
+              } else {
+                next();
+              }
+            }
+          });
+        };
+      }
+      module.exports = middlewareWrapper;
+    })();
   }
 });
 
@@ -34056,7 +34056,6 @@ var init_stripe_esm_node = __esm({
 
 // src/app.ts
 var import_express4 = __toESM(require_express2(), 1);
-var import_cors = __toESM(require_lib3(), 1);
 var import_pino_http = __toESM(require_logger(), 1);
 
 // src/routes/index.ts
@@ -37946,12 +37945,134 @@ var HealthCheckResponse = objectType({
   status: stringType()
 });
 
+// src/lib/logger.ts
+var import_pino = __toESM(require_pino(), 1);
+var isProduction = process.env.NODE_ENV === "production";
+var logger = (0, import_pino.default)({
+  level: process.env.LOG_LEVEL ?? "info",
+  redact: [
+    "req.headers.authorization",
+    "req.headers.cookie",
+    "res.headers['set-cookie']"
+  ],
+  ...isProduction ? {} : {
+    transport: {
+      target: "pino-pretty",
+      options: { colorize: true }
+    }
+  }
+});
+
+// src/middlewares/error-handler.ts
+var errorHandler = (err, _req, res, _next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  logger.error(
+    {
+      statusCode,
+      message,
+      stack: err.stack,
+      details: err.details
+    },
+    "Error occurred"
+  );
+  res.status(statusCode).json({
+    error: {
+      message,
+      statusCode,
+      ...err.details && { details: err.details }
+    }
+  });
+};
+var asyncHandler = (fn) => {
+  return (req, res, next) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+  };
+};
+
+// src/middlewares/request-logger.ts
+var requestLogger = (req, res, next) => {
+  const startTime = Date.now();
+  logger.info(
+    {
+      method: req.method,
+      path: req.path,
+      query: req.query,
+      ip: req.ip
+    },
+    "Incoming request"
+  );
+  const originalSend = res.send;
+  res.send = function(data) {
+    const duration = Date.now() - startTime;
+    logger.info(
+      {
+        method: req.method,
+        path: req.path,
+        statusCode: res.statusCode,
+        duration: `${duration}ms`
+      },
+      "Request completed"
+    );
+    return originalSend.call(this, data);
+  };
+  next();
+};
+
+// src/middlewares/cors.ts
+var import_cors = __toESM(require_lib3(), 1);
+
+// src/lib/env.ts
+var env = {
+  // Server
+  port: parseInt(process.env.PORT || "3001", 10),
+  nodeEnv: process.env.NODE_ENV || "development",
+  // Stripe
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+  stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+  // CORS
+  corsOrigin: process.env.CORS_ORIGIN || "http://localhost:5173",
+  // Database
+  databaseUrl: process.env.DATABASE_URL,
+  // Logging
+  logLevel: process.env.LOG_LEVEL || "info"
+};
+var isProduction2 = env.nodeEnv === "production";
+var isDevelopment = env.nodeEnv === "development";
+
+// src/middlewares/cors.ts
+var allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "http://127.0.0.1:5173",
+  "http://127.0.0.1:3000",
+  env.corsOrigin
+];
+var corsConfig = (0, import_cors.default)({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  maxAge: 86400
+  // 24 hours
+});
+
 // src/routes/health.ts
 var router = (0, import_express.Router)();
-router.get("/healthz", (_req, res) => {
-  const data = HealthCheckResponse.parse({ status: "ok" });
-  res.json(data);
-});
+router.get(
+  "/healthz",
+  asyncHandler(async (_req, res) => {
+    const data = HealthCheckResponse.parse({ status: "ok" });
+    res.json(data);
+  })
+);
 var health_default = router;
 
 // src/routes/ohanna.ts
@@ -37960,8 +38081,9 @@ import { randomUUID as randomUUID2 } from "crypto";
 var router2 = (0, import_express2.Router)();
 var contacts = [];
 var orders = [];
-router2.post("/checkout", async (req, res) => {
-  try {
+router2.post(
+  "/checkout",
+  asyncHandler(async (req, res) => {
     const { items, successUrl, cancelUrl } = req.body;
     if (!items?.length) {
       res.status(400).json({ error: "Cart is empty" });
@@ -38008,13 +38130,11 @@ router2.post("/checkout", async (req, res) => {
     });
     const mockUrl = `${successUrl.replace("{CHECKOUT_SESSION_ID}", orderId)}&order_id=${orderId}&total=${total}`;
     res.json({ url: mockUrl, sessionId: orderId });
-  } catch (err) {
-    console.error("Checkout error:", err);
-    res.status(500).json({ error: "Checkout failed" });
-  }
-});
-router2.post("/contact", (req, res) => {
-  try {
+  })
+);
+router2.post(
+  "/contact",
+  asyncHandler(async (req, res) => {
     const { name, email, subject, message } = req.body;
     if (!name?.trim() || !email?.trim() || !message?.trim()) {
       res.status(400).json({ error: "Name, email, and message are required." });
@@ -38034,33 +38154,39 @@ router2.post("/contact", (req, res) => {
       created_at: (/* @__PURE__ */ new Date()).toISOString()
     });
     res.json({ success: true, message: "Message received. We'll reply within 24 hours." });
-  } catch (err) {
-    console.error("Contact error:", err);
-    res.status(500).json({ error: "Failed to save message." });
-  }
-});
-router2.get("/track-order", (req, res) => {
-  const id = req.query["id"]?.trim();
-  const email = req.query["email"]?.trim().toLowerCase();
-  if (!id || !email) {
-    res.status(400).json({ error: "Order ID and email are required." });
-    return;
-  }
-  const order = orders.find(
-    (o) => o.id === id && (!o.customer_email || o.customer_email === email)
-  );
-  if (!order) {
-    res.status(404).json({ error: "Order not found." });
-    return;
-  }
-  res.json({ order });
-});
-router2.get("/products", (_req, res) => {
-  res.json({ products: [] });
-});
-router2.get("/setup", (_req, res) => {
-  res.json({ status: "ok", message: "OHANNA API ready" });
-});
+  })
+);
+router2.get(
+  "/track-order",
+  asyncHandler(async (req, res) => {
+    const id = req.query["id"]?.trim();
+    const email = req.query["email"]?.trim().toLowerCase();
+    if (!id || !email) {
+      res.status(400).json({ error: "Order ID and email are required." });
+      return;
+    }
+    const order = orders.find(
+      (o) => o.id === id && (!o.customer_email || o.customer_email === email)
+    );
+    if (!order) {
+      res.status(404).json({ error: "Order not found." });
+      return;
+    }
+    res.json({ order });
+  })
+);
+router2.get(
+  "/products",
+  asyncHandler(async (_req, res) => {
+    res.json({ products: [] });
+  })
+);
+router2.get(
+  "/setup",
+  asyncHandler(async (_req, res) => {
+    res.json({ status: "ok", message: "OHANNA API ready" });
+  })
+);
 var ohanna_default = router2;
 
 // src/routes/index.ts
@@ -38069,23 +38195,271 @@ router3.use(health_default);
 router3.use(ohanna_default);
 var routes_default = router3;
 
-// src/lib/logger.ts
-var import_pino = __toESM(require_pino(), 1);
-var isProduction = process.env.NODE_ENV === "production";
-var logger = (0, import_pino.default)({
-  level: process.env.LOG_LEVEL ?? "info",
-  redact: [
-    "req.headers.authorization",
-    "req.headers.cookie",
-    "res.headers['set-cookie']"
+// src/lib/swagger.ts
+var swaggerConfig = {
+  openapi: "3.0.0",
+  info: {
+    title: "OHANNA API",
+    description: "Egyptian Streetwear E-commerce API",
+    version: "1.0.0",
+    contact: {
+      name: "OHANNA Support",
+      email: "support@ohanna.com"
+    }
+  },
+  servers: [
+    {
+      url: "http://localhost:3001",
+      description: "Development server"
+    },
+    {
+      url: "https://api.ohanna.com",
+      description: "Production server"
+    }
   ],
-  ...isProduction ? {} : {
-    transport: {
-      target: "pino-pretty",
-      options: { colorize: true }
+  paths: {
+    "/api/healthz": {
+      get: {
+        summary: "Health check",
+        description: "Check if the API is running",
+        tags: ["Health"],
+        responses: {
+          "200": {
+            description: "API is healthy",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    status: { type: "string", example: "ok" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/checkout": {
+      post: {
+        summary: "Create checkout session",
+        description: "Create a Stripe checkout session or mock order",
+        tags: ["Orders"],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["items", "successUrl", "cancelUrl"],
+                properties: {
+                  items: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        product: {
+                          type: "object",
+                          properties: {
+                            id: { type: "string" },
+                            name: { type: "string" },
+                            price: { type: "number" },
+                            description: { type: "string" }
+                          }
+                        },
+                        quantity: { type: "number" }
+                      }
+                    }
+                  },
+                  successUrl: { type: "string", format: "uri" },
+                  cancelUrl: { type: "string", format: "uri" }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          "200": {
+            description: "Checkout session created",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    url: { type: "string", format: "uri" },
+                    sessionId: { type: "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            description: "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/contact": {
+      post: {
+        summary: "Send contact message",
+        description: "Submit a contact form message",
+        tags: ["Contact"],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["name", "email", "message"],
+                properties: {
+                  name: { type: "string" },
+                  email: { type: "string", format: "email" },
+                  subject: { type: "string" },
+                  message: { type: "string" }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          "200": {
+            description: "Message received",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    success: { type: "boolean" },
+                    message: { type: "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            description: "Validation error"
+          }
+        }
+      }
+    },
+    "/api/track-order": {
+      get: {
+        summary: "Track order",
+        description: "Get order status by ID and email",
+        tags: ["Orders"],
+        parameters: [
+          {
+            name: "id",
+            in: "query",
+            required: true,
+            schema: { type: "string" },
+            description: "Order ID"
+          },
+          {
+            name: "email",
+            in: "query",
+            required: true,
+            schema: { type: "string", format: "email" },
+            description: "Customer email"
+          }
+        ],
+        responses: {
+          "200": {
+            description: "Order found",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    order: {
+                      type: "object",
+                      properties: {
+                        id: { type: "string" },
+                        status: { type: "string" },
+                        total: { type: "number" },
+                        created_at: { type: "string", format: "date-time" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            description: "Order not found"
+          }
+        }
+      }
+    },
+    "/api/products": {
+      get: {
+        summary: "Get products",
+        description: "Retrieve list of products",
+        tags: ["Products"],
+        responses: {
+          "200": {
+            description: "Products list",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    products: {
+                      type: "array",
+                      items: {
+                        type: "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setup": {
+      get: {
+        summary: "API setup status",
+        description: "Check API setup and configuration",
+        tags: ["Health"],
+        responses: {
+          "200": {
+            description: "Setup status",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    status: { type: "string" },
+                    message: { type: "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      Error: {
+        type: "object",
+        properties: {
+          error: {
+            type: "object",
+            properties: {
+              message: { type: "string" },
+              statusCode: { type: "number" },
+              details: { type: "object" }
+            }
+          }
+        }
+      }
     }
   }
-});
+};
 
 // src/app.ts
 var app = (0, import_express4.default)();
@@ -38108,10 +38482,26 @@ app.use(
     }
   })
 );
-app.use((0, import_cors.default)());
+app.use(corsConfig);
 app.use(import_express4.default.json());
 app.use(import_express4.default.urlencoded({ extended: true }));
+app.use(requestLogger);
 app.use("/api", routes_default);
+app.get("/api-docs", (_req, res) => {
+  res.json(swaggerConfig);
+});
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok", message: "OHANNA API is running" });
+});
+app.use((_req, res) => {
+  res.status(404).json({
+    error: {
+      message: "Not Found",
+      statusCode: 404
+    }
+  });
+});
+app.use(errorHandler);
 var app_default = app;
 
 // src/index.ts

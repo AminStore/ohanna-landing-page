@@ -1,13 +1,15 @@
 import { Router } from "express";
 import { randomUUID } from "crypto";
+import { asyncHandler } from "../middlewares";
 
 const router = Router();
 
 const contacts: any[] = [];
 const orders: any[] = [];
 
-router.post("/checkout", async (req, res) => {
-  try {
+router.post(
+  "/checkout",
+  asyncHandler(async (req, res) => {
     const { items, successUrl, cancelUrl } = req.body as {
       items: any[];
       successUrl: string;
@@ -53,6 +55,7 @@ router.post("/checkout", async (req, res) => {
       }
     }
 
+    // Fallback to mock order
     const orderId = `OHN-${Date.now()}`;
     const total = items.reduce((s: number, i: any) => s + i.product.price * i.quantity, 0);
 
@@ -66,16 +69,17 @@ router.post("/checkout", async (req, res) => {
 
     const mockUrl = `${successUrl.replace("{CHECKOUT_SESSION_ID}", orderId)}&order_id=${orderId}&total=${total}`;
     res.json({ url: mockUrl, sessionId: orderId });
-  } catch (err) {
-    console.error("Checkout error:", err);
-    res.status(500).json({ error: "Checkout failed" });
-  }
-});
+  })
+);
 
-router.post("/contact", (req, res) => {
-  try {
+router.post(
+  "/contact",
+  asyncHandler(async (req, res) => {
     const { name, email, subject, message } = req.body as {
-      name: string; email: string; subject?: string; message: string;
+      name: string;
+      email: string;
+      subject?: string;
+      message: string;
     };
 
     if (!name?.trim() || !email?.trim() || !message?.trim()) {
@@ -99,39 +103,45 @@ router.post("/contact", (req, res) => {
     });
 
     res.json({ success: true, message: "Message received. We'll reply within 24 hours." });
-  } catch (err) {
-    console.error("Contact error:", err);
-    res.status(500).json({ error: "Failed to save message." });
-  }
-});
+  })
+);
 
-router.get("/track-order", (req, res) => {
-  const id = (req.query["id"] as string)?.trim();
-  const email = (req.query["email"] as string)?.trim().toLowerCase();
+router.get(
+  "/track-order",
+  asyncHandler(async (req, res) => {
+    const id = (req.query["id"] as string)?.trim();
+    const email = (req.query["email"] as string)?.trim().toLowerCase();
 
-  if (!id || !email) {
-    res.status(400).json({ error: "Order ID and email are required." });
-    return;
-  }
+    if (!id || !email) {
+      res.status(400).json({ error: "Order ID and email are required." });
+      return;
+    }
 
-  const order = orders.find(
-    (o) => o.id === id && (!o.customer_email || o.customer_email === email),
-  );
+    const order = orders.find(
+      (o) => o.id === id && (!o.customer_email || o.customer_email === email),
+    );
 
-  if (!order) {
-    res.status(404).json({ error: "Order not found." });
-    return;
-  }
+    if (!order) {
+      res.status(404).json({ error: "Order not found." });
+      return;
+    }
 
-  res.json({ order });
-});
+    res.json({ order });
+  })
+);
 
-router.get("/products", (_req, res) => {
-  res.json({ products: [] });
-});
+router.get(
+  "/products",
+  asyncHandler(async (_req, res) => {
+    res.json({ products: [] });
+  })
+);
 
-router.get("/setup", (_req, res) => {
-  res.json({ status: "ok", message: "OHANNA API ready" });
-});
+router.get(
+  "/setup",
+  asyncHandler(async (_req, res) => {
+    res.json({ status: "ok", message: "OHANNA API ready" });
+  })
+);
 
 export default router;
