@@ -10,7 +10,9 @@ Before setting up the repository, ensure your local machine satisfies these requ
 
 * **Node.js**: `18.x` or `20.x` (LTS versions recommended)
 * **npm**: `9.x` or higher
+* **pnpm**: `9.x` or higher (required for `ohanna-mobile` workspace dependencies)
 * **Git**: `2.x` or higher
+* **Expo Go**: Installed on a physical mobile device, or a set-up Android Emulator / iOS Simulator.
 
 ---
 
@@ -27,19 +29,24 @@ cd ohanna-landing-page
 
 ### 2. Workspace Installation
 
-The repository contains two main directories: `api-server` (backend API) and `ohanna` (frontend React app). You must install dependencies in both folders.
+The repository contains three primary directories: `api-server` (backend API), `ohanna` (web storefront), and `ohanna-mobile` (Expo mobile client). You must install dependencies in all folders.
 
 > [!NOTE]
-> For the backend dependencies, the `--legacy-peer-deps` flag is required to handle legacy peer dependency trees.
+> * For the backend dependencies, the `--legacy-peer-deps` flag is required to handle legacy peer dependency trees.
+> * The mobile client utilizes `pnpm` to manage package dependencies.
 
 ```bash
 # Install backend dependencies
 cd api-server
 npm install --legacy-peer-deps
 
-# Install frontend dependencies
+# Install frontend web dependencies
 cd ../ohanna
 npm install
+
+# Install mobile client dependencies
+cd ../ohanna-mobile
+pnpm install
 ```
 
 ---
@@ -68,7 +75,7 @@ cp .env.example .env
 
 ## 🏃 Running Locally
 
-To run the application, start the backend and frontend dev servers in separate terminal sessions:
+To run the application, start the backend, frontend, and mobile dev servers in separate terminal sessions:
 
 ### Terminal 1: Backend Server
 
@@ -79,13 +86,24 @@ npm run dev
 * **Endpoint**: `http://localhost:3001`
 * **Swagger Documentation**: `http://localhost:3001/api-docs`
 
-### Terminal 2: Frontend Storefront
+### Terminal 2: Frontend Web Storefront
 
 ```bash
 cd ohanna
 npm run dev
 ```
 * **Endpoint**: `http://localhost:5173`
+
+### Terminal 3: Mobile Storefront (Metro Bundler)
+
+```bash
+cd ohanna-mobile
+pnpm dev
+```
+* **Metro URL**: `http://localhost:8081`
+* **Run on iOS**: Press `i` in the Metro console to boot the simulator.
+* **Run on Android**: Press `a` in the Metro console to boot the emulator.
+* **Run on Physical Device**: Scan the QR code displayed in the terminal using your phone's camera (iOS) or the Expo Go app (Android).
 
 ---
 
@@ -106,6 +124,13 @@ Here is a quick reference for the scripts defined in each component package:
 * `npm run build`: Bundles assets for production into the `dist/` directory.
 * `npm run preview`: Statically serves the production build locally for verification.
 * `npm run typecheck`: Performs full type checks using the TypeScript compiler.
+
+### Mobile Client (`ohanna-mobile/`)
+
+* `pnpm dev`: Starts the Metro development bundler via Expo CLI.
+* `pnpm start`: Alias for starting the Metro bundler.
+* `pnpm android`: Starts the Metro bundler and runs the app on Android.
+* `pnpm ios`: Starts the Metro bundler and runs the app on iOS (macOS only).
 
 ---
 
@@ -173,27 +198,38 @@ curl -X POST http://localhost:3001/api/checkout \
 ## 🛠️ Troubleshooting
 
 ### 1. Port Conflict ("Address already in use")
-If ports `3001` or `5173` are occupied by other services:
+If ports `3001`, `5173`, or `8081` are occupied by other services:
 * **For Backend**: Define a different port in your environment:
   ```bash
   PORT=3002 npm run dev
   ```
-* **For Frontend**: Pass the port flag directly to Vite:
+* **For Frontend Web**: Pass the port flag directly to Vite:
   ```bash
   npm run dev -- --port 5174
+  ```
+* **For Mobile Client**: Force Metro to bind to a different port:
+  ```bash
+  pnpm dev --port 8082
   ```
 
 ### 2. CORS Issues
 If the frontend cannot communicate with the backend due to CORS security policies, verify that the frontend domain is registered in the backend's `.env` configuration:
 ```
-CORS_ORIGINS=http://localhost:5173
+CORS_ORIGINS=http://localhost:5173,http://localhost:8081
 ```
 
 ### 3. Stripe Checkout Fails
 * If you want to use real Stripe integration, ensure your key is valid and prefixed with `sk_test_`.
 * If no key is set, the API will use a fallback mock checkout which routes seamlessly to the success URL.
 
-### 4. Deep Clean / Hard Reinstall
+### 4. Expo / Metro Cache Mismatch
+If you encounter layout or resolution errors in the mobile client:
+* Clear Metro's bundler cache:
+  ```bash
+  pnpm dev -c
+  ```
+
+### 5. Deep Clean / Hard Reinstall
 If you run into dependency mismatches or corrupt cache errors, execute this clean script inside the root directory to purge and re-initialize both modules:
 
 ```bash
@@ -202,10 +238,15 @@ cd api-server
 rm -rf node_modules dist
 npm install --legacy-peer-deps
 
-# Clean frontend
+# Clean frontend web
 cd ../ohanna
 rm -rf node_modules dist
 npm install
+
+# Clean mobile client
+cd ../ohanna-mobile
+rm -rf node_modules
+pnpm install
 ```
 
 ---

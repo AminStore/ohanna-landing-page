@@ -8,17 +8,22 @@ This document details the system design, directory structures, data flow, securi
 
 OHANNA is designed as a modular, decoupled full-stack application. It consists of:
 1. **Frontend Storefront**: A responsive Single Page Application (SPA) built with React, Vite, and Tailwind CSS.
-2. **Backend API Gateway**: A RESTful HTTP API built with Express.js and TypeScript, handling business logic, order tracking, contact forms, and Stripe integrations.
+2. **Mobile Storefront Client**: A cross-platform native storefront app built with React Native and Expo, utilizing Expo Router, custom glassmorphic components, and dynamic caching.
+3. **Backend API Gateway**: A RESTful HTTP API built with Express.js and TypeScript, handling business logic, order tracking, contact forms, and Stripe integrations.
 
 ```mermaid
 graph LR
-    User([Browser Client])
+    UserWeb([Web Browser Client])
+    UserMobile([Mobile Storefront App])
     Vite[Frontend CDN / Vercel]
+    ExpoStore[App Store / Play Store]
     Express[Backend API / Heroku]
     Stripe[Stripe Payments API]
 
-    User -->|Loads SPA| Vite
-    User -->|API Requests| Express
+    UserWeb -->|Loads SPA| Vite
+    UserWeb -->|API Requests| Express
+    UserMobile -->|Runs App| ExpoStore
+    UserMobile -->|API Requests| Express
     Express -->|Processes Payments| Stripe
 ```
 
@@ -43,6 +48,16 @@ ohanna-landing-page/
 │   │   └── main.tsx          # Application entry point
 │   ├── vite.config.ts        # Vite compiler settings
 │   └── tailwind.config.js    # Tailwind layout utility configurations
+│
+├── ohanna-mobile/             # Mobile Storefront App (Expo / React Native)
+│   ├── app/                  # Expo Router views (navigation screens, layout entry)
+│   ├── assets/               # Branding assets, local fonts (Cinzel, Inter)
+│   ├── components/           # Mobile custom component library
+│   ├── constants/            # Global theme settings and colors
+│   ├── contexts/             # Session, state, and shopping cart providers
+│   ├── hooks/                # Custom React hooks (React Query integrations)
+│   ├── scripts/              # Expo build and export tools
+│   └── server/               # Dev/preview server files
 │
 ├── api-server/               # Backend Express API
 │   ├── src/

@@ -8,6 +8,7 @@
 <div align="center">
 
 [![React](https://img.shields.io/badge/React-18.x-blue?style=for-the-badge&logo=react)](https://react.dev)
+[![Expo](https://img.shields.io/badge/Expo-v54.x-black?style=for-the-badge&logo=expo&logoColor=white)](https://expo.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
 [![Express](https://img.shields.io/badge/Express-5.x-lightgrey?style=for-the-badge&logo=express)](https://expressjs.com)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.x-cyan?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com)
@@ -30,12 +31,15 @@ OHANNA is structured around a decoupled multi-workspace topology. All modules in
 ```mermaid
 graph TD
     Client[ohanna/ <br/> React + Vite Client]
+    Mobile[ohanna-mobile/ <br/> Expo Mobile Client]
     API[api-server/ <br/> Express.js + TS Engine]
     Schema[api-spec/ <br/> OpenAPI Specification]
     
     Schema -->|Generates Bindings| Client
+    Schema -->|Generates Bindings| Mobile
     Schema -->|Validates Contracts| API
     Client -->|Type-safe HTTP API Requests| API
+    Mobile -->|Type-safe HTTP API Requests| API
 ```
 
 ---
@@ -48,10 +52,10 @@ Detailed logs, instructions, and schemas are separated into high-fidelity manual
 
 | Destination | Scope | Highlights |
 | :--- | :--- | :--- |
-| [🛠️ Setup & Run](./docs/SETUP.md) | Local development | Dependencies, CLI scripts, ENV tables, Orval codegen, and troubleshooting logs. |
-| [📐 System Architecture](./docs/ARCHITECTURE.md) | Design patterns | Repository mappings, data flows, security details, and optimization benchmarks. |
+| [🛠️ Setup & Run](./docs/SETUP.md) | Local development | Backend, Web, and Expo Mobile setups, CLI scripts, ENV tables, Orval codegen, and troubleshooting logs. |
+| [📐 System Architecture](./docs/ARCHITECTURE.md) | Design patterns | Repository mappings, mobile/web layout schemas, data flows, security details, and optimization benchmarks. |
 | [🔌 API Reference](./docs/API.md) | Endpoint endpoints schemas | Input validation rules, sample payloads, curl scripts, and Swagger UI coordinates. |
-| [🚀 Operations & Deploy](./docs/DEPLOYMENT.md) | Production infrastructure | Docker configs, PM2 scripts, cloud hosting rules (Vercel/Heroku/AWS), and backup strategies. |
+| [🚀 Operations & Deploy](./docs/DEPLOYMENT.md) | Production infrastructure | Docker configs, PM2 scripts, cloud hosting rules (Vercel/Heroku/AWS), Expo EAS builds, and backup strategies. |
 
 </div>
 
@@ -67,6 +71,7 @@ Detailed logs, instructions, and schemas are separated into high-fidelity manual
 - **OpenAPI Schema**: Swagger UI endpoint documentation.
 
 ### Active Milestones (In Progress) 🔄
+- **Mobile storefront**: Native iOS/Android storefront app (`ohanna-mobile`) using Expo Router.
 - **Database Backend Integration**: Structuring tables via Drizzle ORM.
 - **Authentication**: Implementing secure session/JWT systems.
 

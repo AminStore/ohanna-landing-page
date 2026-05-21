@@ -43,6 +43,15 @@ DATABASE_URL=postgresql://db_user:db_secure_password@prod-db-host:5432/ohanna?ss
 VITE_API_URL=https://api.ohanna.com
 ```
 
+### Mobile Client (`ohanna-mobile/`)
+
+Environment variables in Expo must be prefixed with `EXPO_PUBLIC_` to be compiled into the native application bundle:
+
+```ini
+# Production API endpoint targeting the backend gateway
+EXPO_PUBLIC_API_URL=https://api.ohanna.com
+```
+
 ---
 
 ## 📦 Containerization & Orchestration
@@ -185,6 +194,44 @@ For manual infrastructure management on AWS:
 
 ### DigitalOcean App Platform & Droplets
 DigitalOcean's **App Platform** allows direct deployment by connecting your GitHub repo, defining the build output directory for each service component (`ohanna/dist` for frontend), and exposing target ports (`3001` for backend).
+
+### Expo Application Services (EAS) (Mobile Storefront App)
+To compile and submit the mobile application to the Apple App Store and Google Play Store:
+
+1. **Configure EAS CLI**: Install EAS CLI globally and log in to your Expo developer account:
+   ```bash
+   npm install -g eas-cli
+   eas login
+   ```
+2. **Project Initialization**: Initialize EAS build settings in the mobile workspace:
+   ```bash
+   cd ohanna-mobile
+   eas build:configure
+   ```
+   This generates an `eas.json` configuration detailing production and development build profiles.
+3. **Execute Production Build**:
+   * **For iOS (builds a `.ipa` file or simulator-compatible build)**:
+     ```bash
+     eas build --platform ios --profile production
+     ```
+   * **For Android (builds a `.aab` bundle for Google Play)**:
+     ```bash
+     eas build --platform android --profile production
+     ```
+   * **For Both Platforms**:
+     ```bash
+     eas build --platform all --profile production
+     ```
+4. **Submit to App Stores**:
+   You can automatically submit your production builds to Apple App Store Connect and Google Play Console using:
+   ```bash
+   eas submit --platform all
+   ```
+5. **Over-The-Air (OTA) Updates via EAS Update**:
+   To push rapid JS updates without requiring users to download a new app bundle from the store:
+   ```bash
+   eas update --branch production --message "Fix mobile cart glassmorphic blur render"
+   ```
 
 ---
 
