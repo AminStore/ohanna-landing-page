@@ -30,7 +30,7 @@ jobs:
           cache-dependency-path: 'api-server/package-lock.json'
       
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm ci
         working-directory: api-server
       
       - name: Type checking
