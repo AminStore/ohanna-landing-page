@@ -97,7 +97,7 @@ export default function CartDrawer() {
                     >
                       <Link href={`/product/${item.product.slug ?? item.product.id}`} onClick={closeCart}
                         className="relative w-16 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-[#E4D5B7]">
-                        <img src={item.product.image_url} alt={item.product.name} className="w-full h-full object-cover" />
+                        <img src={item.product.imageUrl} alt={item.product.name} className="w-full h-full object-cover" />
                       </Link>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-black hieroglyph-font truncate">{item.product.name}</p>

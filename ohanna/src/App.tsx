@@ -4,6 +4,7 @@ import { CartProvider } from "@/contexts/cart-context";
 import { ThemeProvider } from "@/contexts/theme-context";
 import { LangProvider } from "@/contexts/lang-context";
 import CartDrawer from "@/components/cart/cart-drawer";
+import ChatWidget from "@/components/chat/chat-widget";
 import HomePage from "@/pages/home";
 import CollectionPage from "@/pages/collection";
 import ProductPage from "@/pages/product";
@@ -53,6 +54,7 @@ function App() {
             <Router />
             <CartDrawer />
           </WouterRouter>
+          <ChatWidget />
           <Toaster position="bottom-right" richColors closeButton />
         </CartProvider>
       </LangProvider>
