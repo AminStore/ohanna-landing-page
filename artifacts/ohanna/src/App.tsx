@@ -16,16 +16,7 @@ import SizeGuidePage from "@/pages/size-guide";
 import CommunityPage from "@/pages/community";
 import CareersPage from "@/pages/careers";
 import TrackOrderPage from "@/pages/track-order";
-
-function NotFound() {
-  return (
-    <div className="min-h-screen bg-[#FDF8EF] flex items-center justify-center flex-col gap-4">
-      <span className="text-6xl text-[#C89D29]/30 select-none">𓂀</span>
-      <h1 className="text-2xl font-black hieroglyph-font">PAGE NOT FOUND</h1>
-      <a href="/" className="text-[#C89D29] font-bold hover:underline hieroglyph-font text-sm">← RETURN HOME</a>
-    </div>
-  );
-}
+import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
