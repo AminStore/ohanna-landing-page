@@ -1,1 +1,0 @@
-{"version":3,"file":"listProductsParams.d.ts","sourceRoot":"","sources":["../../../src/generated/types/listProductsParams.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AAEH,MAAM,MAAM,kBAAkB,GAAG;IAC/B;;OAEG;IACH,QAAQ,CAAC,EAAE,MAAM,CAAC;IAClB;;OAEG;IACH,MAAM,CAAC,EAAE,MAAM,CAAC;IAChB;;;OAGG;IACH,IAAI,CAAC,EAAE,MAAM,CAAC;IACd;;;;OAIG;IACH,KAAK,CAAC,EAAE,MAAM,CAAC;CAChB,CAAC"}
