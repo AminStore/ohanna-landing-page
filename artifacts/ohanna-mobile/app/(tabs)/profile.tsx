@@ -12,6 +12,7 @@ import {
 } from "react-native";
 
 import { GoldDivider } from "@/components/GoldDivider";
+import { BD, FS, GRID_PAD, RD, SP } from "@/constants/theme";
 import { useColors } from "@/hooks/useColors";
 
 const MENU_ITEMS = [
@@ -42,14 +43,17 @@ export default function ProfileScreen() {
       style={{ flex: 1, backgroundColor: colors.background }}
       showsVerticalScrollIndicator={false}
     >
-      {/* Header */}
-      <View style={[styles.header, { paddingTop: topPad + 12, backgroundColor: "#1B1B1B" }]}>
+      {/* Dark brand header */}
+      <View
+        style={[
+          styles.header,
+          { paddingTop: topPad + SP.md, backgroundColor: colors.foreground },
+        ]}
+      >
         <Text style={[styles.glyphRow, { color: colors.primary }]}>𓂀 𓋹 𓇯</Text>
-        <Text style={styles.brandName}>OHANNA</Text>
-        <Text style={[styles.brandTagline, { color: colors.primary }]}>
-          EGYPTIAN STREETWEAR
-        </Text>
-        <Text style={styles.brandSub}>Maadi, Cairo, Egypt</Text>
+        <Text style={[styles.brandName, { color: colors.background }]}>OHANNA</Text>
+        <Text style={[styles.brandTagline, { color: colors.primary }]}>EGYPTIAN STREETWEAR</Text>
+        <Text style={[styles.brandSub, { color: "rgba(253,248,239,0.5)" }]}>Maadi, Cairo, Egypt</Text>
       </View>
 
       {/* Quick actions */}
@@ -59,13 +63,8 @@ export default function ProfileScreen() {
           {MENU_ITEMS.map((item, i) => (
             <React.Fragment key={item.label}>
               <Pressable
-                style={({ pressed }) => [
-                  styles.menuItem,
-                  { opacity: pressed ? 0.7 : 1 },
-                ]}
-                onPress={() => {
-                  if (item.path) router.push(item.path as any);
-                }}
+                style={({ pressed }) => [styles.menuItem, { opacity: pressed ? 0.7 : 1 }]}
+                onPress={() => router.push(item.path as any)}
               >
                 <View style={[styles.menuIconWrapper, { backgroundColor: colors.secondary }]}>
                   <Feather name={item.icon} size={16} color={colors.primary} />
@@ -99,8 +98,8 @@ export default function ProfileScreen() {
         </View>
       </View>
 
-      {/* Contact info */}
-      <View style={[styles.contactBanner, { backgroundColor: "#1B1B1B" }]}>
+      {/* Contact banner */}
+      <View style={[styles.contactBanner, { backgroundColor: colors.foreground }]}>
         <GoldDivider />
         <Text style={[styles.contactTitle, { color: colors.primary }]}>GET IN TOUCH</Text>
         {[
@@ -110,7 +109,7 @@ export default function ProfileScreen() {
         ].map((c) => (
           <View key={c.text} style={styles.contactRow}>
             <Feather name={c.icon} size={14} color={colors.primary} />
-            <Text style={[styles.contactText, { color: "#E4D5B7" }]}>{c.text}</Text>
+            <Text style={[styles.contactText, { color: colors.secondary }]}>{c.text}</Text>
           </View>
         ))}
         <GoldDivider glyph="𓋹" />
@@ -126,111 +125,107 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
   header: {
-    paddingHorizontal: 20,
-    paddingBottom: 28,
+    paddingHorizontal: GRID_PAD,
+    paddingBottom: SP.xxxl - SP.xs,
     alignItems: "center",
-    gap: 6,
+    gap: SP.xs + 2,
   },
   glyphRow: {
-    fontSize: 20,
+    fontSize: FS.xxxl,
     letterSpacing: 8,
-    marginBottom: 4,
+    marginBottom: SP.xs,
   },
   brandName: {
-    fontSize: 32,
+    fontSize: FS.hero,
     fontFamily: "Cinzel_900Black",
-    color: "#FDF8EF",
     letterSpacing: 4,
   },
   brandTagline: {
-    fontSize: 10,
+    fontSize: FS.xs,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 3,
   },
   brandSub: {
-    fontSize: 11,
+    fontSize: FS.sm,
     fontFamily: "Inter_400Regular",
-    color: "rgba(253,248,239,0.5)",
   },
   section: {
-    padding: 20,
-    gap: 14,
+    padding: GRID_PAD,
+    gap: SP.lg - 2,
   },
   sectionTitle: {
-    fontSize: 13,
+    fontSize: FS.base,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 2,
   },
   menuCard: {
-    borderWidth: 1.5,
+    borderWidth: BD.md,
     overflow: "hidden",
   },
   menuItem: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
+    gap: SP.md,
+    paddingHorizontal: GRID_PAD,
+    paddingVertical: SP.lg - 2,
   },
   menuIconWrapper: {
     width: 32,
     height: 32,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 4,
+    borderRadius: RD.sm,
   },
   menuLabel: {
     flex: 1,
-    fontSize: 11,
+    fontSize: FS.sm,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 1.2,
   },
   divider: {
     height: 1,
-    marginHorizontal: 16,
+    marginHorizontal: GRID_PAD,
   },
   storyCards: {
-    gap: 10,
+    gap: SP.md - 2,
   },
   storyCard: {
-    padding: 16,
-    borderWidth: 1.5,
-    gap: 6,
+    padding: GRID_PAD,
+    borderWidth: BD.md,
+    gap: SP.xs + 2,
   },
-  storyGlyph: {
-    fontSize: 20,
-  },
+  storyGlyph: { fontSize: FS.xxxl },
   storyTitle: {
-    fontSize: 12,
+    fontSize: FS.md,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 1.5,
   },
   storyText: {
-    fontSize: 13,
+    fontSize: FS.base,
     fontFamily: "Inter_400Regular",
-    lineHeight: 19,
+    lineHeight: 20,
   },
   contactBanner: {
-    padding: 24,
-    gap: 12,
+    padding: SP.xxl,
+    gap: SP.md,
     alignItems: "center",
   },
   contactTitle: {
-    fontSize: 14,
+    fontSize: FS.lg,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 3,
   },
   contactRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    gap: SP.md - 2,
   },
   contactText: {
-    fontSize: 13,
+    fontSize: FS.base,
     fontFamily: "Inter_400Regular",
   },
   footerText: {
-    fontSize: 10,
+    fontSize: FS.xs,
     fontFamily: "Inter_400Regular",
     letterSpacing: 0.5,
     textAlign: "center",

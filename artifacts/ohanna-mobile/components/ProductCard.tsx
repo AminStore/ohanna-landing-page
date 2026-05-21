@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Dimensions,
   Image,
   Pressable,
   StyleSheet,
@@ -9,10 +8,8 @@ import {
 } from "react-native";
 import { useColors } from "@/hooks/useColors";
 import { BADGE_COLORS, fmt, getImageUrl } from "@/constants/products";
+import { BD, COL2, FS, RD, SP } from "@/constants/theme";
 import type { Product } from "@/constants/products";
-
-const { width } = Dimensions.get("window");
-const CARD_WIDTH = (width - 48) / 2;
 
 interface Props {
   product: Product;
@@ -28,6 +25,7 @@ export function ProductCard({ product, onPress }: Props) {
       style={({ pressed }) => [
         styles.card,
         {
+          width: COL2,
           backgroundColor: colors.card,
           borderColor: colors.border,
           opacity: pressed ? 0.88 : 1,
@@ -65,15 +63,14 @@ export function ProductCard({ product, onPress }: Props) {
 
 const styles = StyleSheet.create({
   card: {
-    width: CARD_WIDTH,
-    borderWidth: 1.5,
-    borderRadius: 0,
+    borderWidth: BD.md,
+    borderRadius: RD.none,
     overflow: "hidden",
-    marginBottom: 12,
+    marginBottom: SP.md,
   },
   imageWrapper: {
     width: "100%",
-    height: CARD_WIDTH,
+    aspectRatio: 1,
     position: "relative",
   },
   image: {
@@ -82,33 +79,33 @@ const styles = StyleSheet.create({
   },
   badge: {
     position: "absolute",
-    top: 8,
-    left: 8,
-    paddingHorizontal: 7,
-    paddingVertical: 3,
-    borderRadius: 2,
+    top: SP.sm,
+    left: SP.sm,
+    paddingHorizontal: SP.sm - 1,
+    paddingVertical: SP.xs - 1,
+    borderRadius: RD.badge,
   },
   badgeText: {
-    fontSize: 9,
+    fontSize: FS.micro,
     fontFamily: "Inter_700Bold",
     letterSpacing: 0.8,
   },
   info: {
-    padding: 10,
-    gap: 2,
+    padding: SP.md - 2,
+    gap: SP.xs - 2,
   },
   name: {
-    fontSize: 12,
+    fontSize: FS.md,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 0.5,
   },
   category: {
-    fontSize: 11,
+    fontSize: FS.sm,
     fontFamily: "Inter_400Regular",
   },
   price: {
-    fontSize: 13,
+    fontSize: FS.base,
     fontFamily: "Inter_700Bold",
-    marginTop: 2,
+    marginTop: SP.xs - 2,
   },
 });

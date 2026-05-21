@@ -2,9 +2,10 @@ import { Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import React from "react";
-import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { GoldDivider } from "@/components/GoldDivider";
+import { BD, COL2, FS, GRID_GAP, GRID_PAD, SP } from "@/constants/theme";
 import { useColors } from "@/hooks/useColors";
 
 const TIMELINE = [
@@ -29,22 +30,35 @@ export default function StoryScreen() {
   const insets = useSafeAreaInsets();
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: colors.background }} showsVerticalScrollIndicator={false}>
-      <View style={[styles.header, { paddingTop: Platform.OS === "web" ? 67 + 16 : insets.top + 16, backgroundColor: "#1B1B1B" }]}>
+    <ScrollView
+      style={{ flex: 1, backgroundColor: colors.background }}
+      showsVerticalScrollIndicator={false}
+    >
+      {/* Dark hero header */}
+      <View
+        style={[
+          styles.header,
+          {
+            paddingTop: Platform.OS === "web" ? 67 + GRID_PAD : insets.top + GRID_PAD,
+            backgroundColor: colors.foreground,
+          },
+        ]}
+      >
         <Pressable onPress={() => router.back()} style={styles.backBtn}>
-          <Feather name="arrow-left" size={20} color="#FDF8EF" />
+          <Feather name="arrow-left" size={20} color={colors.background} />
         </Pressable>
         <Text style={[styles.glyphs, { color: colors.primary }]}>𓂀 𓋹 𓇯</Text>
-        <Text style={styles.title}>OUR STORY</Text>
+        <Text style={[styles.title, { color: colors.background }]}>OUR STORY</Text>
         <Text style={[styles.sub, { color: "rgba(253,248,239,0.65)" }]}>
           Born from the cradle of civilization.{"\n"}Built for the streets of today.
         </Text>
       </View>
 
+      {/* Timeline */}
       <View style={[styles.section, { backgroundColor: colors.background }]}>
         <Text style={[styles.sectionTitle, { color: colors.foreground }]}>THE TIMELINE</Text>
         <GoldDivider />
-        {TIMELINE.map((t, i) => (
+        {TIMELINE.map((t) => (
           <View key={t.year} style={styles.timelineItem}>
             <View style={[styles.yearBadge, { backgroundColor: colors.primary }]}>
               <Text style={[styles.yearText, { color: colors.primaryForeground }]}>{t.year}</Text>
@@ -57,14 +71,21 @@ export default function StoryScreen() {
         ))}
       </View>
 
-      <View style={[styles.section, { backgroundColor: "#1B1B1B" }]}>
+      {/* Values grid — 2-col calculated width */}
+      <View style={[styles.section, { backgroundColor: colors.foreground }]}>
         <Text style={[styles.sectionTitle, { color: colors.primary }]}>OUR VALUES</Text>
         <GoldDivider />
         <View style={styles.valuesGrid}>
           {VALUES.map((v) => (
-            <View key={v.title} style={[styles.valueCard, { borderColor: "rgba(200,157,41,0.3)" }]}>
+            <View
+              key={v.title}
+              style={[
+                styles.valueCard,
+                { width: COL2, borderColor: "rgba(200,157,41,0.3)" },
+              ]}
+            >
               <Text style={[styles.valueGlyph, { color: colors.primary }]}>{v.glyph}</Text>
-              <Text style={[styles.valueTitle, { color: "#FDF8EF" }]}>{v.title}</Text>
+              <Text style={[styles.valueTitle, { color: colors.background }]}>{v.title}</Text>
               <Text style={[styles.valueDesc, { color: "rgba(253,248,239,0.6)" }]}>{v.desc}</Text>
             </View>
           ))}
@@ -77,22 +98,46 @@ export default function StoryScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: { padding: 20, paddingBottom: 32, gap: 8 },
-  backBtn: { marginBottom: 8, width: 40 },
-  glyphs: { fontSize: 18, letterSpacing: 6 },
-  title: { fontSize: 30, fontFamily: "Cinzel_900Black", color: "#FDF8EF", letterSpacing: 2 },
-  sub: { fontSize: 14, fontFamily: "Inter_400Regular", lineHeight: 21 },
-  section: { padding: 20, gap: 16 },
-  sectionTitle: { fontSize: 14, fontFamily: "Cinzel_700Bold", letterSpacing: 2 },
-  timelineItem: { flexDirection: "row", gap: 14, alignItems: "flex-start" },
-  yearBadge: { paddingHorizontal: 8, paddingVertical: 4, minWidth: 60, alignItems: "center" },
-  yearText: { fontSize: 10, fontFamily: "Cinzel_700Bold", letterSpacing: 0.5 },
-  timelineContent: { flex: 1, borderLeftWidth: 2, paddingLeft: 14, paddingBottom: 20, gap: 4 },
-  timelineTitle: { fontSize: 12, fontFamily: "Cinzel_700Bold", letterSpacing: 1 },
-  timelineDesc: { fontSize: 13, fontFamily: "Inter_400Regular", lineHeight: 19 },
-  valuesGrid: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
-  valueCard: { width: "47%", borderWidth: 1, padding: 14, gap: 6 },
-  valueGlyph: { fontSize: 22 },
-  valueTitle: { fontSize: 10, fontFamily: "Cinzel_700Bold", letterSpacing: 1.5 },
-  valueDesc: { fontSize: 11, fontFamily: "Inter_400Regular", lineHeight: 16 },
+  header: {
+    padding: GRID_PAD,
+    paddingBottom: SP.xxxl,
+    gap: SP.sm,
+  },
+  backBtn: { marginBottom: SP.sm, width: 40 },
+  glyphs: { fontSize: FS.xxl, letterSpacing: 6 },
+  title: { fontSize: FS.h1, fontFamily: "Cinzel_900Black", letterSpacing: 2 },
+  sub: { fontSize: FS.lg, fontFamily: "Inter_400Regular", lineHeight: 22 },
+  section: { padding: GRID_PAD, gap: GRID_PAD },
+  sectionTitle: { fontSize: FS.lg, fontFamily: "Cinzel_700Bold", letterSpacing: 2 },
+  timelineItem: { flexDirection: "row", gap: SP.lg - 2, alignItems: "flex-start" },
+  yearBadge: {
+    paddingHorizontal: SP.sm,
+    paddingVertical: SP.xs,
+    minWidth: 64,
+    alignItems: "center",
+  },
+  yearText: { fontSize: FS.xs, fontFamily: "Cinzel_700Bold", letterSpacing: 0.5 },
+  timelineContent: {
+    flex: 1,
+    borderLeftWidth: BD.thick,
+    paddingLeft: SP.lg - 2,
+    paddingBottom: GRID_PAD,
+    gap: SP.xs,
+  },
+  timelineTitle: { fontSize: FS.md, fontFamily: "Cinzel_700Bold", letterSpacing: 1 },
+  timelineDesc: { fontSize: FS.base, fontFamily: "Inter_400Regular", lineHeight: 20 },
+  valuesGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: GRID_GAP,
+    justifyContent: "space-between",
+  },
+  valueCard: {
+    borderWidth: BD.thin,
+    padding: SP.lg - 2,
+    gap: SP.xs + 2,
+  },
+  valueGlyph: { fontSize: FS.h3 },
+  valueTitle: { fontSize: FS.xs, fontFamily: "Cinzel_700Bold", letterSpacing: 1.5 },
+  valueDesc: { fontSize: FS.sm, fontFamily: "Inter_400Regular", lineHeight: 17 },
 });

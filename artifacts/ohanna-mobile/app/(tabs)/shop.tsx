@@ -1,6 +1,5 @@
 import { Feather } from "@expo/vector-icons";
-import { useLocalSearchParams } from "expo-router";
-import { router } from "expo-router";
+import { useLocalSearchParams, router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { useMemo, useState } from "react";
 import {
@@ -15,6 +14,7 @@ import {
 
 import { ProductCard } from "@/components/ProductCard";
 import { CATEGORIES, PRODUCTS, getProductsByCategory } from "@/constants/products";
+import { BD, FS, GRID_GAP, GRID_PAD, SP } from "@/constants/theme";
 import { useColors } from "@/hooks/useColors";
 
 export default function ShopScreen() {
@@ -30,19 +30,26 @@ export default function ShopScreen() {
     const byCategory = getProductsByCategory(activeCategory);
     if (!search.trim()) return byCategory;
     const q = search.toLowerCase();
-    return byCategory.filter((p) =>
-      p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)
+    return byCategory.filter(
+      (p) => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)
     );
   }, [activeCategory, search]);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      {/* Fixed header */}
-      <View style={[styles.header, { paddingTop: topPad + 8, borderBottomColor: colors.border, backgroundColor: colors.background }]}>
+      <View
+        style={[
+          styles.header,
+          {
+            paddingTop: topPad + SP.sm,
+            borderBottomColor: colors.border,
+            backgroundColor: colors.background,
+          },
+        ]}
+      >
         <Text style={[styles.headerTitle, { color: colors.foreground }]}>SACRED COLLECTION</Text>
         <Text style={[styles.headerSub, { color: colors.primary }]}>𓂀 {PRODUCTS.length} PIECES</Text>
 
-        {/* Search */}
         <View style={[styles.searchRow, { backgroundColor: colors.card, borderColor: colors.border }]}>
           <Feather name="search" size={14} color={colors.mutedForeground} />
           <TextInput
@@ -59,7 +66,6 @@ export default function ShopScreen() {
           )}
         </View>
 
-        {/* Category chips */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chips}>
           {CATEGORIES.map((cat) => {
             const active = cat === activeCategory;
@@ -75,7 +81,12 @@ export default function ShopScreen() {
                 ]}
                 onPress={() => setActiveCategory(cat)}
               >
-                <Text style={[styles.chipText, { color: active ? colors.background : colors.mutedForeground }]}>
+                <Text
+                  style={[
+                    styles.chipText,
+                    { color: active ? colors.background : colors.mutedForeground },
+                  ]}
+                >
                   {cat.toUpperCase()}
                 </Text>
               </Pressable>
@@ -84,11 +95,7 @@ export default function ShopScreen() {
         </ScrollView>
       </View>
 
-      {/* Product grid */}
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.grid}
-      >
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.grid}>
         {filtered.length === 0 ? (
           <View style={styles.empty}>
             <Feather name="search" size={32} color={colors.mutedForeground} />
@@ -113,47 +120,47 @@ export default function ShopScreen() {
 
 const styles = StyleSheet.create({
   header: {
-    paddingHorizontal: 20,
-    paddingBottom: 12,
-    borderBottomWidth: 1,
-    gap: 10,
+    paddingHorizontal: GRID_PAD,
+    paddingBottom: SP.md,
+    borderBottomWidth: BD.thin,
+    gap: SP.md - 2,
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: FS.xxl,
     fontFamily: "Cinzel_900Black",
     letterSpacing: 2,
   },
   headerSub: {
-    fontSize: 10,
+    fontSize: FS.xs,
     fontFamily: "Inter_500Medium",
     letterSpacing: 1,
-    marginTop: -6,
+    marginTop: -SP.xs,
   },
   searchRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 9,
-    borderWidth: 1.5,
+    gap: SP.sm,
+    paddingHorizontal: SP.md,
+    paddingVertical: SP.md - 3,
+    borderWidth: BD.md,
   },
   searchInput: {
     flex: 1,
-    fontSize: 13,
+    fontSize: FS.base,
     paddingVertical: 0,
   },
   chips: {
-    marginHorizontal: -20,
-    paddingHorizontal: 20,
+    marginHorizontal: -GRID_PAD,
+    paddingHorizontal: GRID_PAD,
   },
   chip: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderWidth: 1.5,
-    marginRight: 8,
+    paddingHorizontal: SP.md,
+    paddingVertical: SP.xs + 2,
+    borderWidth: BD.md,
+    marginRight: SP.sm,
   },
   chipText: {
-    fontSize: 9,
+    fontSize: FS.xxs,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 1,
   },
@@ -163,19 +170,19 @@ const styles = StyleSheet.create({
   gridInner: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 12,
-    padding: 20,
+    gap: GRID_GAP,
+    padding: GRID_PAD,
     justifyContent: "space-between",
   },
   empty: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: 12,
+    gap: SP.md,
     paddingVertical: 80,
   },
   emptyText: {
-    fontSize: 14,
+    fontSize: FS.lg,
     fontFamily: "Inter_400Regular",
   },
 });

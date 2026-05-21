@@ -5,6 +5,7 @@ import React from "react";
 import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { GoldDivider } from "@/components/GoldDivider";
+import { BD, FS, GRID_PAD, SP } from "@/constants/theme";
 import { useColors } from "@/hooks/useColors";
 
 const TESTIMONIALS = [
@@ -28,16 +29,31 @@ export default function CommunityScreen() {
   const insets = useSafeAreaInsets();
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: colors.background }} showsVerticalScrollIndicator={false}>
-      <View style={[styles.header, { paddingTop: Platform.OS === "web" ? 67 + 16 : insets.top + 16, backgroundColor: "#1B1B1B" }]}>
+    <ScrollView
+      style={{ flex: 1, backgroundColor: colors.background }}
+      showsVerticalScrollIndicator={false}
+    >
+      {/* Dark hero header */}
+      <View
+        style={[
+          styles.header,
+          {
+            paddingTop: Platform.OS === "web" ? 67 + GRID_PAD : insets.top + GRID_PAD,
+            backgroundColor: colors.foreground,
+          },
+        ]}
+      >
         <Pressable onPress={() => router.back()} style={styles.backBtn}>
-          <Feather name="arrow-left" size={20} color="#FDF8EF" />
+          <Feather name="arrow-left" size={20} color={colors.background} />
         </Pressable>
         <Text style={[styles.glyphs, { color: colors.primary }]}>𓂀</Text>
-        <Text style={styles.title}>THE COMMUNITY</Text>
-        <Text style={[styles.sub, { color: "rgba(253,248,239,0.65)" }]}>10,000+ Modern Pharaohs and growing</Text>
+        <Text style={[styles.title, { color: colors.background }]}>THE COMMUNITY</Text>
+        <Text style={[styles.sub, { color: "rgba(253,248,239,0.65)" }]}>
+          10,000+ Modern Pharaohs and growing
+        </Text>
       </View>
 
+      {/* Stats row */}
       <View style={[styles.statsRow, { backgroundColor: colors.primary }]}>
         {STATS.map((s) => (
           <View key={s.label} style={styles.stat}>
@@ -47,6 +63,7 @@ export default function CommunityScreen() {
         ))}
       </View>
 
+      {/* Testimonials */}
       <View style={[styles.section, { backgroundColor: colors.background }]}>
         <GoldDivider />
         <Text style={[styles.sectionTitle, { color: colors.foreground }]}>WHAT THE PHARAOHS SAY</Text>
@@ -68,8 +85,9 @@ export default function CommunityScreen() {
         ))}
       </View>
 
+      {/* CTA banner */}
       <View style={[styles.ctaBanner, { backgroundColor: colors.accent }]}>
-        <Text style={[styles.ctaTitle, { color: "#FDF8EF" }]}>JOIN THE MOVEMENT</Text>
+        <Text style={[styles.ctaTitle, { color: colors.accentForeground }]}>JOIN THE MOVEMENT</Text>
         <Text style={[styles.ctaText, { color: "rgba(253,248,239,0.8)" }]}>
           Tag your OHANNA looks with #ModernPharaohs and get featured on our page.
         </Text>
@@ -82,25 +100,48 @@ export default function CommunityScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: { padding: 20, paddingBottom: 28, gap: 6 },
-  backBtn: { marginBottom: 8, width: 40 },
-  glyphs: { fontSize: 20 },
-  title: { fontSize: 24, fontFamily: "Cinzel_900Black", color: "#FDF8EF", letterSpacing: 2 },
-  sub: { fontSize: 13, fontFamily: "Inter_400Regular" },
-  statsRow: { flexDirection: "row", paddingVertical: 16 },
+  header: { padding: GRID_PAD, paddingBottom: SP.xxxl - SP.xs, gap: SP.xs + 2 },
+  backBtn: { marginBottom: SP.sm, width: 40 },
+  glyphs: { fontSize: FS.xxxl },
+  title: { fontSize: FS.h2, fontFamily: "Cinzel_900Black", letterSpacing: 2 },
+  sub: { fontSize: FS.base, fontFamily: "Inter_400Regular" },
+  statsRow: { flexDirection: "row", paddingVertical: GRID_PAD },
   stat: { flex: 1, alignItems: "center" },
-  statValue: { fontSize: 14, fontFamily: "Cinzel_700Bold" },
-  statLabel: { fontSize: 7, fontFamily: "Inter_700Bold", letterSpacing: 0.5, textAlign: "center", marginTop: 2, opacity: 0.8 },
-  section: { padding: 20, gap: 14 },
-  sectionTitle: { fontSize: 13, fontFamily: "Cinzel_700Bold", letterSpacing: 2 },
-  card: { borderWidth: 1.5, padding: 16, gap: 10 },
+  statValue: { fontSize: FS.lg, fontFamily: "Cinzel_700Bold" },
+  statLabel: {
+    fontSize: FS.micro - 1,
+    fontFamily: "Inter_700Bold",
+    letterSpacing: 0.5,
+    textAlign: "center",
+    marginTop: SP.xs - 2,
+    opacity: 0.8,
+  },
+  section: { padding: GRID_PAD, gap: SP.lg - 2 },
+  sectionTitle: { fontSize: FS.base, fontFamily: "Cinzel_700Bold", letterSpacing: 2 },
+  card: { borderWidth: BD.md, padding: GRID_PAD, gap: SP.md - 2 },
   cardHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
-  cardName: { fontSize: 12, fontFamily: "Cinzel_700Bold", letterSpacing: 1 },
-  cardLocation: { fontSize: 11, fontFamily: "Inter_400Regular" },
-  stars: { flexDirection: "row", gap: 2 },
-  cardQuote: { fontSize: 13, fontFamily: "Inter_400Regular", lineHeight: 19, fontStyle: "italic" },
-  ctaBanner: { margin: 20, padding: 24, gap: 8, alignItems: "center" },
-  ctaTitle: { fontSize: 16, fontFamily: "Cinzel_700Bold", letterSpacing: 2 },
-  ctaText: { fontSize: 13, fontFamily: "Inter_400Regular", textAlign: "center", lineHeight: 19 },
-  ctaHandle: { fontSize: 14, fontFamily: "Inter_700Bold" },
+  cardName: { fontSize: FS.md, fontFamily: "Cinzel_700Bold", letterSpacing: 1 },
+  cardLocation: { fontSize: FS.sm, fontFamily: "Inter_400Regular" },
+  stars: { flexDirection: "row", gap: SP.xs - 2 },
+  cardQuote: {
+    fontSize: FS.base,
+    fontFamily: "Inter_400Regular",
+    lineHeight: 20,
+    fontStyle: "italic",
+  },
+  ctaBanner: {
+    marginHorizontal: GRID_PAD,
+    marginBottom: GRID_PAD,
+    padding: SP.xxl,
+    gap: SP.sm,
+    alignItems: "center",
+  },
+  ctaTitle: { fontSize: FS.xl, fontFamily: "Cinzel_700Bold", letterSpacing: 2 },
+  ctaText: {
+    fontSize: FS.base,
+    fontFamily: "Inter_400Regular",
+    textAlign: "center",
+    lineHeight: 20,
+  },
+  ctaHandle: { fontSize: FS.lg, fontFamily: "Inter_700Bold" },
 });

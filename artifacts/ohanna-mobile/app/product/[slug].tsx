@@ -16,6 +16,7 @@ import {
 
 import { GoldDivider } from "@/components/GoldDivider";
 import { BADGE_COLORS, SIZES, fmt, getImageUrl, getProductBySlug } from "@/constants/products";
+import { BD, BTN_H, FS, GRID_PAD, RD, SP } from "@/constants/theme";
 import { useCart } from "@/contexts/CartContext";
 import { useColors } from "@/hooks/useColors";
 
@@ -66,7 +67,7 @@ export default function ProductScreen() {
             </View>
           )}
           <Pressable
-            style={[styles.backBtn, { backgroundColor: "rgba(27,27,27,0.7)" }]}
+            style={[styles.backBtn, { backgroundColor: "rgba(27,27,27,0.72)" }]}
             onPress={() => router.back()}
           >
             <Feather name="arrow-left" size={20} color="#FDF8EF" />
@@ -74,26 +75,24 @@ export default function ProductScreen() {
         </View>
 
         <View style={styles.content}>
-          {/* Category + Name */}
           <Text style={[styles.category, { color: colors.primary }]}>
             {product.category.toUpperCase()}
           </Text>
           <Text style={[styles.name, { color: colors.foreground }]}>{product.name}</Text>
 
-          {/* Rating */}
           <View style={styles.ratingRow}>
             {[1, 2, 3, 4, 5].map((i) => (
               <Feather key={i} name="star" size={14} color={colors.primary} />
             ))}
-            <Text style={[styles.ratingText, { color: colors.mutedForeground }]}>4.9 (128 reviews)</Text>
+            <Text style={[styles.ratingText, { color: colors.mutedForeground }]}>
+              4.9 (128 reviews)
+            </Text>
           </View>
 
-          {/* Price */}
           <Text style={[styles.price, { color: colors.primary }]}>{fmt(product.price)}</Text>
 
           <GoldDivider />
 
-          {/* Description */}
           <Text style={[styles.description, { color: colors.mutedForeground }]}>
             {product.description}
           </Text>
@@ -121,12 +120,14 @@ export default function ProductScreen() {
                         borderColor: active ? colors.foreground : colors.border,
                       },
                     ]}
-                    onPress={() => {
-                      setSelectedSize(s);
-                      Haptics.selectionAsync();
-                    }}
+                    onPress={() => { setSelectedSize(s); Haptics.selectionAsync(); }}
                   >
-                    <Text style={[styles.sizeBtnText, { color: active ? colors.background : colors.mutedForeground }]}>
+                    <Text
+                      style={[
+                        styles.sizeBtnText,
+                        { color: active ? colors.background : colors.mutedForeground },
+                      ]}
+                    >
                       {s}
                     </Text>
                   </Pressable>
@@ -141,14 +142,16 @@ export default function ProductScreen() {
             <View style={styles.qtyRow}>
               <Pressable
                 style={[styles.qtyBtn, { borderColor: colors.border }]}
-                onPress={() => { if (quantity > 1) { setQuantity(q => q - 1); Haptics.selectionAsync(); } }}
+                onPress={() => {
+                  if (quantity > 1) { setQuantity((q) => q - 1); Haptics.selectionAsync(); }
+                }}
               >
                 <Feather name="minus" size={16} color={colors.foreground} />
               </Pressable>
               <Text style={[styles.qtyNum, { color: colors.foreground }]}>{quantity}</Text>
               <Pressable
                 style={[styles.qtyBtn, { borderColor: colors.border }]}
-                onPress={() => { setQuantity(q => q + 1); Haptics.selectionAsync(); }}
+                onPress={() => { setQuantity((q) => q + 1); Haptics.selectionAsync(); }}
               >
                 <Feather name="plus" size={16} color={colors.foreground} />
               </Pressable>
@@ -173,14 +176,14 @@ export default function ProductScreen() {
         <View style={{ height: 110 }} />
       </ScrollView>
 
-      {/* Add to cart button — pinned bottom */}
+      {/* Pinned add-to-cart */}
       <View
         style={[
           styles.addToCartBar,
           {
             backgroundColor: colors.background,
             borderTopColor: colors.border,
-            paddingBottom: Platform.OS === "web" ? 34 : insets.bottom + 12,
+            paddingBottom: Platform.OS === "web" ? 34 : insets.bottom + SP.md,
           },
         ]}
       >
@@ -194,8 +197,8 @@ export default function ProductScreen() {
           ]}
           onPress={handleAddToCart}
         >
-          <Feather name={added ? "check" : "shopping-bag"} size={16} color="#FDF8EF" />
-          <Text style={styles.addBtnText}>
+          <Feather name={added ? "check" : "shopping-bag"} size={16} color={colors.background} />
+          <Text style={[styles.addBtnText, { color: colors.background }]}>
             {added ? "ADDED TO CART" : `ADD TO CART — ${fmt(product.price * quantity)}`}
           </Text>
         </Pressable>
@@ -209,54 +212,51 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: 14,
+    gap: SP.lg - 2,
   },
   nfGlyph: { fontSize: 40 },
-  nfTitle: { fontSize: 18, fontFamily: "Cinzel_700Bold", letterSpacing: 2 },
-  nfBack: { fontSize: 13, fontFamily: "Inter_600SemiBold" },
+  nfTitle: { fontSize: FS.xxl, fontFamily: "Cinzel_700Bold", letterSpacing: 2 },
+  nfBack: { fontSize: FS.base, fontFamily: "Inter_600SemiBold" },
   imageContainer: {
     width: "100%",
     height: 360,
     position: "relative",
   },
-  image: {
-    width: "100%",
-    height: "100%",
-  },
+  image: { width: "100%", height: "100%" },
   badge: {
     position: "absolute",
-    top: 16,
-    left: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 2,
+    top: GRID_PAD,
+    left: GRID_PAD,
+    paddingHorizontal: SP.md - 2,
+    paddingVertical: SP.xs + 1,
+    borderRadius: RD.badge,
   },
   badgeText: {
-    fontSize: 10,
+    fontSize: FS.xs,
     fontFamily: "Inter_700Bold",
     letterSpacing: 1,
   },
   backBtn: {
     position: "absolute",
     top: 50,
-    left: 16,
+    left: GRID_PAD,
     width: 40,
     height: 40,
-    borderRadius: 20,
+    borderRadius: RD.circle,
     alignItems: "center",
     justifyContent: "center",
   },
   content: {
-    padding: 20,
-    gap: 14,
+    padding: GRID_PAD,
+    gap: SP.lg - 2,
   },
   category: {
-    fontSize: 10,
+    fontSize: FS.xs,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 2,
   },
   name: {
-    fontSize: 24,
+    fontSize: FS.h2,
     fontFamily: "Cinzel_900Black",
     letterSpacing: 1,
     lineHeight: 30,
@@ -264,95 +264,91 @@ const styles = StyleSheet.create({
   ratingRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: SP.xs,
   },
   ratingText: {
-    fontSize: 12,
+    fontSize: FS.md,
     fontFamily: "Inter_400Regular",
-    marginLeft: 4,
+    marginLeft: SP.xs,
   },
   price: {
-    fontSize: 26,
+    fontSize: FS.h3 + 2,
     fontFamily: "Inter_700Bold",
   },
   description: {
-    fontSize: 14,
+    fontSize: FS.lg,
     fontFamily: "Inter_400Regular",
-    lineHeight: 21,
+    lineHeight: 22,
   },
-  sizeSection: {
-    gap: 10,
-  },
+  sizeSection: { gap: SP.md - 2 },
   sizeHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   sizeLabel: {
-    fontSize: 11,
+    fontSize: FS.sm,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 1.5,
   },
   sizeGuide: {
-    fontSize: 10,
+    fontSize: FS.xs,
     fontFamily: "Inter_500Medium",
     letterSpacing: 0.5,
   },
   sizes: {
     flexDirection: "row",
-    gap: 8,
+    gap: SP.sm,
     flexWrap: "wrap",
   },
   sizeBtn: {
     width: 48,
     height: 48,
-    borderWidth: 1.5,
+    borderWidth: BD.md,
     alignItems: "center",
     justifyContent: "center",
   },
   sizeBtnText: {
-    fontSize: 12,
+    fontSize: FS.md,
     fontFamily: "Cinzel_700Bold",
   },
-  qtySection: {
-    gap: 10,
-  },
+  qtySection: { gap: SP.md - 2 },
   qtyLabel: {
-    fontSize: 11,
+    fontSize: FS.sm,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 1.5,
   },
   qtyRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 16,
+    gap: GRID_PAD,
   },
   qtyBtn: {
     width: 44,
     height: 44,
-    borderWidth: 1.5,
+    borderWidth: BD.md,
     alignItems: "center",
     justifyContent: "center",
   },
   qtyNum: {
-    fontSize: 18,
+    fontSize: FS.xxl,
     fontFamily: "Inter_600SemiBold",
     minWidth: 32,
     textAlign: "center",
   },
   features: {
     flexDirection: "row",
-    gap: 8,
+    gap: SP.sm,
   },
   featureItem: {
     flex: 1,
-    borderWidth: 1.5,
-    padding: 10,
+    borderWidth: BD.md,
+    padding: SP.md - 2,
     alignItems: "center",
-    gap: 6,
+    gap: SP.xs + 2,
   },
   featureText: {
-    fontSize: 8,
+    fontSize: FS.micro,
     fontFamily: "Inter_700Bold",
     letterSpacing: 0.5,
     textAlign: "center",
@@ -362,21 +358,21 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    paddingHorizontal: 20,
-    paddingTop: 12,
-    borderTopWidth: 1,
+    paddingHorizontal: GRID_PAD,
+    paddingTop: SP.md,
+    borderTopWidth: BD.thin,
   },
   addBtn: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 10,
-    paddingVertical: 16,
+    gap: SP.md - 2,
+    paddingVertical: SP.lg,
+    minHeight: BTN_H.lg,
   },
   addBtnText: {
-    fontSize: 11,
+    fontSize: FS.sm,
     fontFamily: "Cinzel_700Bold",
-    color: "#FDF8EF",
     letterSpacing: 1.5,
   },
 });

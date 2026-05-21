@@ -18,6 +18,7 @@ import {
 
 import { GoldDivider } from "@/components/GoldDivider";
 import { fmt, getApiBase, getImageUrl } from "@/constants/products";
+import { BD, BTN_H, FS, GRID_PAD, SP } from "@/constants/theme";
 import { useCart } from "@/contexts/CartContext";
 import { useColors } from "@/hooks/useColors";
 
@@ -51,15 +52,12 @@ export default function CartScreen() {
       if (!data.url) throw new Error("No redirect URL returned");
 
       if (data.url.startsWith("https://checkout.stripe.com")) {
-        // Stripe checkout: open in browser
         setLoading(false);
-        const result = await WebBrowser.openBrowserAsync(data.url);
-        // After browser closes, treat as success (cart cleared on return)
+        await WebBrowser.openBrowserAsync(data.url);
         clearCart();
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         router.push(`/checkout-success?session_id=${data.sessionId}`);
       } else {
-        // Mock/non-Stripe: parse the success URL for params and navigate
         clearCart();
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         try {
@@ -80,17 +78,27 @@ export default function CartScreen() {
 
   if (items.length === 0) {
     return (
-      <View style={[styles.emptyContainer, { backgroundColor: colors.background, paddingTop: topPad + 24 }]}>
+      <View
+        style={[
+          styles.emptyContainer,
+          { backgroundColor: colors.background, paddingTop: topPad + SP.xxl },
+        ]}
+      >
         <Text style={[styles.emptyGlyph, { color: colors.primary }]}>𓂀</Text>
         <Text style={[styles.emptyTitle, { color: colors.foreground }]}>YOUR CART IS EMPTY</Text>
         <Text style={[styles.emptySub, { color: colors.mutedForeground }]}>
           The desert awaits your choice, Pharaoh.
         </Text>
         <Pressable
-          style={({ pressed }) => [styles.browseBtn, { backgroundColor: colors.foreground, opacity: pressed ? 0.8 : 1 }]}
+          style={({ pressed }) => [
+            styles.browseBtn,
+            { backgroundColor: colors.foreground, opacity: pressed ? 0.8 : 1 },
+          ]}
           onPress={() => router.push("/(tabs)/shop")}
         >
-          <Text style={[styles.browseBtnText, { color: colors.background }]}>BROWSE COLLECTION</Text>
+          <Text style={[styles.browseBtnText, { color: colors.background }]}>
+            BROWSE COLLECTION
+          </Text>
         </Pressable>
       </View>
     );
@@ -98,16 +106,26 @@ export default function CartScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <View style={[styles.header, { paddingTop: topPad + 8, borderBottomColor: colors.border, backgroundColor: colors.background }]}>
-        <Text style={[styles.headerTitle, { color: colors.foreground }]}>
-          YOUR CART
-        </Text>
+      <View
+        style={[
+          styles.header,
+          {
+            paddingTop: topPad + SP.sm,
+            borderBottomColor: colors.border,
+            backgroundColor: colors.background,
+          },
+        ]}
+      >
+        <Text style={[styles.headerTitle, { color: colors.foreground }]}>YOUR CART</Text>
         <Text style={[styles.headerSub, { color: colors.mutedForeground }]}>
           {totalItems} {totalItems === 1 ? "item" : "items"}
         </Text>
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20, gap: 12 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ padding: GRID_PAD, gap: SP.md }}
+      >
         {items.map((item) => (
           <View
             key={`${item.product.id}-${item.size}`}
@@ -162,7 +180,6 @@ export default function CartScreen() {
           </View>
         ))}
 
-        {/* Summary */}
         <View style={[styles.summary, { backgroundColor: colors.card, borderColor: colors.border }]}>
           <GoldDivider />
           <View style={styles.summaryRow}>
@@ -208,54 +225,54 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: 16,
+    gap: GRID_PAD - SP.xs,
     paddingHorizontal: 40,
   },
-  emptyGlyph: {
-    fontSize: 48,
-  },
+  emptyGlyph: { fontSize: 48 },
   emptyTitle: {
-    fontSize: 18,
+    fontSize: FS.xxl,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 2,
     textAlign: "center",
   },
   emptySub: {
-    fontSize: 13,
+    fontSize: FS.base,
     fontFamily: "Inter_400Regular",
     textAlign: "center",
-    lineHeight: 19,
+    lineHeight: 20,
   },
   browseBtn: {
-    paddingVertical: 14,
-    paddingHorizontal: 28,
-    marginTop: 8,
+    paddingVertical: SP.lg,
+    paddingHorizontal: SP.xxxl - SP.xs,
+    marginTop: SP.sm,
+    minHeight: BTN_H.lg,
+    justifyContent: "center",
+    alignItems: "center",
   },
   browseBtnText: {
-    fontSize: 11,
+    fontSize: FS.sm,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 1.5,
   },
   header: {
-    paddingHorizontal: 20,
-    paddingBottom: 14,
-    borderBottomWidth: 1,
-    gap: 2,
+    paddingHorizontal: GRID_PAD,
+    paddingBottom: SP.lg - 2,
+    borderBottomWidth: BD.thin,
+    gap: SP.xs - 2,
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: FS.xxxl,
     fontFamily: "Cinzel_900Black",
     letterSpacing: 2,
   },
   headerSub: {
-    fontSize: 12,
+    fontSize: FS.md,
     fontFamily: "Inter_400Regular",
   },
   itemCard: {
     flexDirection: "row",
-    borderWidth: 1.5,
+    borderWidth: BD.md,
     overflow: "hidden",
-    gap: 0,
   },
   itemImage: {
     width: 90,
@@ -263,51 +280,51 @@ const styles = StyleSheet.create({
   },
   itemInfo: {
     flex: 1,
-    padding: 12,
-    gap: 3,
+    padding: SP.md,
+    gap: SP.xs - 1,
   },
   itemName: {
-    fontSize: 12,
+    fontSize: FS.md,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 0.5,
   },
   itemSize: {
-    fontSize: 10,
+    fontSize: FS.xs,
     fontFamily: "Inter_500Medium",
     letterSpacing: 1,
   },
   itemPrice: {
-    fontSize: 13,
+    fontSize: FS.base,
     fontFamily: "Inter_700Bold",
   },
   qtyRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
-    marginTop: 4,
+    gap: SP.sm,
+    marginTop: SP.xs,
   },
   qtyBtn: {
     width: 28,
     height: 28,
-    borderWidth: 1.5,
+    borderWidth: BD.md,
     alignItems: "center",
     justifyContent: "center",
   },
   qtyNum: {
-    fontSize: 14,
+    fontSize: FS.lg,
     fontFamily: "Inter_600SemiBold",
     minWidth: 20,
     textAlign: "center",
   },
   removeBtn: {
     marginLeft: "auto",
-    padding: 4,
+    padding: SP.xs,
   },
   summary: {
-    padding: 16,
-    borderWidth: 1.5,
-    gap: 12,
-    marginTop: 4,
+    padding: GRID_PAD,
+    borderWidth: BD.md,
+    gap: SP.md,
+    marginTop: SP.xs,
   },
   summaryRow: {
     flexDirection: "row",
@@ -315,31 +332,31 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   summaryLabel: {
-    fontSize: 10,
+    fontSize: FS.xs,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 1.5,
   },
   summaryValue: {
-    fontSize: 13,
+    fontSize: FS.base,
     fontFamily: "Inter_600SemiBold",
   },
   totalLabel: {
-    fontSize: 13,
+    fontSize: FS.base,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 2,
   },
   totalValue: {
-    fontSize: 16,
+    fontSize: FS.xl,
     fontFamily: "Inter_700Bold",
   },
   checkoutBtn: {
-    paddingVertical: 16,
+    paddingVertical: SP.lg,
     alignItems: "center",
     justifyContent: "center",
-    minHeight: 52,
+    minHeight: BTN_H.lg,
   },
   checkoutBtnText: {
-    fontSize: 12,
+    fontSize: FS.md,
     fontFamily: "Cinzel_700Bold",
     letterSpacing: 2,
   },
