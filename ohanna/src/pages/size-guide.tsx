@@ -39,7 +39,7 @@ export default function SizeGuidePage() {
         <div className="container mx-auto px-4 max-w-3xl space-y-10">
           <div>
             <h2 className="text-xl font-black hieroglyph-font mb-4">TOPS — Hoodies, T-Shirts, Jackets</h2>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto rounded-xl overflow-hidden border border-[#1B1B1B]/12">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-[#1B1B1B] text-[#FDF8EF]">
@@ -50,7 +50,7 @@ export default function SizeGuidePage() {
                 </thead>
                 <tbody>
                   {TOPS_SIZES.map((row, i) => (
-                    <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-[#FDF8EF]"}>
+                    <tr key={i} className={`border-b border-[#1B1B1B]/6 last:border-0 ${i % 2 === 0 ? "bg-white" : "bg-[#FDF8EF]"}`}>
                       <td className="p-3 font-black text-[#C89D29]">{row.size}</td>
                       <td className="p-3">{row.chest}</td>
                       <td className="p-3">{row.shoulder}</td>
@@ -65,7 +65,7 @@ export default function SizeGuidePage() {
 
           <div>
             <h2 className="text-xl font-black hieroglyph-font mb-4">BOTTOMS — Joggers, Shorts, Track Pants</h2>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto rounded-xl overflow-hidden border border-[#1B1B1B]/12">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-[#1B1B1B] text-[#FDF8EF]">
@@ -76,7 +76,7 @@ export default function SizeGuidePage() {
                 </thead>
                 <tbody>
                   {BOTTOMS_SIZES.map((row, i) => (
-                    <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-[#FDF8EF]"}>
+                    <tr key={i} className={`border-b border-[#1B1B1B]/6 last:border-0 ${i % 2 === 0 ? "bg-white" : "bg-[#FDF8EF]"}`}>
                       <td className="p-3 font-black text-[#C89D29]">{row.size}</td>
                       <td className="p-3">{row.waist}</td>
                       <td className="p-3">{row.hips}</td>

@@ -30,10 +30,15 @@ export default function CartPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           items,
+          customerEmail: "",
+          customerName: "Guest",
           successUrl: `${origin}${basePath}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
           cancelUrl: `${origin}${basePath}/cart`,
         }),
       });
+      if (!res.ok && res.headers.get("content-type")?.includes("text/html")) {
+        throw new Error("Server error — please try again");
+      }
       const data = await res.json();
       if (data.url) {
         if (data.url.startsWith("https://checkout.stripe.com")) {
@@ -100,7 +105,7 @@ export default function CartPage() {
                       >
                         <Link href={`/product/${item.product.slug ?? item.product.id}`}
                           className="relative w-24 h-28 flex-shrink-0 rounded-lg overflow-hidden bg-[#E4D5B7]">
-                          <img src={item.product.image_url} alt={item.product.name} className="w-full h-full object-cover hover:scale-105 transition-transform" />
+                          <img src={item.product.imageUrl} alt={item.product.name} className="w-full h-full object-cover hover:scale-105 transition-transform" />
                         </Link>
                         <div className="flex-1">
                           <span className="text-[10px] font-black hieroglyph-font text-[#C89D29] tracking-widest">{item.product.category}</span>

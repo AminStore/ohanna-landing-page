@@ -10,7 +10,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "db:generate": "drizzle-kit generate:pg",
     "db:migrate": "node --loader tsx ./src/db/migrate.ts",
-    "db:seed": "node --loader tsx ./src/db/seed.ts",
+    "db:seed": "node --env-file=.env --import tsx/esm ./src/db/seed.ts",
     "db:push": "drizzle-kit push:pg"
   },
   "dependencies": {

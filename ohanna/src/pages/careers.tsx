@@ -65,7 +65,7 @@ export default function CareersPage() {
                       <span className={`font-bold ${job.type === "Freelance" ? "text-[#213D9A]" : "text-[#1D4D4F]"}`}>{job.type}</span>
                     </div>
                   </div>
-                  <a href="mailto:careers@ohanna.store" className="bg-[#1B1B1B] text-[#FDF8EF] hover:bg-[#C89D29] hover:text-[#1B1B1B] px-4 py-2 text-xs font-black hieroglyph-font transition-all shrink-0">
+                  <a href="mailto:careers@ohanna.store" className="bg-[#1B1B1B] text-[#FDF8EF] hover:bg-[#C89D29] hover:text-[#1B1B1B] px-4 py-2 text-xs font-black hieroglyph-font rounded-lg transition-all shrink-0">
                     APPLY NOW
                   </a>
                 </div>

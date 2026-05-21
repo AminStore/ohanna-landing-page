@@ -163,7 +163,7 @@ export default function NotFound() {
         >
           <Link href="/">
             <motion.span
-              className="inline-flex items-center gap-2 px-7 py-2.5 bg-[#1B1B1B] text-[#FDF8EF] hieroglyph-font text-[10px] tracking-widest cursor-pointer border-2 border-[#1B1B1B]"
+              className="inline-flex items-center gap-2 px-7 py-2.5 bg-[#1B1B1B] text-[#FDF8EF] hieroglyph-font text-[10px] tracking-widest cursor-pointer border-2 border-[#1B1B1B] rounded-lg"
               whileHover={{ scale: 1.03, boxShadow: "4px 4px 0 #C89D29" }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 400 }}
@@ -173,7 +173,7 @@ export default function NotFound() {
           </Link>
           <Link href="/collection">
             <motion.span
-              className="inline-flex items-center gap-2 px-7 py-2.5 hieroglyph-font text-[10px] tracking-widest cursor-pointer border-2 border-[#C89D29] text-[#C89D29]"
+              className="inline-flex items-center gap-2 px-7 py-2.5 hieroglyph-font text-[10px] tracking-widest cursor-pointer border-2 border-[#C89D29] text-[#C89D29] rounded-lg"
               whileHover={{ scale: 1.03, backgroundColor: "rgba(200,157,41,0.09)" }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 400 }}

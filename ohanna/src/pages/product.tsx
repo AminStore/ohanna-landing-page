@@ -71,7 +71,7 @@ export default function ProductPage({ id }: { id: string }) {
               <div className="ohanna-card overflow-hidden">
                 <div className="relative aspect-[4/5] bg-[#E4D5B7]">
                   <img
-                    src={product.image_url}
+                    src={product.imageUrl}
                     alt={`${product.name} — OHANNA Egyptian Streetwear`}
                     className="w-full h-full object-cover"
                   />

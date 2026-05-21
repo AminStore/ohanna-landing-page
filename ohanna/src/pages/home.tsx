@@ -7,6 +7,7 @@ import {
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import WaveDivider from "@/components/ui/wave-divider";
 import ProductCard from "@/components/product/product-card";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
@@ -57,6 +58,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#FDF8EF] text-[#1B1B1B] overflow-x-hidden">
       <Navbar />
 
+      {/* ── HERO ── */}
       <section className="relative min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-[#E4D5B7] to-[#FDF8EF] overflow-hidden">
         {["𓂀", "𓅃", "𓋹", "𓊖", "𓏃", "𓁿"].map((g, i) => (
           <motion.div
@@ -176,6 +178,10 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Wave: Hero → Sacred Streetwear */}
+      <WaveDivider from="#E4D5B7" to="#FDF8EF" variant={1} />
+
+      {/* ── SACRED STREETWEAR ── */}
       <section className="py-20 bg-[#FDF8EF] relative overflow-hidden">
         <div className="container mx-auto px-4">
           <FadeUp className="text-center mb-14">
@@ -210,6 +216,10 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Wave: Sacred Streetwear → Legacy */}
+      <WaveDivider from="#FDF8EF" to="#E4D5B7" variant={3} flip />
+
+      {/* ── LEGACY ── */}
       <section className="py-20 bg-[#E4D5B7] relative overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -255,6 +265,10 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Wave: Legacy → Modern Pharaohs */}
+      <WaveDivider from="#E4D5B7" to="#1B1B1B" variant={4} />
+
+      {/* ── MODERN PHARAOHS (Testimonials) ── */}
       <section className="py-20 bg-[#1B1B1B] text-[#FDF8EF] relative overflow-hidden">
         <motion.div className="absolute top-10 left-10 text-8xl text-[#C89D29]/10 select-none" animate={{ rotate: [0, 5, 0] }} transition={{ duration: 8, repeat: Infinity }}>𓂀</motion.div>
         <motion.div className="absolute bottom-10 right-10 text-7xl text-[#C89D29]/10 select-none" animate={{ rotate: [0, -5, 0] }} transition={{ duration: 10, repeat: Infinity }}>𓅃</motion.div>
@@ -269,7 +283,7 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {TESTIMONIALS.map((t, i) => (
               <FadeUp key={i} delay={i * 0.07}>
-                <div className="bg-[#FDF8EF] text-[#1B1B1B] border-2 border-[#FDF8EF]/30 p-5 h-full">
+                <div className="bg-[#FDF8EF] text-[#1B1B1B] rounded-2xl border border-[#FDF8EF]/20 p-5 h-full shadow-lg">
                   <div className="flex text-[#C89D29] mb-3">
                     {[...Array(t.rating)].map((_, j) => (
                       <Star key={j} className="h-3.5 w-3.5 fill-current" />
@@ -287,6 +301,10 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Wave: Modern Pharaohs → CTA */}
+      <WaveDivider from="#1B1B1B" to="#C89D29" variant={2} />
+
+      {/* ── CTA ── */}
       <section className="py-20 bg-gradient-to-r from-[#C89D29] to-[#E4D5B7] relative overflow-hidden">
         <div className="container mx-auto px-4">
           <FadeUp className="text-center max-w-3xl mx-auto space-y-6">
@@ -310,6 +328,9 @@ export default function HomePage() {
           </FadeUp>
         </div>
       </section>
+
+      {/* Wave: CTA → Footer */}
+      <WaveDivider from="#E4D5B7" to="#1B1B1B" variant={5} flip />
 
       <Footer />
     </div>

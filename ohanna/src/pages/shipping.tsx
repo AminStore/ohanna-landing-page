@@ -50,7 +50,7 @@ export default function ShippingPage() {
 
           <div>
             <h2 className="text-2xl font-black hieroglyph-font mb-4">EGYPT DELIVERY <span className="text-[#C89D29]">RATES</span></h2>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto rounded-xl overflow-hidden border border-[#1B1B1B]/12">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-[#1B1B1B] text-[#FDF8EF]">
@@ -62,7 +62,7 @@ export default function ShippingPage() {
                 </thead>
                 <tbody>
                   {EGYPT_ZONES.map((z, i) => (
-                    <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-[#FDF8EF]"}>
+                    <tr key={i} className={`border-b border-[#1B1B1B]/6 last:border-0 ${i % 2 === 0 ? "bg-white" : "bg-[#FDF8EF]"}`}>
                       <td className="p-3 font-medium">{z.zone}</td>
                       <td className="p-3 text-[#1B1B1B]/70">{z.time}</td>
                       <td className="p-3 font-bold text-[#C89D29]">{z.cost}</td>
@@ -76,7 +76,7 @@ export default function ShippingPage() {
 
           <div>
             <h2 className="text-2xl font-black hieroglyph-font mb-4">INTERNATIONAL <span className="text-[#C89D29]">SHIPPING</span></h2>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto rounded-xl overflow-hidden border border-[#1B1B1B]/12">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-[#1B1B1B] text-[#FDF8EF]">
@@ -87,7 +87,7 @@ export default function ShippingPage() {
                 </thead>
                 <tbody>
                   {INTERNATIONAL_ZONES.map((z, i) => (
-                    <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-[#FDF8EF]"}>
+                    <tr key={i} className={`border-b border-[#1B1B1B]/6 last:border-0 ${i % 2 === 0 ? "bg-white" : "bg-[#FDF8EF]"}`}>
                       <td className="p-3 font-medium">{z.zone}</td>
                       <td className="p-3 text-[#1B1B1B]/70">{z.time}</td>
                       <td className="p-3 font-bold text-[#C89D29]">{z.cost}</td>

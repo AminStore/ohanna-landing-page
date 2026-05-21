@@ -37,7 +37,7 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
       transition={{ duration: 0.4, delay: Math.min(index * 0.07, 0.42) }}
       className="ohanna-card group"
     >
-      <Link href={`/product/${product.slug ?? product.id}`} className="block relative overflow-hidden">
+      <Link href={`/product/${product.slug ?? product.id}`} className="block relative overflow-hidden rounded-t-[14px]">
         <div className="aspect-[4/5] relative" style={{ background: bgColor }}>
           <img
             src={imgError ? "/placeholder.jpg" : product.imageUrl}
