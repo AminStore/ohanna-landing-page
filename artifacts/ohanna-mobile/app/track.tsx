@@ -46,7 +46,7 @@ export default function TrackScreen() {
     setOrder(null);
     try {
       const res = await fetch(
-        `${getApiBase()}/ohanna/track-order?id=${encodeURIComponent(orderId.trim())}&email=${encodeURIComponent(email.trim())}`
+        `${getApiBase()}/track-order?id=${encodeURIComponent(orderId.trim())}&email=${encodeURIComponent(email.trim())}`
       );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Order not found");

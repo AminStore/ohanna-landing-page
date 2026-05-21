@@ -15,12 +15,15 @@ import { GoldDivider } from "@/components/GoldDivider";
 import { useColors } from "@/hooks/useColors";
 
 const MENU_ITEMS = [
-  { icon: "package" as const, label: "TRACK ORDER", path: "/track" as const },
-  { icon: "mail" as const, label: "CONTACT US", path: "/contact" as const },
-  { icon: "info" as const, label: "FAQ", badge: null },
-  { icon: "truck" as const, label: "SHIPPING INFO", badge: null },
-  { icon: "maximize" as const, label: "SIZE GUIDE", badge: null },
-  { icon: "users" as const, label: "COMMUNITY", badge: null },
+  { icon: "package" as const, label: "TRACK ORDER", path: "/track" },
+  { icon: "mail" as const, label: "CONTACT US", path: "/contact" },
+  { icon: "info" as const, label: "FAQ", path: "/faq" },
+  { icon: "truck" as const, label: "SHIPPING INFO", path: "/shipping" },
+  { icon: "maximize" as const, label: "SIZE GUIDE", path: "/size-guide" },
+  { icon: "users" as const, label: "COMMUNITY", path: "/community" },
+  { icon: "book-open" as const, label: "OUR STORY", path: "/story" },
+  { icon: "globe" as const, label: "EGYPTIAN CULTURE", path: "/culture" },
+  { icon: "briefcase" as const, label: "CAREERS", path: "/careers" },
 ];
 
 const BRAND_STORY = [

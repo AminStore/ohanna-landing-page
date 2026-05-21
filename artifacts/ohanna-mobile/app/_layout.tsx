@@ -37,20 +37,16 @@ function RootLayoutNav() {
           animation: "slide_from_right",
         }}
       />
-      <Stack.Screen
-        name="track"
-        options={{
-          headerShown: false,
-          presentation: "modal",
-        }}
-      />
-      <Stack.Screen
-        name="contact"
-        options={{
-          headerShown: false,
-          presentation: "modal",
-        }}
-      />
+      <Stack.Screen name="track" options={{ headerShown: false, presentation: "modal" }} />
+      <Stack.Screen name="contact" options={{ headerShown: false, presentation: "modal" }} />
+      <Stack.Screen name="story" options={{ headerShown: false }} />
+      <Stack.Screen name="culture" options={{ headerShown: false }} />
+      <Stack.Screen name="faq" options={{ headerShown: false }} />
+      <Stack.Screen name="shipping" options={{ headerShown: false }} />
+      <Stack.Screen name="size-guide" options={{ headerShown: false }} />
+      <Stack.Screen name="community" options={{ headerShown: false }} />
+      <Stack.Screen name="careers" options={{ headerShown: false }} />
+      <Stack.Screen name="checkout-success" options={{ headerShown: false }} />
     </Stack>
   );
 }

@@ -38,7 +38,7 @@ export default function ContactScreen() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch(`${getApiBase()}/ohanna/contact`, {
+      const res = await fetch(`${getApiBase()}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

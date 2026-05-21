@@ -35,7 +35,7 @@ export default function CartScreen() {
       const origin = domain ? `https://${domain}` : "http://localhost:3000";
       const apiBase = getApiBase();
 
-      const res = await fetch(`${apiBase}/ohanna/checkout`, {
+      const res = await fetch(`${apiBase}/checkout`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -186,5 +186,5 @@ export function getImageUrl(path: string): string {
 export function getApiBase(): string {
   const domain = process.env.EXPO_PUBLIC_DOMAIN;
   if (domain) return `https://${domain}/api-server/api`;
-  return "http://localhost:5000/api";
+  return "http://localhost:8080/api";
 }
