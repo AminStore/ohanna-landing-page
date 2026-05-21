@@ -61590,12 +61590,22 @@ var insertContactSchema = createInsertSchema(contactsTable).omit({
 
 // src/db/index.ts
 var { Pool: Pool3 } = esm_default;
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?"
+var databaseUrl = process.env.DATABASE_URL;
+if (!databaseUrl) {
+  logger.warn(
+    "DATABASE_URL not set. Database operations will fail. Set DATABASE_URL environment variable to enable database features."
   );
 }
-var pool = new Pool3({ connectionString: process.env.DATABASE_URL });
+var pool = new Pool3({
+  connectionString: databaseUrl || "postgresql://localhost:5432/ohanna",
+  // Don't fail on connection error during initialization
+  max: 10,
+  idleTimeoutMillis: 3e4,
+  connectionTimeoutMillis: 2e3
+});
+pool.on("error", (err) => {
+  logger.error({ err }, "Unexpected error on idle client");
+});
 var db = drizzle(pool, { schema: schema_exports });
 
 // src/db/queries.ts
@@ -61678,29 +61688,46 @@ var contacts = {
 
 // src/routes/ohanna.ts
 var router2 = (0, import_express2.Router)();
+var inMemoryContacts = [];
+var inMemoryOrders = [];
 router2.get(
   "/products",
   asyncHandler(async (_req, res) => {
-    const allProducts = await products.getAll();
-    res.json({ products: allProducts });
+    try {
+      const allProducts = await products.getAll();
+      res.json({ products: allProducts });
+    } catch (err) {
+      logger.warn("Database unavailable, returning empty products");
+      res.json({ products: [] });
+    }
   })
 );
 router2.get(
   "/products/:id",
   asyncHandler(async (req, res) => {
-    const product = await products.getById(req.params.id);
-    if (!product) {
+    try {
+      const product = await products.getById(req.params.id);
+      if (!product) {
+        res.status(404).json({ error: "Product not found" });
+        return;
+      }
+      res.json(product);
+    } catch (err) {
+      logger.warn("Database unavailable for product lookup");
       res.status(404).json({ error: "Product not found" });
-      return;
     }
-    res.json(product);
   })
 );
 router2.get(
   "/products/category/:category",
   asyncHandler(async (req, res) => {
-    const categoryProducts = await products.getByCategory(req.params.category);
-    res.json({ products: categoryProducts });
+    try {
+      const categoryProducts = await products.getByCategory(req.params.category);
+      res.json({ products: categoryProducts });
+    } catch (err) {
+      logger.warn("Database unavailable, returning empty products");
+      res.json({ products: [] });
+    }
   })
 );
 router2.post(
@@ -61740,7 +61767,7 @@ router2.post(
         sessionId = session.id;
         checkoutUrl = session.url || "";
       } catch (stripeErr) {
-        console.error("Stripe error:", stripeErr);
+        logger.error({ err: stripeErr }, "Stripe error");
         sessionId = `mock_${randomUUID2()}`;
         checkoutUrl = successUrl;
       }
@@ -61750,16 +61777,32 @@ router2.post(
     }
     const orderId = `OHN-${Date.now()}`;
     const total = items.reduce((s, i) => s + i.product.price * i.quantity, 0);
-    await orders.create({
-      id: orderId,
-      stripeSessionId: sessionId,
-      customerEmail,
-      customerName,
-      shippingAddress,
-      items,
-      total,
-      status: "pending"
-    });
+    try {
+      await orders.create({
+        id: orderId,
+        stripeSessionId: sessionId,
+        customerEmail,
+        customerName,
+        shippingAddress,
+        items,
+        total,
+        status: "pending"
+      });
+    } catch (err) {
+      logger.warn("Database unavailable, storing order in memory");
+      inMemoryOrders.push({
+        id: orderId,
+        stripeSessionId: sessionId,
+        customerEmail,
+        customerName,
+        shippingAddress,
+        items,
+        total,
+        status: "pending",
+        createdAt: /* @__PURE__ */ new Date(),
+        updatedAt: /* @__PURE__ */ new Date()
+      });
+    }
     res.json({ url: checkoutUrl, sessionId, orderId });
   })
 );
@@ -61776,13 +61819,22 @@ router2.post(
       res.status(400).json({ error: "Invalid email address." });
       return;
     }
-    await contacts.create({
+    const contactData = {
       id: randomUUID2(),
       name: name.trim(),
       email: email3.trim().toLowerCase(),
       subject: (subject ?? "").trim(),
       message: message.trim()
-    });
+    };
+    try {
+      await contacts.create(contactData);
+    } catch (err) {
+      logger.warn("Database unavailable, storing contact in memory");
+      inMemoryContacts.push({
+        ...contactData,
+        createdAt: /* @__PURE__ */ new Date()
+      });
+    }
     res.json({ success: true, message: "Message received. We'll reply within 24 hours." });
   })
 );
@@ -61795,12 +61847,22 @@ router2.get(
       res.status(400).json({ error: "Order ID and email are required." });
       return;
     }
-    const order = await orders.getById(id);
-    if (!order || order.customerEmail !== email3) {
-      res.status(404).json({ error: "Order not found." });
-      return;
+    try {
+      const order = await orders.getById(id);
+      if (!order || order.customerEmail !== email3) {
+        res.status(404).json({ error: "Order not found." });
+        return;
+      }
+      res.json({ order });
+    } catch (err) {
+      logger.warn("Database unavailable, checking in-memory orders");
+      const order = inMemoryOrders.find((o) => o.id === id && o.customerEmail === email3);
+      if (!order) {
+        res.status(404).json({ error: "Order not found." });
+        return;
+      }
+      res.json({ order });
     }
-    res.json({ order });
   })
 );
 router2.get(
